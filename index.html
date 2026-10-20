@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Audioguía de Estudio — Manual de Escoltas de Bandera Coahuila 2026-2027</title>
-  <meta name="theme-color" content="#0f172a" />
+  <meta name="theme-color" content="#d8d8d8" />
   <meta name="description" content="Audioguía sencilla para estudiar el Manual de Escoltas de Bandera de Coahuila 2026–2027, con audio, rutina, tarjetas y examen." />
   <link rel="manifest" href="./manifest.json" />
   <link rel="icon" href="./icon.svg" type="image/svg+xml" />
@@ -34,6 +34,7 @@
     body.simple-reader #playCurrentTrackBtn,
     body.simple-reader #activeTrackHighlights,
     body.simple-reader #formationDiagramBox { display: none !important; }
+    body.simple-reader #viewAudio > [class~="lg:col-span-8"] { display: none !important; }
     body.simple-reader #viewAudio > div:first-child { grid-column: 1 / -1; }
     body.simple-reader #viewAudio > div:last-child { grid-column: 1 / -1; }
     body.simple-reader #segmentsContainer { max-height: none; }
@@ -44,6 +45,49 @@
     body.simple-reader footer:not(.hidden) { padding-bottom: max(.5rem, env(safe-area-inset-bottom)); }
     body.simple-reader #playerPlayPauseBtn { min-height: 60px; min-width: 180px; font-size: 1.25rem; justify-content: center; }
     body.simple-reader .elderly-mode-only { display: block; }
+    body.simple-reader { background: #d8d8d8 !important; color: #111 !important; }
+    body.simple-reader header { position: static; background: #eee !important; border-color: #111 !important; backdrop-filter: none; }
+    body.simple-reader .bg-slate-950,
+    body.simple-reader .bg-slate-900,
+    body.simple-reader .bg-slate-900\/90,
+    body.simple-reader .bg-slate-950\/70,
+    body.simple-reader .bg-slate-950\/90 { background: #f4f4f4 !important; }
+    body.simple-reader [class*="bg-gradient"] { background: #ededed !important; }
+    body.simple-reader [class*="shadow"] { box-shadow: none !important; }
+    body.simple-reader .text-white,
+    body.simple-reader .text-slate-100,
+    body.simple-reader .text-slate-200,
+    body.simple-reader .text-slate-300,
+    body.simple-reader .text-slate-400,
+    body.simple-reader .text-slate-500 { color: #171717 !important; }
+    body.simple-reader .border-slate-700,
+    body.simple-reader .border-slate-800,
+    body.simple-reader .border-slate-800\/80,
+    body.simple-reader .border-slate-800\/90 { border-color: #222 !important; }
+    body.simple-reader .bg-emerald-600,
+    body.simple-reader .bg-emerald-500,
+    body.simple-reader #playerPlayPauseBtn { background: #16833b !important; color: #fff !important; }
+    body.simple-reader #quickActions > button,
+    body.simple-reader #quickActions > details > summary {
+      min-height: 142px; border: 3px solid #111; border-radius: 12px;
+      background: #f2f2f2; color: #111; font-size: 1.2rem; font-weight: 800;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: .45rem; text-align: center; padding: .8rem;
+    }
+    body.simple-reader #quickActions > button { background: #16833b !important; color: #fff !important; }
+    body.simple-reader #quickActions svg { width: 54px; height: 54px; }
+    body.simple-reader #quickActions > details[open] > summary { min-height: 80px; }
+    body.simple-reader #quickActions > details[open] { grid-column: 1 / -1; }
+    body.simple-reader #activeTrackSubtitle { display: none; }
+    body.simple-reader #quickActions #trackListContainer,
+    body.simple-reader #quickActions #segmentsContainer,
+    body.simple-reader #quickActions nav { grid-column: 1 / -1; }
+    body.simple-reader #startStudyBtn { letter-spacing: .02em; }
+    body.simple-reader #studyPlayerBar { background: #eee !important; border-color: #111 !important; backdrop-filter: none; }
+    body.simple-reader .segment-active { background: #e7f2e9 !important; border-left-color: #16833b !important; }
+    body.simple-reader .pulse-ring { animation: none !important; }
+    body.simple-reader summary { list-style: none; }
+    body.simple-reader summary::-webkit-details-marker { display: none; }
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; }
     }
@@ -67,72 +111,25 @@
 </head>
 <body class="simple-reader comfortable-reading min-h-screen flex flex-col bg-slate-950 text-slate-100 selection:bg-emerald-500 selection:text-white">
 
-  <!-- Top Header Flag Accent -->
-  <div class="h-1.5 w-full flex">
-    <div class="w-1/3 bg-emerald-600"></div>
-    <div class="w-1/3 bg-white"></div>
-    <div class="w-1/3 bg-rose-600"></div>
-  </div>
-
   <!-- Main Header -->
-  <header class="bg-slate-900/90 border-b border-slate-800 sticky top-0 z-30 backdrop-blur">
-    <div class="max-w-6xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-3">
-      <div class="flex items-center gap-3">
-        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-600 via-slate-800 to-rose-600 flex items-center justify-center shadow-md border border-slate-700">
-          <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"/>
-          </svg>
-        </div>
-        <div>
-          <div class="flex items-center gap-2">
-            <span class="text-xs font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">SEDU Coahuila 2026–2027</span>
-            <span id="ttsStatusBadge" class="text-xs px-2 py-0.5 rounded bg-slate-800 text-slate-300 border border-slate-700">Voz lista</span>
-          </div>
-          <h1 class="text-base sm:text-lg font-bold text-white leading-tight mt-0.5">Audioguía Interactiva: Manual de Escoltas de Bandera</h1>
-        </div>
-      </div>
-
-      <details id="advancedModes" class="w-full bg-slate-950 rounded-xl border border-slate-800">
-        <summary class="cursor-pointer list-none rounded-xl px-4 py-3 text-base font-semibold text-slate-200">Más opciones de estudio</summary>
-      <!-- Navigation Tabs -->
-      <nav aria-label="Modos de estudio" class="flex flex-wrap items-center gap-2 p-3 border-t border-slate-800">
-        <button id="tabBtnAudio" type="button" data-tab="audio" aria-controls="viewAudio" aria-current="page" class="tab-btn px-3 py-1.5 rounded-lg text-sm font-semibold transition bg-emerald-600 text-white shadow">
-          🎧 Escuchar por tema
-        </button>
-        <button id="tabBtnRoutine" type="button" data-tab="routine" aria-controls="viewRoutine" class="tab-btn px-3 py-1.5 rounded-lg text-sm font-semibold transition text-slate-300 hover:text-white hover:bg-slate-800">
-          🚩 Practicar rutina
-        </button>
-        <button id="tabBtnFlashcards" type="button" data-tab="flashcards" aria-controls="viewFlashcards" class="tab-btn px-3 py-1.5 rounded-lg text-sm font-semibold transition text-slate-300 hover:text-white hover:bg-slate-800">
-          🧠 Repasar tarjetas
-        </button>
-        <button id="tabBtnQuiz" type="button" data-tab="quiz" aria-controls="viewQuiz" class="tab-btn px-3 py-1.5 rounded-lg text-sm font-semibold transition text-slate-300 hover:text-white hover:bg-slate-800">
-          ✅ Hacer examen
-        </button>
-        <button id="tabBtnPodcast" type="button" data-tab="podcast" aria-controls="viewPodcast" class="tab-btn px-3 py-1.5 rounded-lg text-sm font-semibold transition text-slate-300 hover:text-white hover:bg-slate-800">
-          🎙️ Escuchar conversación
-        </button>
-      </nav>
-        <button id="readingModeBtn" type="button" aria-pressed="true" class="px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-base font-semibold text-slate-200 border border-slate-700">Aa&nbsp; Texto normal</button>
-      </details>
+  <header class="border-b border-slate-800">
+    <div class="max-w-3xl mx-auto px-4 py-4">
+      <h1 class="text-2xl font-extrabold text-white">Guía de estudio</h1>
+      <p class="text-base text-slate-300">Escoltas de Bandera · Coahuila 2026–2027</p>
+      <span id="ttsStatusBadge" class="hidden">Voz lista</span>
     </div>
   </header>
 
   <!-- Main Content Container -->
-  <main class="flex-1 max-w-6xl w-full mx-auto px-4 py-5 pb-36">
+  <main class="flex-1 max-w-3xl w-full mx-auto px-4 py-5 pb-36">
 
-    <section aria-labelledby="welcomeTitle" class="mb-5 rounded-2xl border border-emerald-900/70 bg-gradient-to-r from-slate-900 to-emerald-950/50 p-5 sm:p-6">
-      <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <div class="max-w-3xl">
-          <p class="text-sm font-bold uppercase tracking-wide text-emerald-300">Guía de estudio · a tu ritmo</p>
-          <h2 id="welcomeTitle" class="mt-1 text-2xl font-extrabold text-white">Estudia escuchando, a tu ritmo.</h2>
-          <p class="mt-2 text-base leading-relaxed text-slate-200">Toca el botón verde para escuchar. La guía recuerda dónde te quedaste.</p>
-        </div>
-        <button id="startStudyBtn" type="button" data-tab="audio" class="min-h-16 shrink-0 rounded-xl bg-emerald-600 px-7 py-4 text-xl font-extrabold text-white shadow-lg hover:bg-emerald-500">▶ Escuchar ahora</button>
-      </div>
-      <div class="mt-4 flex flex-wrap items-center gap-x-5 gap-y-2 border-t border-slate-700/70 pt-3 text-sm text-slate-300">
-        <span id="connectionStatus" role="status" aria-live="polite">Preparando acceso sin conexión…</span>
-        <button id="installAppBtn" type="button" class="hidden rounded-lg border border-emerald-500/40 bg-emerald-900/40 px-3 py-1.5 font-semibold text-emerald-200">Instalar en este dispositivo</button>
-        <span id="savedProgressNote" class="text-slate-400">No necesitas configurar nada para comenzar.</span>
+    <section aria-labelledby="welcomeTitle" class="mb-4 rounded-xl border-2 border-black bg-slate-900 p-4">
+      <h2 id="welcomeTitle" class="text-2xl font-extrabold text-white">¿Qué quieres hacer?</h2>
+      <p class="mt-1 text-base text-slate-300">Toca un cuadro para comenzar.</p>
+      <div class="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-sm text-slate-300">
+        <span id="connectionStatus" role="status" aria-live="polite">Preparando guía…</span>
+        <span id="savedProgressNote">Tu avance se guarda solo.</span>
+        <button id="installAppBtn" type="button" class="hidden">Instalar</button>
       </div>
     </section>
 
@@ -272,11 +269,46 @@
 
     <!-- TAB 1: AUDIOGUÍA (8 MÓDULOS) -->
     <section id="viewAudio" class="grid grid-cols-1 lg:grid-cols-12 gap-5">
-      <!-- Track List Sidebar -->
-      <div class="lg:col-span-4">
+      <div id="quickActions" class="lg:col-span-12 grid grid-cols-2 gap-3">
+        <button id="startStudyBtn" type="button" class="rounded-xl bg-emerald-600 px-4 py-5 text-xl font-extrabold text-white">
+          <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4V5Z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M19 5a10 10 0 0 1 0 14"/></svg>
+          <span>ESCUCHAR</span>
+          <span class="text-sm font-medium">Continuar</span>
+        </button>
+
         <details id="trackSelector" class="rounded-xl border border-slate-700 bg-slate-900">
-          <summary class="cursor-pointer list-none rounded-xl px-4 py-3 text-base font-semibold text-slate-200">Elegir otro tema <span id="completedTracksCount" class="text-sm text-emerald-300 font-normal">0 de 8 estudiados</span></summary>
+          <summary class="cursor-pointer rounded-xl">
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v17H6.5A2.5 2.5 0 0 1 4 17.5z"/><path d="M4 17.5A2.5 2.5 0 0 1 6.5 15H20M8 7h8M8 10h8"/></svg>
+            <span>TEMAS</span>
+            <span class="text-sm font-normal"><span id="completedTracksCount">0 de 8</span></span>
+          </summary>
           <div id="trackListContainer" class="space-y-2 border-t border-slate-700 p-3"></div>
+        </details>
+
+        <details id="transcriptDetails" class="rounded-xl border border-slate-700 bg-slate-900">
+          <summary class="cursor-pointer rounded-xl">
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3h11l4 4v14H5z"/><path d="M16 3v5h4M8 12h9M8 16h9"/></svg>
+            <span>LEER</span>
+            <span class="text-sm font-normal">Texto del tema</span>
+            <span id="segmentProgressLabel" class="hidden">Párrafo 1</span>
+          </summary>
+          <div id="segmentsContainer" class="space-y-3 border-t border-slate-700 p-3"></div>
+        </details>
+
+        <details id="advancedModes" class="rounded-xl border border-slate-700 bg-slate-900">
+          <summary class="cursor-pointer rounded-xl">
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></svg>
+            <span>MÁS</span>
+            <span class="text-sm font-normal">Otras actividades</span>
+          </summary>
+          <nav aria-label="Otras actividades" class="flex flex-wrap items-center gap-2 border-t border-slate-700 p-3">
+            <button id="tabBtnAudio" type="button" data-tab="audio" aria-controls="viewAudio" aria-current="page" class="tab-btn px-3 py-1.5 rounded-lg text-sm font-semibold bg-emerald-600 text-white">Escuchar temas</button>
+            <button id="tabBtnRoutine" type="button" data-tab="routine" aria-controls="viewRoutine" class="tab-btn px-3 py-1.5 rounded-lg text-sm font-semibold text-slate-300">Practicar rutina</button>
+            <button id="tabBtnFlashcards" type="button" data-tab="flashcards" aria-controls="viewFlashcards" class="tab-btn px-3 py-1.5 rounded-lg text-sm font-semibold text-slate-300">Tarjetas</button>
+            <button id="tabBtnQuiz" type="button" data-tab="quiz" aria-controls="viewQuiz" class="tab-btn px-3 py-1.5 rounded-lg text-sm font-semibold text-slate-300">Examen</button>
+            <button id="tabBtnPodcast" type="button" data-tab="podcast" aria-controls="viewPodcast" class="tab-btn px-3 py-1.5 rounded-lg text-sm font-semibold text-slate-300">Conversación</button>
+            <button id="readingModeBtn" type="button" aria-pressed="true" class="px-3 py-2 rounded-lg bg-slate-800 text-base font-semibold text-slate-200 border border-slate-700">Aa&nbsp; Texto normal</button>
+          </nav>
         </details>
       </div>
 
@@ -314,11 +346,6 @@
             <div id="formationSvgContainer" class="w-full flex flex-col items-center justify-center py-2"></div>
           </div>
 
-          <!-- Optional transcript for people who prefer to read along. -->
-          <details id="transcriptDetails" class="mt-4 rounded-xl border border-slate-700 bg-slate-950">
-            <summary class="cursor-pointer list-none rounded-xl px-4 py-3 text-base font-semibold text-slate-200">Leer el texto de este tema <span id="segmentProgressLabel" class="text-sm font-normal text-slate-400">Párrafo 1</span></summary>
-            <div id="segmentsContainer" class="space-y-3 border-t border-slate-700 p-3"></div>
-          </details>
         </div>
       </div>
     </section>
@@ -1194,7 +1221,7 @@
       const note = document.getElementById("savedProgressNote");
       if (!note) return;
       const track = STUDY_TRACKS[currentTrackIndex];
-      note.textContent = `Avance guardado: módulo ${currentTrackIndex + 1}, párrafo ${currentSegmentIndex + 1}.`;
+      note.textContent = `Avance: tema ${currentTrackIndex + 1}, parte ${currentSegmentIndex + 1}.`;
     }
 
     function setStudyTab(tab) {
@@ -1500,7 +1527,7 @@
 
     function renderActiveTrack() {
       const track = STUDY_TRACKS[currentTrackIndex];
-      document.getElementById("activeTrackNumber").textContent = `Módulo ${track.id} de ${STUDY_TRACKS.length} • ${track.durationEst}`;
+      document.getElementById("activeTrackNumber").textContent = `Tema ${track.id} de ${STUDY_TRACKS.length}`;
       document.getElementById("activeTrackTitle").textContent = track.title;
       document.getElementById("activeTrackSubtitle").textContent = track.subtitle;
 
@@ -2157,8 +2184,8 @@
       const connectionStatus = document.getElementById("connectionStatus");
       const updateConnectionStatus = () => {
         connectionStatus.textContent = navigator.onLine
-          ? "Con internet · la guía se guarda para estudiar sin conexión."
-          : "Sin conexión · estás usando la copia guardada en este dispositivo.";
+          ? "Con internet"
+          : "Sin internet · guía guardada";
       };
       updateConnectionStatus();
       window.addEventListener("online", updateConnectionStatus);
@@ -2182,7 +2209,7 @@
         navigator.serviceWorker.register("./service-worker.js", { scope: "./" })
           .then(() => navigator.serviceWorker.ready)
           .then(() => {
-            if (navigator.onLine) connectionStatus.textContent = "Guía lista para usar sin internet · el dispositivo proporciona la voz.";
+            if (navigator.onLine) connectionStatus.textContent = "Lista para usar sin internet";
           })
           .catch(() => {
             connectionStatus.textContent = navigator.onLine
