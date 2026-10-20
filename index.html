@@ -1,0 +1,2274 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Audioguía de Estudio — Manual de Escoltas de Bandera Coahuila 2026-2027</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background-color: #0f172a;
+      color: #f8fafc;
+    }
+    .segment-active {
+      background: linear-gradient(90deg, rgba(16, 185, 129, 0.22) 0%, rgba(16, 185, 129, 0.05) 100%);
+      border-left: 4px solid #10b981;
+    }
+    .pulse-ring {
+      animation: pulseRing 1.6s cubic-bezier(0.24, 0, 0.38, 1) infinite;
+    }
+    @keyframes pulseRing {
+      0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+      70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(16, 185, 129, 0); }
+      100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+    }
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #1e293b; }
+    ::-webkit-scrollbar-thumb { background: #475569; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: #64748b; }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col bg-slate-950 text-slate-100 selection:bg-emerald-500 selection:text-white">
+
+  <!-- Top Header Flag Accent -->
+  <div class="h-1.5 w-full flex">
+    <div class="w-1/3 bg-emerald-600"></div>
+    <div class="w-1/3 bg-white"></div>
+    <div class="w-1/3 bg-rose-600"></div>
+  </div>
+
+  <!-- Main Header -->
+  <header class="bg-slate-900/90 border-b border-slate-800 sticky top-0 z-30 backdrop-blur">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-3">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-600 via-slate-800 to-rose-600 flex items-center justify-center shadow-md border border-slate-700">
+          <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"/>
+          </svg>
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="text-xs font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">SEDU Coahuila 2026–2027</span>
+            <span id="ttsStatusBadge" class="text-xs px-2 py-0.5 rounded bg-slate-800 text-slate-300 border border-slate-700">Voz lista</span>
+          </div>
+          <h1 class="text-base sm:text-lg font-bold text-white leading-tight mt-0.5">Audioguía Interactiva: Manual de Escoltas de Bandera</h1>
+        </div>
+      </div>
+
+      <!-- Navigation Tabs -->
+      <nav class="flex items-center gap-1.5 bg-slate-950 p-1 rounded-xl border border-slate-800 overflow-x-auto max-w-full">
+        <button id="tabBtnPodcast" data-tab="podcast" class="tab-btn px-3 py-1.5 rounded-lg text-xs sm:text-sm font-semibold transition bg-emerald-600 text-white shadow">
+          🎙️ Podcast (2 Locutores)
+        </button>
+        <button id="tabBtnAudio" data-tab="audio" class="tab-btn px-3 py-1.5 rounded-lg text-xs sm:text-sm font-semibold transition text-slate-300 hover:text-white hover:bg-slate-800">
+          🎧 Audioguía (8 Módulos)
+        </button>
+        <button id="tabBtnRoutine" data-tab="routine" class="tab-btn px-3 py-1.5 rounded-lg text-xs sm:text-sm font-semibold transition text-slate-300 hover:text-white hover:bg-slate-800">
+          🚩 Rutina 41 Pasos + Metrónomo
+        </button>
+        <button id="tabBtnFlashcards" data-tab="flashcards" class="tab-btn px-3 py-1.5 rounded-lg text-xs sm:text-sm font-semibold transition text-slate-300 hover:text-white hover:bg-slate-800">
+          🧠 Tarjetas por Voz
+        </button>
+        <button id="tabBtnQuiz" data-tab="quiz" class="tab-btn px-3 py-1.5 rounded-lg text-xs sm:text-sm font-semibold transition text-slate-300 hover:text-white hover:bg-slate-800">
+          ✅ Examen Auditivo
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content Container -->
+  <main class="flex-1 max-w-6xl w-full mx-auto px-4 py-5 pb-36">
+
+    <!-- Voice & Speed Settings Bar -->
+    <div class="bg-slate-900 border border-slate-800 rounded-2xl p-3.5 mb-5 flex flex-wrap items-center justify-between gap-3 shadow-sm">
+      <div class="flex flex-wrap items-center gap-3">
+        <div class="flex items-center gap-2">
+          <label for="voiceSelect" class="text-xs font-medium text-slate-400">Voz:</label>
+          <select id="voiceSelect" class="bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-emerald-500 max-w-[220px]">
+            <option value="">Voz en español predeterminada</option>
+          </select>
+        </div>
+
+        <div class="flex items-center gap-1.5">
+          <span class="text-xs font-medium text-slate-400">Velocidad:</span>
+          <div class="flex bg-slate-950 rounded-lg p-0.5 border border-slate-800">
+            <button data-speed="0.85" class="speed-btn px-2 py-1 text-xs rounded-md text-slate-400 hover:text-white">0.85x</button>
+            <button data-speed="1" class="speed-btn px-2 py-1 text-xs rounded-md bg-emerald-600 text-white font-semibold">1x</button>
+            <button data-speed="1.15" class="speed-btn px-2 py-1 text-xs rounded-md text-slate-400 hover:text-white">1.15x</button>
+            <button data-speed="1.3" class="speed-btn px-2 py-1 text-xs rounded-md text-slate-400 hover:text-white">1.3x</button>
+            <button data-speed="1.5" class="speed-btn px-2 py-1 text-xs rounded-md text-slate-400 hover:text-white">1.5x</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <label class="flex items-center gap-1.5 text-xs text-slate-300 cursor-pointer select-none">
+          <input type="checkbox" id="autoNextTrackToggle" checked class="rounded bg-slate-950 border-slate-700 text-emerald-500 focus:ring-0" />
+          <span>Continuar al siguiente módulo automáticamente</span>
+        </label>
+        <button id="testVoiceBtn" class="text-xs px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-emerald-300 border border-slate-700 font-medium transition">
+          🔊 Probar audio
+        </button>
+      </div>
+    </div>
+
+    <!-- TAB 0: PODCAST CONVERSACIONAL (2 LOCUTORES: SOFÍA Y MARCO) -->
+    <section id="viewPodcast" class="space-y-5">
+      <!-- Podcast Hero Player Card -->
+      <div class="bg-gradient-to-br from-slate-900 via-slate-900 to-emerald-950/40 border border-slate-800 rounded-3xl p-5 sm:p-7 shadow-2xl">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+          <!-- Left: Podcast Cover & Host Avatars -->
+          <div class="lg:col-span-5 flex flex-col justify-between bg-slate-950/90 border border-slate-800 rounded-2xl p-5 relative overflow-hidden">
+            <div class="flex items-center justify-between gap-2 mb-4">
+              <span class="text-[11px] font-extrabold uppercase tracking-wider px-2.5 py-1 rounded-full bg-rose-500/20 text-rose-300 border border-rose-500/30 flex items-center gap-1.5">
+                <span id="podOnAirDot" class="w-2 h-2 rounded-full bg-rose-500"></span>
+                PODCAST DE ESTUDIO
+              </span>
+              <span id="podEpisodeDurationBadge" class="text-xs font-semibold text-slate-400">6 Episodios • Conversación Natural</span>
+            </div>
+
+            <h2 id="podCurrentEpTitle" class="text-lg sm:text-xl font-extrabold text-white leading-snug">
+              Ep. 1: El ADN de la Escolta y las Voces de Mando
+            </h2>
+            <p id="podCurrentEpDesc" class="text-xs text-slate-400 mt-1.5 leading-relaxed">
+              Sofía y el Profe Marco platican de forma relajada sobre cómo se integra la escolta, el secreto de «¡Atención escolta!» y cómo dominar la posición de firmes y la alineación.
+            </p>
+
+            <!-- Live Host Cards -->
+            <div class="grid grid-cols-2 gap-3 my-5">
+              <div id="hostCardSofia" class="p-3 rounded-xl bg-slate-900 border border-slate-800 transition flex items-center gap-2.5">
+                <div class="w-10 h-10 rounded-full bg-teal-500/20 border border-teal-400/40 flex items-center justify-center text-base font-extrabold text-teal-300 shrink-0">
+                  S
+                </div>
+                <div class="min-w-0">
+                  <div class="text-xs font-bold text-white truncate">Sofía</div>
+                  <div id="hostStatusSofia" class="text-[11px] text-slate-400 truncate">Conductora</div>
+                </div>
+              </div>
+
+              <div id="hostCardMarco" class="p-3 rounded-xl bg-slate-900 border border-slate-800 transition flex items-center gap-2.5">
+                <div class="w-10 h-10 rounded-full bg-amber-500/20 border border-amber-400/40 flex items-center justify-center text-base font-extrabold text-amber-300 shrink-0">
+                  M
+                </div>
+                <div class="min-w-0">
+                  <div class="text-xs font-bold text-white truncate">Profe Marco</div>
+                  <div id="hostStatusMarco" class="text-[11px] text-slate-400 truncate">Instructor SEDU</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Main Podcast Controls -->
+            <div class="flex flex-col gap-3 pt-2 border-t border-slate-800/80">
+              <div class="flex items-center justify-between gap-2">
+                <button id="podPrevLineBtn" class="px-3 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 text-xs font-semibold text-slate-200 transition">
+                  ⏪ -1 turno
+                </button>
+                <button id="podMainPlayBtn" class="flex-1 py-3 px-4 rounded-2xl bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold text-sm flex items-center justify-center gap-2 shadow-lg transition">
+                  <span id="podMainPlayIcon">▶</span>
+                  <span id="podMainPlayText">Escuchar Podcast</span>
+                </button>
+                <button id="podNextLineBtn" class="px-3 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 text-xs font-semibold text-slate-200 transition">
+                  +1 turno ⏩
+                </button>
+              </div>
+
+              <!-- Host Voice Customization -->
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1">
+                <div>
+                  <label for="voiceSofiaSelect" class="block text-[10px] font-semibold uppercase tracking-wider text-teal-400 mb-1">Voz de Sofía (Conductora):</label>
+                  <select id="voiceSofiaSelect" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2 py-1 text-[11px] text-slate-200"></select>
+                </div>
+                <div>
+                  <label for="voiceMarcoSelect" class="block text-[10px] font-semibold uppercase tracking-wider text-amber-400 mb-1">Voz de Marco (Instructor):</label>
+                  <select id="voiceMarcoSelect" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2 py-1 text-[11px] text-slate-200"></select>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right: Live Conversation Bubble & Episode Selector -->
+          <div class="lg:col-span-7 flex flex-col gap-4">
+            <!-- Episode Pills -->
+            <div>
+              <div class="flex items-center justify-between mb-2">
+                <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Episodios del Podcast (Manual Coahuila 2026–2027)</span>
+                <span id="podLineCounter" class="text-xs font-semibold text-emerald-400">Intervención 1 de 10</span>
+              </div>
+              <div id="podEpisodeList" class="grid grid-cols-1 sm:grid-cols-2 gap-2"></div>
+            </div>
+
+            <!-- Live Dialogue Stream -->
+            <div class="bg-slate-950 border border-slate-800 rounded-2xl p-4">
+              <div class="flex items-center justify-between mb-2.5">
+                <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Diálogo en Vivo (Toca cualquier intervención para saltar a ese momento)</span>
+                <span class="text-[11px] text-slate-400">Reproducción continua</span>
+              </div>
+              <div id="podTranscriptContainer" class="space-y-2.5 max-h-[340px] overflow-y-auto pr-1"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 1: AUDIOGUÍA (8 MÓDULOS) -->
+    <section id="viewAudio" class="hidden grid grid-cols-1 lg:grid-cols-12 gap-5">
+      <!-- Track List Sidebar -->
+      <div class="lg:col-span-4 space-y-2.5">
+        <div class="flex items-center justify-between px-1 mb-1">
+          <h2 class="text-xs font-bold uppercase tracking-wider text-slate-400">Pistas de Estudio (Manual Completo)</h2>
+          <span id="completedTracksCount" class="text-xs text-emerald-400 font-semibold">0/8 estudiadas</span>
+        </div>
+        <div id="trackListContainer" class="space-y-2"></div>
+      </div>
+
+      <!-- Active Track Script & Visual Reference -->
+      <div class="lg:col-span-8 flex flex-col gap-4">
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-lg">
+          <div class="flex flex-wrap items-start justify-between gap-3 border-b border-slate-800 pb-4 mb-4">
+            <div>
+              <span id="activeTrackNumber" class="text-xs font-bold uppercase tracking-wider text-emerald-400">Módulo 1 de 8</span>
+              <h2 id="activeTrackTitle" class="text-xl font-bold text-white mt-0.5">Presentación, Objetivos e Integración</h2>
+              <p id="activeTrackSubtitle" class="text-xs text-slate-400 mt-1">Páginas 1 a 3 del Manual Escolar de Escoltas de Bandera de Coahuila</p>
+            </div>
+            <div class="flex items-center gap-2">
+              <button id="playCurrentTrackBtn" class="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-sm flex items-center gap-2 shadow-md transition">
+                <span>▶ Escuchar módulo</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Key Takeaways Badges -->
+          <div id="activeTrackHighlights" class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 mb-5"></div>
+
+          <!-- Interactive Formation Diagram (Contextual) -->
+          <div id="formationDiagramBox" class="bg-slate-950 border border-slate-800/80 rounded-xl p-4 mb-5">
+            <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+              <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Esquema Visual de Formación Oficial</span>
+              <div class="flex flex-wrap gap-1.5">
+                <button data-formation="oficial" class="formation-btn px-2.5 py-1 rounded text-xs font-medium bg-emerald-600 text-white">Oficial (6)</button>
+                <button data-formation="abrir" class="formation-btn px-2.5 py-1 rounded text-xs font-medium bg-slate-800 text-slate-300 hover:bg-slate-700">Abrir Escolta</button>
+                <button data-formation="descanso" class="formation-btn px-2.5 py-1 rounded text-xs font-medium bg-slate-800 text-slate-300 hover:bg-slate-700">En Descanso</button>
+                <button data-formation="col2" class="formation-btn px-2.5 py-1 rounded text-xs font-medium bg-slate-800 text-slate-300 hover:bg-slate-700">Columna por 2</button>
+                <button data-formation="col1" class="formation-btn px-2.5 py-1 rounded text-xs font-medium bg-slate-800 text-slate-300 hover:bg-slate-700">Columna por 1</button>
+              </div>
+            </div>
+            <div id="formationSvgContainer" class="w-full flex flex-col items-center justify-center py-2"></div>
+          </div>
+
+          <!-- Synchronized Audio Transcript Segments -->
+          <div class="flex items-center justify-between mb-2">
+            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400">Guion de Audio Sincronizado (Haz clic en cualquier párrafo para escucharlo)</h3>
+            <span id="segmentProgressLabel" class="text-xs text-slate-400">Párrafo 1</span>
+          </div>
+          <div id="segmentsContainer" class="space-y-2.5 max-h-[420px] overflow-y-auto pr-1"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 2: RUTINA OBLIGATORIA 41 EVOLUCIONES + METRÓNOMO -->
+    <section id="viewRoutine" class="hidden space-y-5">
+      <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5">
+        <div class="flex flex-wrap items-center justify-between gap-4 border-b border-slate-800 pb-4 mb-4">
+          <div>
+            <span class="text-xs font-bold uppercase tracking-wider text-emerald-400">Concurso Estatal Coahuila 2026–2027 (Págs. 12–14)</span>
+            <h2 class="text-xl font-bold text-white mt-0.5">Entrenador Auditivo de la Rutina Obligatoria (41 Evoluciones)</h2>
+            <p class="text-xs text-slate-400 mt-1">Espacio reglamentario: Cancha de básquetbol de 15 m de ancho × 28 m de largo. Practica las órdenes en secuencia con metrónomo real.</p>
+          </div>
+          <div class="flex flex-wrap items-center gap-2">
+            <button id="playRoutineAutoBtn" class="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs sm:text-sm font-semibold transition shadow">
+              ▶ Dictar Rutina Completa (1 al 41)
+            </button>
+            <button id="stopRoutineAutoBtn" class="px-3 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs sm:text-sm font-medium transition border border-slate-700">
+              ⏹ Detener
+            </button>
+          </div>
+        </div>
+
+        <!-- Metronome Control Panel -->
+        <div class="bg-slate-950 border border-slate-800 rounded-xl p-4 mb-5 flex flex-wrap items-center justify-between gap-4">
+          <div class="flex items-center gap-3">
+            <div id="metronomeVisualBeat" class="w-9 h-9 rounded-full bg-slate-800 border-2 border-slate-600 flex items-center justify-center font-bold text-xs text-emerald-400">
+              PPM
+            </div>
+            <div>
+              <div class="text-sm font-bold text-white">Metrónomo de Cadencia Oficial</div>
+              <div id="metronomeDesc" class="text-xs text-slate-400">120 pasos/min (Paso redoblado, corto y giros) • 60 pasos/min (Paso de costado)</div>
+            </div>
+          </div>
+          <div class="flex flex-wrap items-center gap-2">
+            <button id="metro120Btn" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs font-semibold text-emerald-300 border border-slate-700 transition">
+              🥁 Activar 120 PPM (Redoblado)
+            </button>
+            <button id="metro60Btn" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs font-semibold text-amber-300 border border-slate-700 transition">
+              🥁 Activar 60 PPM (Costado)
+            </button>
+            <button id="metroStopBtn" class="px-3 py-1.5 rounded-lg bg-rose-950/60 hover:bg-rose-900/70 text-xs font-semibold text-rose-300 border border-rose-800/50 transition">
+              Silenciar Metrónomo
+            </button>
+          </div>
+        </div>
+
+        <!-- Filter & Search Routine -->
+        <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+          <div class="flex flex-wrap gap-1.5">
+            <button data-rfilter="all" class="rfilter-btn px-3 py-1 rounded-lg text-xs font-semibold bg-emerald-600 text-white">Todas (41)</button>
+            <button data-rfilter="1-10" class="rfilter-btn px-3 py-1 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300">Bloque 1–10 (Inicio y Giros 360°)</button>
+            <button data-rfilter="11-21" class="rfilter-btn px-3 py-1 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300">Bloque 11–21 (Abrir/Cerrar y Descanso)</button>
+            <button data-rfilter="22-33" class="rfilter-btn px-3 py-1 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300">Bloque 22–33 (Columna ×2 y Paso Corto)</button>
+            <button data-rfilter="34-41" class="rfilter-btn px-3 py-1 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300">Bloque 34–41 (Columna ×1 y Entrega)</button>
+          </div>
+          <span id="routineActiveStepLabel" class="text-xs text-emerald-400 font-semibold">Haz clic en cualquier evolución para escuchar la voz de mando y su técnica</span>
+        </div>
+
+        <!-- 41 Steps Grid -->
+        <div id="routineGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2.5 max-h-[500px] overflow-y-auto pr-1"></div>
+      </div>
+    </section>
+
+    <!-- TAB 3: TARJETAS DE MEMORIA POR VOZ (FLASHCARDS) -->
+    <section id="viewFlashcards" class="hidden">
+      <div class="max-w-3xl mx-auto bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-lg">
+        <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800 pb-4 mb-5">
+          <div>
+            <span class="text-xs font-bold uppercase tracking-wider text-emerald-400">Repaso Activo por Voz</span>
+            <h2 class="text-xl font-bold text-white">Tarjetas Auditivas de Estudio</h2>
+          </div>
+          <div class="flex items-center gap-2">
+            <span id="fcCounter" class="text-xs font-bold px-2.5 py-1 rounded-lg bg-slate-800 text-slate-300">1 / 20</span>
+            <button id="fcAutoPlayBtn" class="px-3 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold transition">
+              ▶ Modo Manos Libres (P+R)
+            </button>
+          </div>
+        </div>
+
+        <!-- Flashcard Box -->
+        <div id="flashcardBox" class="bg-slate-950 border border-slate-800 rounded-2xl p-6 min-h-[240px] flex flex-col justify-between cursor-pointer hover:border-emerald-500/50 transition">
+          <div class="flex items-center justify-between">
+            <span id="fcCategory" class="text-xs font-semibold uppercase tracking-wider px-2.5 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Movimientos</span>
+            <span class="text-xs text-slate-400">Toca la tarjeta o usa los botones para voltear</span>
+          </div>
+
+          <div class="my-6 text-center">
+            <p id="fcQuestion" class="text-lg sm:text-xl font-bold text-white leading-snug"></p>
+            <div id="fcAnswerWrap" class="hidden mt-4 pt-4 border-t border-slate-800">
+              <p id="fcAnswer" class="text-base text-emerald-300 font-medium leading-relaxed"></p>
+            </div>
+          </div>
+
+          <div class="flex flex-wrap items-center justify-between gap-2 pt-2">
+            <button id="fcSpeakQuestionBtn" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs font-medium text-slate-200">
+              🔊 Escuchar Pregunta
+            </button>
+            <button id="fcFlipBtn" class="px-4 py-1.5 rounded-lg bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-300 border border-emerald-500/30 text-xs font-semibold">
+              👁 Mostrar y Escuchar Respuesta
+            </button>
+          </div>
+        </div>
+
+        <!-- Navigation -->
+        <div class="flex items-center justify-between mt-5">
+          <button id="fcPrevBtn" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-xs sm:text-sm font-semibold text-slate-200">
+            ← Anterior
+          </button>
+          <button id="fcShuffleBtn" class="px-3 py-2 rounded-xl bg-slate-950 hover:bg-slate-800 border border-slate-800 text-xs text-slate-300">
+            🔀 Mezclar tarjetas
+          </button>
+          <button id="fcNextBtn" class="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-xs sm:text-sm font-semibold text-white">
+            Siguiente →
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 4: EXAMEN AUDITIVO INTERACTIVO -->
+    <section id="viewQuiz" class="hidden">
+      <div class="max-w-3xl mx-auto bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-lg">
+        <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800 pb-4 mb-5">
+          <div>
+            <span class="text-xs font-bold uppercase tracking-wider text-emerald-400">Simulador de Evaluación</span>
+            <h2 class="text-xl font-bold text-white">Examen Auditivo del Manual de Escoltas</h2>
+          </div>
+          <div class="flex items-center gap-3">
+            <span id="quizScoreBadge" class="text-xs font-bold px-3 py-1 rounded-lg bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">Aciertos: 0 / 0</span>
+            <button id="quizResetBtn" class="text-xs px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300">Reiniciar</button>
+          </div>
+        </div>
+
+        <div id="quizContainer">
+          <div class="flex items-center justify-between mb-3">
+            <span id="quizProgressText" class="text-xs font-semibold text-slate-400">Pregunta 1 de 12</span>
+            <button id="quizReadBtn" class="px-3 py-1 rounded-lg bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-300 border border-emerald-500/30 text-xs font-semibold">
+              🔊 Leer pregunta en voz alta
+            </button>
+          </div>
+
+          <h3 id="quizQuestionText" class="text-base sm:text-lg font-bold text-white mb-4"></h3>
+
+          <div id="quizOptionsContainer" class="space-y-2.5 mb-4"></div>
+
+          <div id="quizFeedbackBox" class="hidden rounded-xl p-4 mb-4 text-sm"></div>
+
+          <div class="flex justify-end">
+            <button id="quizNextBtn" class="hidden px-5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-semibold">
+              Siguiente pregunta →
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Sticky Bottom Audio Player Bar -->
+  <footer class="fixed bottom-0 inset-x-0 z-40 bg-slate-900/95 border-t border-slate-800 backdrop-blur-md shadow-2xl">
+    <div class="max-w-6xl mx-auto px-4 py-2.5 flex flex-col gap-1.5">
+      <!-- Progress Bar -->
+      <div class="w-full flex items-center gap-2">
+        <span id="playerCurrentSegIndex" class="text-[11px] font-mono text-emerald-400 w-12">01/06</span>
+        <div id="playerProgressBarBg" class="flex-1 h-2 bg-slate-800 rounded-full overflow-hidden cursor-pointer">
+          <div id="playerProgressBarFill" class="h-full bg-gradient-to-r from-emerald-500 to-teal-400 w-0 transition-all duration-300"></div>
+        </div>
+        <span id="playerStateText" class="text-[11px] text-slate-400 w-24 text-right truncate">En pausa</span>
+      </div>
+
+      <!-- Controls Row -->
+      <div class="flex flex-wrap items-center justify-between gap-2">
+        <div class="flex items-center gap-2.5 min-w-0 flex-1">
+          <div id="playerLiveIndicator" class="w-2.5 h-2.5 rounded-full bg-slate-600 shrink-0"></div>
+          <div class="truncate">
+            <div id="playerNowPlayingTitle" class="text-xs sm:text-sm font-bold text-white truncate">Módulo 1: Presentación, Objetivos e Integración</div>
+            <div id="playerNowPlayingSnippet" class="text-[11px] text-slate-400 truncate">Presiona Reproducir (▶) para iniciar la narración en voz alta</div>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-1.5 sm:gap-2">
+          <button id="playerPrevTrackBtn" title="Módulo anterior" class="p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white text-xs font-semibold">
+            ⏮
+          </button>
+          <button id="playerPrevSegBtn" title="Párrafo anterior" class="px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold">
+            ⏪ -1
+          </button>
+          <button id="playerPlayPauseBtn" class="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs sm:text-sm flex items-center gap-1.5 shadow-lg transition">
+            <span id="playerPlayPauseIcon">▶</span>
+            <span id="playerPlayPauseLabel">Reproducir</span>
+          </button>
+          <button id="playerNextSegBtn" title="Siguiente párrafo" class="px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold">
+            +1 ⏩
+          </button>
+          <button id="playerNextTrackBtn" title="Siguiente módulo" class="p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white text-xs font-semibold">
+            ⏭
+          </button>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // ============================================================================
+    // DATA: 8 MÓDULOS COMPLETOS DEL MANUAL DE ESCOLTAS COAHUILA 2026-2027
+    // ============================================================================
+    const STUDY_TRACKS = [
+      {
+        id: 1,
+        title: "1. Presentación, Objetivos e Integración",
+        subtitle: "Páginas 1 a 3 • Marco legal NEM, los 6 elementos y formación oficial",
+        durationEst: "3 min",
+        defaultFormation: "oficial",
+        highlights: [
+          { label: "Integrantes", value: "6 titulares + 2 reserva" },
+          { label: "Marco Legal", value: "Arts. 3°, 31° y 73° / NEM" },
+          { label: "Filas", value: "2 filas encuadrando a A" },
+          { label: "Presentación", value: "Limpios, peinados, gallardía" }
+        ],
+        segments: [
+          {
+            heading: "Marco Legal y Nueva Escuela Mexicana",
+            text: "Bienvenido a la audioguía de estudio del Manual Escolar de Escoltas de Bandera en el Estado de Coahuila de Zaragoza 2026-2027. La reforma a los artículos tercero, treinta y uno, y setenta y tres de la Constitución establece que el Estado garantizará la calidad en la educación obligatoria. Integrando los principios de la Nueva Escuela Mexicana, se fomentan valores cívicos esenciales: honestidad, respeto, justicia, solidaridad, reciprocidad, lealtad, libertad, equidad y gratitud."
+          },
+          {
+            heading: "Objetivo General y Específicos",
+            text: "El objetivo del manual, emitido por la Dirección de Educación Física en Coahuila, es explicar de manera clara y precisa la gama de movimientos a pie firme y sobre la marcha, logrando la unificación de criterios en las escuelas de educación básica del estado. Sus objetivos generales son: reafirmar el sentimiento nacional y el fervor patrio, fortalecer la práctica de las obligaciones cívicas, promover la identidad nacional y generar bases firmes de respeto a los símbolos patrios."
+          },
+          {
+            heading: "1. Presentación de la Escolta",
+            text: "Punto número uno del instructivo: Presentación de la escolta. Cuando una escolta escolar se presenta en una ceremonia, desfile, demostración o concurso, sus integrantes deberán presentarse limpios, bien peinados y portar el uniforme representativo de la institución con gallardía."
+          },
+          {
+            heading: "2. Integración y Formación Oficial",
+            text: "Punto número dos: Integración de la escolta. La escolta de bandera estará integrada por seis elementos titulares, pudiendo ser varonil, femenil o de organización mixta, cubriendo las funciones de: un abanderado, un comandante y cuatro guardias, además de dos elementos más de reserva. En la formación oficial, la fila delantera está integrada de derecha a izquierda de la escolta por el Comandante, el Guardia uno, el Abanderado y el Guardia dos. En la segunda fila se colocan el Guardia tres detrás del Guardia uno, y el Guardia cuatro detrás del Guardia dos, encuadrando al abanderado."
+          }
+        ]
+      },
+      {
+        id: 2,
+        title: "2. Voces de Mando, Firmes y Alinear Escolta",
+        subtitle: "Páginas 3 y 4 • Las 3 voces, posición de firmes, permiso y alineación",
+        durationEst: "4 min",
+        defaultFormation: "oficial",
+        highlights: [
+          { label: "Voces de Mando", value: "Advertencia, Preventiva, Ejecutiva" },
+          { label: "Ángulo de Pies", value: "45 grados (talones unidos)" },
+          { label: "Alinear G3 y G4", value: "3 pasos al frente y media vuelta" },
+          { label: "Mando", value: "Voz enérgica, clara y precisa" }
+        ],
+        segments: [
+          {
+            heading: "Los Tres Tipos de Voces de Mando",
+            text: "Existen tres voces de mando emitidas por el comandante con voz enérgica, clara, segura y precisa. Primero: Voz de advertencia, que sirve para llamar la atención de la escolta antes de indicarles qué hacer, por ejemplo: Atención escolta, atención, o escolta. Nota muy importante de examen: La voz de advertencia Atención escolta únicamente se utiliza para iniciar un recorrido; durante el recorrido solo se utilizará atención o escolta. Segundo: Voz preventiva, que indica la acción por ejecutar, como firmes, paso redoblado o escolta a la derecha. Tercero: Voz ejecutiva, que indica el momento preciso en que debe ejecutarse lo indicado con la voz de ¡YA!, procurando hacer siempre una pequeña pausa."
+          },
+          {
+            heading: "Posición de Firmes (8 puntos clave)",
+            text: "En la posición de firmes, a la voz ejecutiva los alumnos deben mantener: A, talones unidos y en la misma línea. B, punta de los pies ligeramente separados en un ángulo de cuarenta y cinco grados. C, piernas extendidas y rígidas. D, tronco erguido con abdomen contraído y espalda recta. E, hombros ligeramente hacia atrás, a la misma altura y en una misma línea. F, brazos extendidos con naturalidad a los costados, palmas hacia el cuerpo, dedos extendidos y juntos tocando con el índice la costura del pantalón o falda. G, cabeza erguida con naturalidad. H, vista al frente."
+          },
+          {
+            heading: "3. Solicitar Permiso",
+            text: "Movimiento tres: Solicitar permiso. El sargento o comandante, desde su lugar y en dirección al juez principal, dirá con voz clara y enérgica: Buenos días, soy el comandante de la escolta de la Escuela Primaria o Secundaria correspondiente, solicito permiso para realizar las evoluciones."
+          },
+          {
+            heading: "4. Alinear Escolta y Media Vuelta a Pie Firme",
+            text: "Movimiento cuatro: Alinear escolta. La distancia entre los elementos es de un intervalo lateral. A la orden preventiva de Alinear escolta: el comandante y el guardia uno elevan su brazo izquierdo a la altura del hombro con vista al frente, rozando ligeramente el hombro del compañero a su izquierda con la palma extendida. El abanderado no realiza ningún movimiento y permanece en firmes. El guardia dos eleva su brazo derecho a la altura del hombro, rozando ligeramente el hombro del abanderado con su palma extendida. Los guardias tres y cuatro avanzan al frente a discreción y dan media vuelta para colocarse de espalda con sus respectivos guardias. A la voz ejecutiva ¡YA!, comandante, guardia uno y dos bajan brazos a firmes, mientras que los guardias tres y cuatro regresan a su posición dando tres pasos al frente y alto, dando media vuelta a pie firme sin braceo: elevación de talón con desplante a cuarenta y cinco grados con pie izquierdo al frente del derecho, girando a su derecha ciento ochenta grados y uniendo el pie izquierdo con el derecho."
+          }
+        ]
+      },
+      {
+        id: 3,
+        title: "3. Saludo y Manejo del Asta Bandera",
+        subtitle: "Páginas 5 y 6 • Saludo en 2 tiempos, recibimiento (4 tiempos), subir y bajar asta (5 tiempos)",
+        durationEst: "4.5 min",
+        defaultFormation: "oficial",
+        highlights: [
+          { label: "Saludo", value: "2 tiempos (2 seg en pecho)" },
+          { label: "Recibir Asta", value: "4 tiempos a la cuja" },
+          { label: "Entregar Asta", value: "5 pasos de protocolo" },
+          { label: "Bajar / Subir Asta", value: "5 tiempos (asta vertical)" }
+        ],
+        segments: [
+          {
+            heading: "5. El Saludo (En dos tiempos)",
+            text: "Movimiento cinco: Saludo. La orden es ¡ESCOLTA! ¡SALUDAR! ¡YA! Se realiza en dos tiempos. A partir de firmes, se hace una elevación rápida de la mano derecha por la trayectoria más corta hasta colocarla en el pecho a la altura del corazón. La punta del dedo pulgar queda sobre el pectoral izquierdo, dedos juntos con la palma orientada hacia abajo. El dedo medio, la muñeca y el codo derecho deben estar alineados en posición horizontal, sosteniendo esta posición aproximadamente dos segundos. Después regresamos a la posición de firmes describiendo una trayectoria semicircular hasta rozar la pierna derecha."
+          },
+          {
+            heading: "6. Recibimiento de Asta (4 tiempos)",
+            text: "Movimiento seis: Recibimiento de asta. A la voz ejecutiva del comandante, la escolta saluda en dos tiempos. El guardia de reserva designado entrega el asta al abanderado, quien la toma y coloca el regatón en la cuja en cuatro tiempos: Tiempo uno, extensión de brazos y toma del asta con mano derecha arriba e izquierda abajo. Tiempo dos, jalón enérgico hacia el hombro. Tiempo tres, entrada a la cuja. Tiempo cuatro, mano izquierda pasa a su costado."
+          },
+          {
+            heading: "7. Entrega de Asta",
+            text: "Movimiento siete: Entrega de asta. El guardia de reserva se coloca frente al abanderado y saluda en dos tiempos. El abanderado entrega en cinco pasos: Uno, brazo izquierdo arriba y brazo derecho abajo. Dos, extensión de brazos al entregar. Tres, regresa manos a los costados en firmes. Cuatro, saludar sosteniendo dos segundos. Cinco, por media vuelta hasta retirarse del área. Antes de retirarse el guardia de reserva, el comandante ordena: ¡ESCOLTA! ¡SALUDAR! ¡YA! en dos tiempos."
+          },
+          {
+            heading: "8. Modo de Tomar, Bajar y Subir el Asta (5 tiempos)",
+            text: "Movimiento ocho: Modo de tomar el asta. La cuja del portabandera cae sobre la cadera derecha; el abanderado sujeta el asta con la mano derecha con la palma hacia adentro a la altura del hombro, manteniendo el asta vertical. Para bajar el asta son cinco tiempos: Tiempo uno, mano izquierda toma el asta entre la cuja y la mano derecha. Tiempo dos, se saca el asta de la cuja. Tiempo tres, la mano izquierda pasa arriba de la derecha bajando ligeramente el asta. Tiempo cuatro, la mano derecha pasa arriba de la izquierda a la altura del pecho apoyando el regatón en el piso. Tiempo cinco, posición de firmes. Para subir el asta también son cinco tiempos: Tiempo uno, mano izquierda toma el asta abajo de la derecha. Tiempo dos, se eleva el asta pasando la mano derecha abajo de la izquierda. Tiempo tres, la mano izquierda pasa abajo de la derecha tomando el regatón. Tiempo cuatro, se inserta el asta en la cuja. Tiempo cinco, se pasa la mano izquierda al costado adoptando firmes."
+          }
+        ]
+      },
+      {
+        id: 4,
+        title: "4. Evoluciones: Costado, Conversión, Giros, Redoblado y Alto",
+        subtitle: "Páginas 6 a 8 • Cadencias de 60 y 120 PPM, ángulos, alturas y distancias",
+        durationEst: "5 min",
+        defaultFormation: "oficial",
+        highlights: [
+          { label: "Paso Costado", value: "25 cm • 60 PPM (6 a 15 pasos)" },
+          { label: "Paso Redoblado", value: "120 PPM • Braceo a 90°" },
+          { label: "Escolta Der/Izq", value: "90° en 8 tiempos + T9 marcha" },
+          { label: "Regatón en Alto", value: "A 10 cm del suelo (pie derecho)" }
+        ],
+        segments: [
+          {
+            heading: "9. Paso de Costado a la Derecha o Izquierda",
+            text: "Movimiento nueve: Paso de costado. Se emplea para recorrer distancias de seis a quince pasos, con un mínimo a ejecutar de seis pasos. A la voz preventiva, el abanderado eleva el asta aproximadamente cinco centímetros con la mano derecha. A la voz ejecutiva, se desplaza la pierna hacia el costado ordenado sin flexionar las rodillas, con una longitud de veinticinco centímetros y a una cadencia de sesenta pasos por minuto. Para hacer alto se manda ¡ALTO! ¡YA! en el momento preciso en que hace contacto en tierra el pie contrario al costado sobre el que se marcha, dando un paso más para unir talones sin arrastrar ni golpear. No se dan dos pasos excedentes. La escolta debe dar la misma cantidad de pasos hacia ambos lados."
+          },
+          {
+            heading: "10. Conversión a la Derecha o Izquierda (Giro Indefinido)",
+            text: "Movimiento diez: Conversión a la derecha o a la izquierda. Es un giro indefinido mayor de noventa grados. Se inicia con desplante del pie izquierdo y movimiento circular sin braceo, con brazos pegados a los costados. Uno de los costados sirve de eje girando sobre su propio terreno, y el opuesto sirve de guía marchando a paso redoblado junto con los guardias tres y cuatro. Termina a las voces de ¡ALTO! ¡YA!, ¡PASO REDOBLADO! ¡YA!, o ¡ACORTAR EL PASO! ¡YA!"
+          },
+          {
+            heading: "11 y 12. Escolta y Por Escolta a la Derecha o Izquierda",
+            text: "Movimientos once y doce: Escolta a la derecha o izquierda se utiliza sobre la marcha para cambiar de dirección con un giro de noventa grados a una cadencia de ciento veinte pasos por minuto. Se realiza en ocho tiempos y en el tiempo nueve se inicia la marcha; empieza y termina con desplante del pie izquierdo y se ejecuta sin braceo. El guardia dos o el comandante sirven de eje según la dirección. Por escolta a la derecha o izquierda es idéntico, en ocho tiempos y al nueve inicia la marcha sin braceo, pero partiendo desde la posición de firmes."
+          },
+          {
+            heading: "13 y 14. Paso Redoblado y Alto",
+            text: "Movimiento trece: Paso redoblado. A la voz preventiva se realiza una semiflexión de la rodilla izquierda y leve inclinación del cuerpo al frente, cargando el peso en la pierna derecha. A la voz ejecutiva se inicia con un desplante al frente con toda la planta del pie izquierdo extendido a un máximo de cuarenta y cinco grados. La velocidad es de ciento veinte pasos por minuto. El braceo se ejecuta en ángulo de noventa grados sin rebasar la altura de los hombros, con dedos extendidos y palmas hacia adentro. Movimiento catorce: Alto. Se detiene la marcha con un desplante de máximo cuarenta y cinco grados con pie izquierdo y se une el derecho. Al hacer alto, el abanderado saca el asta de la cuja y la baja hasta que el regatón toque el suelo a diez centímetros a la altura de la punta del pie derecho, excepto en el protocolo de entrega de bandera donde el asta permanece en la cuja."
+          }
+        ]
+      },
+      {
+        id: 5,
+        title: "5. Evoluciones: Abrir/Cerrar, Descanso y Columnas",
+        subtitle: "Páginas 8 a 11 • Abrir escolta (9 tiempos), Descanso, Columna por 2 y por 1, Paso corto",
+        durationEst: "5 min",
+        defaultFormation: "col2",
+        highlights: [
+          { label: "Abrir / Cerrar", value: "9 tiempos (sin flancos)" },
+          { label: "En Descanso", value: "Solo G3 y G4 descansan" },
+          { label: "Paso Corto", value: "35 cm • 120 PPM (sin braceo)" },
+          { label: "Columnas ×2 y ×1", value: "8 tiempos (sin desencujar)" }
+        ],
+        segments: [
+          {
+            heading: "15 y 16. Abrir y Cerrar Escolta (9 Tiempos)",
+            text: "Movimiento quince: Abrir escolta, sin flancos. Tiempos uno y dos: todos dan desplante con pierna izquierda y unen talón derecho haciendo alto. Tiempos tres y cuatro: el abanderado marca el paso en su lugar; guardia dos y cuatro dan un paso de costado a la izquierda; guardia uno, tres y comandante dan un paso de costado a la derecha. Tiempos cinco y seis: el comandante da un paso más de costado a la derecha mientras los demás marcan el paso. Tiempos siete y ocho: los seis integrantes marcan el paso en su lugar. Tiempo nueve: inician la marcha con desplante del pie izquierdo. Movimiento dieciséis: Cerrar escolta. Se realiza exactamente a la inversa en nueve tiempos y sin flancos."
+          },
+          {
+            heading: "17. Posición de Descanso y Escolta en Descanso",
+            text: "Movimiento diecisiete: Escolta en descanso. Atención a este detalle clave: a la orden de ¡ESCOLTA! ¡EN DESCANSO! ¡YA!, el abanderado baja el asta colocándola en el piso a diez centímetros a la derecha de la punta de su pie derecho. Únicamente los guardias tres y cuatro adoptan la posición de descanso, separando el pie izquierdo al ancho de los hombros y tomando la muñeca derecha empuñada con la mano izquierda al frente. El comandante y los guardias uno y dos continúan en posición de firmes. Al ordenar ¡ESCOLTA! ¡FIRMES! ¡YA!, los guardias tres y cuatro vuelven a firmes y el abanderado sube el asta a la cuja."
+          },
+          {
+            heading: "18 y 19. Columna por Dos e Integración",
+            text: "Movimiento dieciocho: Columna por dos, en ocho tiempos y sin flancos, acortando el paso. El guardia uno acorta el paso en diagonal a la derecha para colocarse frente al comandante; el guardia dos avanza en paso corto para colocarse delante del abanderado; los guardias tres y cuatro se integran atrás del abanderado y del comandante. El abanderado sirve de referencia y no desencuja el asta. Movimiento diecinueve: De columna por dos a integración de escolta. Tiempos uno y dos, desplante y acortan el paso; tiempos tres y cuatro, los guardias uno, dos, tres y cuatro se desplazan en diagonal a la izquierda mientras abanderado y comandante avanzan en paso corto; tiempos cinco al ocho, todos avanzan en paso corto; tiempo nueve, desplante al frente."
+          },
+          {
+            heading: "20 y 21. Paso Corto y Marcar el Paso",
+            text: "Movimiento veinte: Paso corto. Orden: ¡ACORTAR EL PASO! ¡YA!, suprimiendo la voz de advertencia. Se realiza desplante con pie izquierdo y se marcha alternando elevación de rodillas sin rebasar la cadera, con una longitud de treinta y cinco centímetros y cadencia de ciento veinte pasos por minuto, brazos caídos con naturalidad a los costados. Movimiento veintiuno: Marcar el paso. Orden: ¡MARCAR EL PASO! ¡YA! Al sentar el pie izquierdo en tierra se detiene la marcha uniendo el pie derecho, y luego se levanta la pierna izquierda extendida al frente a cuarenta y cinco grados con la punta hacia abajo, alternando con la elevación del talón del pie derecho."
+          },
+          {
+            heading: "22 a 26. Columna por Uno, Integración y Romper Formación",
+            text: "Movimiento veintidós: Columna por uno, en ocho tiempos con paso corto y tiempo nueve para avanzar en paso redoblado. El orden de adelante hacia atrás queda así: primero el Comandante, segundo Guardia uno, tercero Abanderado sin desencujar el asta, cuarto Guardia dos, quinto Guardia tres y sexto Guardia cuatro. Movimiento veintitrés: Integrar escolta desde columna por uno, en ocho tiempos en paso corto: comandante y guardia uno acortan paso en diagonal a la derecha esperando al abanderado sin desplazarse hacia atrás, guardia dos en diagonal a la izquierda, y guardias tres y cuatro detrás de guardia uno y dos. Finalmente, tras el Alto por escolta a la derecha y entrega de asta, el comandante pide permiso diciendo: Se ha concluido con nuestro recorrido, solicito permiso para retirar la escolta, y ordena: ¡ATENCIÓN ESCOLTA! ¡ROMPER LA FORMACIÓN! ¡YA!"
+          }
+        ]
+      },
+      {
+        id: 6,
+        title: "6. Rutina Obligatoria del Concurso Estatal (41 Pasos)",
+        subtitle: "Páginas 12 a 14 • Secuencia íntegra en cancha de 15 × 28 metros",
+        durationEst: "4.5 min",
+        defaultFormation: "oficial",
+        highlights: [
+          { label: "Total Evoluciones", value: "41 evoluciones oficiales" },
+          { label: "Medidas Cancha", value: "15 m ancho × 28 m largo" },
+          { label: "Giros 360°", value: "Pasos 7 y 9 (Der e Izq)" },
+          { label: "Columnas", value: "Paso 26 (×2) y Paso 34 (×1)" }
+        ],
+        segments: [
+          {
+            heading: "Bloque 1 (Pasos 1 al 10): Inicio, Costados y Giros de 360°",
+            text: "La rutina obligatoria para el Concurso Estatal de Escoltas de Bandera 2026-2027 se desarrolla en una cancha de básquetbol de quince metros de ancho por veintiocho metros de largo. Memoriza el primer bloque del uno al diez en el punto inicial: Uno, Solicitar permiso. Dos, Atención Alinear escolta, ¡Ya! Tres, Escolta saludar, ¡Ya! Cuatro, Recibimiento de asta. Cinco, Escolta paso de costado a la derecha, ¡Ya!, alto, ¡Ya! Seis, Escolta paso de costado a la izquierda, ¡Ya!, alto, ¡Ya! Siete, Escolta conversión a la derecha trescientos sesenta grados, ¡Ya! Ocho, Alto, ¡Ya! Nueve, Escolta conversión a la izquierda trescientos sesenta grados, ¡Ya! Diez, Alto, ¡Ya!"
+          },
+          {
+            heading: "Bloque 2 (Pasos 11 al 21): Inicio de Marcha, Abrir/Cerrar y Descanso",
+            text: "Segundo bloque, del paso once al veintiuno: Once, Por escolta a la derecha, ¡Ya! Doce, Escolta a la derecha, ¡Ya! Trece, Conversión a la derecha ciento ochenta grados, ¡Ya! Catorce, Escolta a la izquierda, ¡Ya! Quince, Abrir escolta, ¡Ya! Dieciséis, Cerrar escolta, ¡Ya! Diecisiete, Conversión a la izquierda ciento ochenta grados, ¡Ya! Dieciocho, Paso redoblado, ¡Ya! Diecinueve, Alto por escolta a la izquierda, ¡Ya! Veinte, Escolta en descanso, ¡Ya! Veintiuno, Firmes, ¡Ya!"
+          },
+          {
+            heading: "Bloque 3 (Pasos 22 al 33): Columna por Dos, Paso Corto y Marcar el Paso",
+            text: "Tercer bloque, del paso veintidós al treinta y tres: Veintidós, Por escolta a la izquierda, ¡Ya! Veintitrés, Escolta a la izquierda, ¡Ya! Veinticuatro, Conversión a la izquierda ciento ochenta grados, ¡Ya! Veinticinco, Escolta a la derecha, ¡Ya! Veintiséis, Columna por dos, ¡Ya! Veintisiete, Integrar escolta, ¡Ya! Veintiocho, Conversión a la izquierda ciento ochenta grados, ¡Ya! Veintinueve, Acortar el paso, ¡Ya! Treinta, Paso redoblado, ¡Ya! Treinta y uno, Marcar el paso, ¡Ya! Treinta y dos, Conversión a la izquierda ciento ochenta grados, ¡Ya! Treinta y tres, Paso redoblado, ¡Ya!"
+          },
+          {
+            heading: "Bloque 4 (Pasos 34 al 41): Columna por Uno, Entrega y Cierre",
+            text: "Cuarto bloque final, del paso treinta y cuatro al cuarenta y uno: Treinta y cuatro, Columna por uno, ¡Ya! Treinta y cinco, Integrar escolta, ¡Ya! Treinta y seis, Conversión a la derecha ciento ochenta grados, ¡Ya! Treinta y siete, Paso redoblado, ¡Ya! Treinta y ocho, Alto por escolta a la derecha, ¡Ya! Treinta y nueve, Entrega de asta. Cuarenta, Solicitar permiso para retirarse. Cuarenta y uno, Romper formación."
+          }
+        ]
+      },
+      {
+        id: 7,
+        title: "7. Ley del Escudo, la Bandera y el Himno (Efemérides)",
+        subtitle: "Páginas 15 a 17 • Artículos 15, 18 y 21: Fechas a Toda Asta y Media Asta",
+        durationEst: "4.5 min",
+        defaultFormation: "oficial",
+        highlights: [
+          { label: "Artículos Ley", value: "Arts. 15, 18 y 21 (DOF 2018)" },
+          { label: "Honores Escolares", value: "Lunes, inicio y fin de ciclo" },
+          { label: "Toda Asta", value: "Festividades y natalicios" },
+          { label: "Media Asta", value: "Aniversarios luctuosos (13 fechas)" }
+        ],
+        segments: [
+          {
+            heading: "Artículos 15 y 21: Obligatoriedad en Escuelas",
+            text: "Anexos legales: Según la Ley sobre el Escudo, la Bandera y el Himno Nacionales, el Artículo quince establece que en los edificios de las autoridades e instituciones que prestan servicios educativos, deberán rendirse honores a la Bandera Nacional los lunes al inicio de las labores escolares, así como al inicio y fin del ciclo escolar. El Artículo veintiuno establece que es obligatorio para todos los planteles educativos del país, oficiales o particulares, poseer una Bandera Nacional."
+          },
+          {
+            heading: "Artículo 18 Fracción I: Fechas Principales a Toda Asta (Enero a Junio)",
+            text: "La Bandera se iza a toda asta en celebraciones y natalicios. De enero a junio destacan: veintiuno de enero, natalicio de Ignacio Allende en mil setecientos sesenta y nueve; veintiséis de enero, natalicio de Justo Sierra en mil ochocientos cuarenta y ocho; cinco de febrero, promulgación de las Constituciones de mil ochocientos cincuenta y siete y mil novecientos diecisiete; diecinueve de febrero, Día del Ejército Mexicano; veinticuatro de febrero, Día de la Bandera; primero de marzo, Plan de Ayutla; dieciocho de marzo, Expropiación Petrolera en mil novecientos treinta y ocho; veintiuno de marzo, natalicio de Benito Juárez en mil ochocientos seis; veintiséis de marzo, Plan de Guadalupe en mil novecientos trece; dos de abril, Toma de Puebla; primero de mayo, Día del Trabajo; cinco de mayo, Victoria de Puebla en mil ochocientos sesenta y dos; ocho de mayo, natalicio de Miguel Hidalgo en mil setecientos cincuenta y tres; quince de mayo, Toma de Querétaro; primero de junio, Día de la Marina Nacional; y veintiuno de junio, Victoria de las armas nacionales sobre el Imperio en mil ochocientos sesenta y siete."
+          },
+          {
+            heading: "Artículo 18 Fracción I: Fechas a Toda Asta (Septiembre a Diciembre)",
+            text: "De septiembre a diciembre se iza a toda asta el: once de septiembre, Victoria en Tampico; catorce de septiembre, Incorporación de Chiapas al Pacto Federal; quince de septiembre, Grito de Independencia; dieciséis de septiembre, Inicio de la Independencia en mil ochocientos diez; veintisiete de septiembre, Consumación de la Independencia en mil ochocientos veintiuno; treinta de septiembre, natalicio de José María Morelos en mil setecientos sesenta y cinco; doce de octubre, Día de la Raza; veintidós de octubre, constitución del Ejército Insurgente Libertador; veintitrés de octubre, Día Nacional de la Aviación; veinticuatro de octubre, Día de las Naciones Unidas; treinta de octubre, natalicio de Francisco I. Madero en mil ochocientos setenta y tres; seis de noviembre, Acta de Independencia de Chilpancingo; veinte de noviembre, inicio de la Revolución Mexicana en mil novecientos diez; veintitrés de noviembre, Día de la Armada de México; y veintinueve de diciembre, natalicio de Venustiano Carranza en mil ochocientos cincuenta y nueve."
+          },
+          {
+            heading: "Artículo 18 Fracción II: Las 13 Fechas a Media Asta (Duelo Nacional)",
+            text: "La Bandera se iza a media asta en trece fechas luctuosas: catorce de febrero, muerte de Vicente Guerrero; veintidós de febrero, muerte de Francisco I. Madero en mil novecientos trece; veintiocho de febrero, muerte de Cuauhtémoc en mil quinientos veinticinco; diez de abril, muerte de Emiliano Zapata en mil novecientos diecinueve; veintiuno de abril, gesta heroica de la Defensa del Puerto de Veracruz en mil novecientos catorce; veintiuno de mayo, muerte de Venustiano Carranza en mil novecientos veinte; diecisiete de julio, muerte de Álvaro Obregón; dieciocho de julio, muerte de Benito Juárez en mil ochocientos setenta y dos; treinta de julio, muerte de Miguel Hidalgo en mil ochocientos once; trece de septiembre, sacrificio de los Niños Héroes de Chapultepec en mil ochocientos cuarenta y siete; dos de octubre, caídos en la lucha por la democracia en Tlatelolco en mil novecientos sesenta y ocho; siete de octubre, sacrificio del senador Belisario Domínguez en mil novecientos trece; y veintidós de diciembre, muerte de José María Morelos en mil ochocientos quince."
+          }
+        ]
+      },
+      {
+        id: 8,
+        title: "8. Ceremonias Cívicas, Izamiento y Toma de Protesta",
+        subtitle: "Páginas 17 a 19 • Toda asta vs. media asta, ceremonia de lunes y cambio de escolta",
+        durationEst: "4 min",
+        defaultFormation: "oficial",
+        highlights: [
+          { label: "Quién Iza", value: "Máxima autoridad educativa" },
+          { label: "Posición al Izar", value: "Saludo con toque de Bandera" },
+          { label: "Cambio de Escolta", value: "3 a 5 pasos de distancia" },
+          { label: "Aplausos", value: "Solo al iniciar el Acto Social" }
+        ],
+        segments: [
+          {
+            heading: "Protocolo para Izar Bandera a Toda Asta y a Media Asta",
+            text: "En el izamiento de bandera: la escolta transporta la bandera plegada directamente hacia el mástil mientras todos permanecen en firmes. La bandera debe ser izada por la máxima autoridad educativa presente. Al ser izada se realiza el toque de Bandera y los presentes permanecen en posición de saludo hasta terminar el ascenso; luego adoptan firmes para entonar el Himno Nacional. Cuando se iza a media asta, la bandera asciende primero hasta la parte más alta y luego desciende hasta quedar ubicada a la mitad, permaneciendo todos en saludo hasta terminar el descenso."
+          },
+          {
+            heading: "Ceremonia Cívica Semanal de los Lunes (7 puntos)",
+            text: "El programa oficial sugerido para la ceremonia de los lunes consta de siete pasos: Primero, bienvenida e introducción al acto. Segundo, honores a nuestra Bandera con recepción y recorrido con toque de bandera hasta el lugar de honor. Tercero, Juramento a la Bandera. Cuarto, Himno Nacional entonado en posición de firmes. Quinto, salida de la Bandera con recorrido a la inversa y entrega. Sexto, término del Acto Cívico. Séptimo, inicio del Acto Social para efemérides, bailables o poesía, momento en que los presentes ya podrán aplaudir."
+          },
+          {
+            heading: "Ceremonia de Fin de Curso y Cambio de Escolta",
+            text: "En la ceremonia de fin de curso, la escolta saliente hace alto en el lugar de honor y la escolta entrante se coloca frente a la saliente a una distancia de tres a cinco pasos. La máxima autoridad pasa a recibir la bandera de la escolta que entrega, saludando antes de recibirla, y se da la orden de saludar a todos los presentes para realizar la Toma de Protesta."
+          },
+          {
+            heading: "Palabras Exactas de la Toma de Protesta",
+            text: "En la Toma de Protesta, la máxima autoridad dice: Ciudadanos, jóvenes, niños o alumnos: Vengo en nombre de México, a encomendar a su patriotismo, esta Bandera que simboliza su independencia, su honor, sus instituciones y la integridad de su territorio. ¿Protestan honrarla y defenderla con lealtad y constancia? Los integrantes de la escolta, desde la posición de saludo, elevan su brazo derecho al frente con la palma hacia abajo y responden con voz enérgica: ¡SÍ PROTESTO!, volviendo de inmediato al saludo. La autoridad prosigue: Al concederles el honor de ponerla en sus manos, la patria confía en que, como buenos y leales mexicanos, sabrán cumplir su protesta. Finalmente, la abanderada que recibe dice: Al recibir esta bandera contraemos una gran responsabilidad con la patria, prometemos ser fieles y leales a los principios que la patria nos marque. El comandante ordena firmes, ¡ya!"
+          }
+        ]
+      }
+    ];
+
+    // ============================================================================
+    // DATA: LAS 41 EVOLUCIONES DE LA RUTINA OBLIGATORIA (PÁG. 12)
+    // ============================================================================
+    const ROUTINE_41 = [
+      { n: 1, cmd: "Solicitar permiso (para realizar evoluciones)", bpm: 0, note: "Voz clara y enérgica hacia el Juez Principal (J.P.)." },
+      { n: 2, cmd: "Atención Alinear escolta, ¡Ya!", bpm: 0, note: "Intervalo lateral; G3 y G4 dan 3 pasos al regresar y media vuelta a pie firme." },
+      { n: 3, cmd: "Escolta saludar, ¡Ya!", bpm: 0, note: "Saludo en 2 tiempos sosteniendo ~2 segundos en el pecho." },
+      { n: 4, cmd: "Recibimiento de asta", bpm: 0, note: "Guardia de reserva entrega; abanderado encuja en 4 tiempos." },
+      { n: 5, cmd: "Escolta paso de costado a la derecha, ¡Ya!, alto, ¡Ya!", bpm: 60, note: "Longitud 25 cm, cadencia 60 PPM, mínimo 6 pasos. Asta sube 5 cm." },
+      { n: 6, cmd: "Escolta paso de costado a la izquierda, ¡Ya!, alto, ¡Ya!", bpm: 60, note: "Misma cantidad de pasos que a la derecha, sin flexionar rodillas." },
+      { n: 7, cmd: "Escolta conversión a la derecha (360°), ¡Ya!", bpm: 120, note: "Giro completo de 360° sobre eje derecho, sin braceo." },
+      { n: 8, cmd: "Alto, ¡Ya!", bpm: 0, note: "Abanderado baja el asta a 10 cm del suelo junto a la punta del pie derecho." },
+      { n: 9, cmd: "Escolta Conversión a la izquierda (360°), ¡Ya!", bpm: 120, note: "Giro completo de 360° sobre eje izquierdo, sin braceo." },
+      { n: 10, cmd: "Alto, ¡Ya!", bpm: 0, note: "Desplante izquierdo a 45° y unión de talón derecho; baja el asta." },
+      { n: 11, cmd: "Por Escolta a la derecha, ¡Ya!", bpm: 120, note: "Partiendo de firmes, giro de 90° en 8 tiempos y al 9 inicia marcha." },
+      { n: 12, cmd: "Escolta a la derecha, ¡Ya!", bpm: 120, note: "Sobre la marcha, giro de 90° en 8 tiempos y al 9 continúa marcha." },
+      { n: 13, cmd: "Conversión a la derecha (180°), ¡Ya!", bpm: 120, note: "Media vuelta por conversión a la derecha (180°), sin braceo." },
+      { n: 14, cmd: "Escolta a la izquierda, ¡Ya!", bpm: 120, note: "Giro de 90° a la izquierda en 8 tiempos y al 9 inicia marcha." },
+      { n: 15, cmd: "Abrir Escolta, ¡Ya!", bpm: 120, note: "9 tiempos sin flancos: T1-2 alto, T3-4 costados, T5-6 C da otro paso, T7-8 paso, T9 marcha." },
+      { n: 16, cmd: "Cerrar Escolta, ¡Ya!", bpm: 120, note: "9 tiempos a la inversa sin flancos para retomar formación oficial." },
+      { n: 17, cmd: "Conversión a la izquierda (180°), ¡Ya!", bpm: 120, note: "Giro de 180° a la izquierda sobre el eje." },
+      { n: 18, cmd: "Paso redoblado, ¡Ya!", bpm: 120, note: "Continúa la marcha a 120 PPM con braceo a 90°." },
+      { n: 19, cmd: "Alto por Escolta a la izquierda, ¡Ya!", bpm: 120, note: "Giro de 90° a la izquierda quedando en alto; abanderado baja el asta." },
+      { n: 20, cmd: "Escolta en descanso, ¡Ya!", bpm: 0, note: "Solo G3 y G4 adoptan descanso; C, G1 y G2 siguen en firmes; asta en piso a 10 cm." },
+      { n: 21, cmd: "Firmes, ¡Ya!", bpm: 0, note: "G3 y G4 unen pie izquierdo; abanderado sube el asta a la cuja en 5 tiempos." },
+      { n: 22, cmd: "Por Escolta a la izquierda, ¡Ya!", bpm: 120, note: "Desde firmes, 8 tiempos de giro a la izquierda y en el 9 inicia marcha." },
+      { n: 23, cmd: "Escolta a la izquierda, ¡Ya!", bpm: 120, note: "Giro sobre la marcha de 90° a la izquierda en 8 tiempos." },
+      { n: 24, cmd: "Conversión a la izquierda (180°), ¡Ya!", bpm: 120, note: "Rotación de 180° a la izquierda sin braceo." },
+      { n: 25, cmd: "Escolta a la derecha, ¡Ya!", bpm: 120, note: "Giro de 90° a la derecha en 8 tiempos y salida al tiempo 9." },
+      { n: 26, cmd: "Columna por dos, ¡Ya!", bpm: 120, note: "8 tiempos acortando el paso sin desencujar: G2 y G1 al frente, A y C en medio, G4 y G3 atrás." },
+      { n: 27, cmd: "Integrar escolta, ¡Ya!", bpm: 120, note: "9 tiempos: guardias se abren en diagonal a la izquierda en T3-4; T9 desplante." },
+      { n: 28, cmd: "Conversión a la izquierda (180°), ¡Ya!", bpm: 120, note: "Giro de 180° a la izquierda sobre la marcha." },
+      { n: 29, cmd: "Acortar el paso ¡Ya!", bpm: 120, note: "Paso corto de 35 cm a 120 PPM elevando rodillas sin rebasar cadera, sin voz de advertencia." },
+      { n: 30, cmd: "Paso redoblado, ¡Ya!", bpm: 120, note: "Retoma paso redoblado normal con braceo a 90°." },
+      { n: 31, cmd: "Marcar el paso, ¡Ya!", bpm: 120, note: "Detiene avance y eleva pierna izquierda extendida a 45° alternando con talón derecho." },
+      { n: 32, cmd: "Conversión a la izquierda (180°), ¡Ya!", bpm: 120, note: "Giro de 180° a la izquierda sin braceo." },
+      { n: 33, cmd: "Paso redoblado, ¡Ya!", bpm: 120, note: "Continúa avance en paso redoblado a 120 PPM." },
+      { n: 34, cmd: "Columna por uno, ¡Ya!", bpm: 120, note: "8 tiempos en paso corto y T9 redoblado: fila india C, G1, A, G2, G3, G4." },
+      { n: 35, cmd: "Integrar escolta, ¡Ya!", bpm: 120, note: "8 tiempos en paso corto alineándose con el abanderado sin retroceder." },
+      { n: 36, cmd: "Conversión a la derecha (180°), ¡Ya!", bpm: 120, note: "Giro de 180° a la derecha." },
+      { n: 37, cmd: "Paso redoblado, ¡Ya!", bpm: 120, note: "Avance final hacia el punto de cierre." },
+      { n: 38, cmd: "Alto por Escolta a la derecha, ¡Ya!", bpm: 120, note: "Quedan frente al Juez Principal listos para protocolo de entrega." },
+      { n: 39, cmd: "Entrega de asta", bpm: 0, note: "Guardia de reserva recibe el asta; escolta saluda en 2 tiempos sostenidos." },
+      { n: 40, cmd: "Solicitar permiso para retirarse", bpm: 0, note: "“Se ha concluido con nuestro recorrido, solicito permiso para retirar la escolta”." },
+      { n: 41, cmd: "Romper formación", bpm: 0, note: "¡ATENCIÓN ESCOLTA! ¡ROMPER LA FORMACIÓN! ¡YA! Desplante izquierdo y dispersión." }
+    ];
+
+    // ============================================================================
+    // DATA: TARJETAS DE MEMORIA (FLASHCARDS)
+    // ============================================================================
+    const FLASHCARDS_DATA = [
+      { cat: "Integración", q: "¿Cuántos elementos integran oficialmente la escolta de bandera y cuántos de reserva?", a: "Seis elementos titulares (1 abanderado, 1 comandante y 4 guardias) y 2 elementos de reserva." },
+      { cat: "Voces de Mando", q: "¿Cuándo se utiliza únicamente la voz de advertencia «¡Atención escolta!»?", a: "Únicamente para iniciar un recorrido. Durante el recorrido solo se utiliza «¡Atención!» o «¡Escolta!»." },
+      { cat: "Posición de Firmes", q: "¿Qué ángulo deben formar las puntas de los pies en la posición de firmes?", a: "Un ángulo de 45 grados, manteniendo los talones unidos y en la misma línea." },
+      { cat: "Alinear Escolta", q: "¿Qué movimiento realizan los guardias 3 y 4 a la voz ejecutiva ¡YA! al alinear la escolta?", a: "Dan 3 pasos al frente, hacen alto y dan media vuelta a pie firme (sin braceo) para quedar en posición de firmes." },
+      { cat: "Saludo", q: "¿En cuántos tiempos se realiza el saludo a la bandera y cuánto tiempo se sostiene en el pecho?", a: "Se realiza en 2 tiempos, sosteniendo la mano en el pecho aproximadamente 2 segundos." },
+      { cat: "Recibimiento de Asta", q: "¿Cuáles son los 4 tiempos para que el abanderado reciba el asta y la coloque en la cuja?", a: "1) Extensión de brazos y toma del asta (derecha arriba, izquierda abajo). 2) Jalón enérgico al hombro. 3) Entrada a la cuja. 4) Mano izquierda a su costado." },
+      { cat: "Manejo del Asta", q: "¿En cuántos tiempos se baja y se sube el asta de la bandera?", a: "Tanto para bajar el asta como para subirla se emplean 5 tiempos, manteniendo siempre el asta vertical." },
+      { cat: "Paso de Costado", q: "¿Cuál es la longitud de paso, la cadencia y el número de pasos en el paso de costado?", a: "Longitud de 25 cm, cadencia de 60 pasos por minuto, para recorrer de 6 a 15 pasos (mínimo 6 pasos)." },
+      { cat: "Escolta Der/Izq", q: "¿En cuántos tiempos se ejecuta «Escolta a la derecha o izquierda» y a qué cadencia?", a: "En 8 tiempos y en el tiempo 9 se inicia la marcha, con un giro de 90° a una cadencia de 120 pasos por minuto y sin braceo." },
+      { cat: "Paso Redoblado", q: "¿Cuál es la cadencia y el ángulo de braceo en el paso redoblado?", a: "Cadencia de 120 pasos por minuto y braceo natural en ángulo de 90° sin rebasar la altura de los hombros." },
+      { cat: "Alto", q: "Al hacer alto, ¿a qué distancia del suelo o del pie coloca el abanderado el regatón del asta?", a: "El regatón toca el suelo a 10 cm, a la altura de la punta del pie derecho (excepto en el protocolo de entrega de bandera)." },
+      { cat: "Abrir Escolta", q: "¿En cuántos tiempos se realiza la evolución de «Abrir Escolta» y qué pasa en los tiempos 5 y 6?", a: "En 9 tiempos (sin flancos). En los tiempos 5 y 6 únicamente el comandante da un paso más de costado a la derecha mientras los demás marcan el paso." },
+      { cat: "Escolta en Descanso", q: "En «Escolta en Descanso», ¿quiénes adoptan la posición de descanso y quiénes siguen en firmes?", a: "Solo los guardias 3 y 4 adoptan la posición de descanso; el comandante y los guardias 1 y 2 continúan en posición de firmes." },
+      { cat: "Columna por Dos", q: "¿Cómo quedan formadas las 3 parejas en «Columna por Dos»?", a: "Al frente Guardia 2 (izquierda) y Guardia 1 (derecha); en medio Abanderado y Comandante; atrás Guardia 4 y Guardia 3. Se hace en 8 tiempos." },
+      { cat: "Paso Corto", q: "¿Cuál es la longitud, cadencia y voz de mando del Paso Corto?", a: "Longitud de 35 cm, cadencia de 120 pasos por minuto. La orden sobre la marcha es «¡ACORTAR EL PASO! ¡YA!» suprimiendo la voz de advertencia." },
+      { cat: "Columna por Uno", q: "¿Cuál es el orden de adelante hacia atrás en «Columna por Uno»?", a: "1° Comandante, 2° Guardia 1, 3° Abanderado, 4° Guardia 2, 5° Guardia 3 y 6° Guardia 4 (en 8 tiempos y al 9 paso redoblado)." },
+      { cat: "Concurso Estatal", q: "¿Cuáles son las medidas reglamentarias de la cancha para la rutina obligatoria de 41 evoluciones?", a: "15 metros de ancho por 28 metros de largo (medidas estándar de una cancha de básquetbol)." },
+      { cat: "Izamiento", q: "¿Cómo se iza la Bandera Nacional cuando corresponde a Media Asta?", a: "Asciende primero hasta la parte más alta del mástil y luego desciende hasta quedar ubicada a la mitad, mientras todos permanecen en saludo." },
+      { cat: "Cambio de Escolta", q: "En la ceremonia de fin de curso, ¿a qué distancia se coloca la escolta entrante frente a la saliente?", a: "A una distancia aproximada de 3 a 5 pasos frente a la escolta saliente." },
+      { cat: "Toma de Protesta", q: "¿Qué hacen los integrantes de la escolta al responder «¡SÍ PROTESTO!»?", a: "Partiendo de la posición de saludo, elevan su brazo derecho al frente con la palma hacia abajo, responden con voz enérgica y vuelven de inmediato al saludo." }
+    ];
+
+    // ============================================================================
+    // DATA: EXAMEN AUDITIVO (12 PREGUNTAS DE OPCIÓN MÚLTIPLE)
+    // ============================================================================
+    const QUIZ_DATA = [
+      {
+        q: "1. ¿En qué momento se utiliza la voz de advertencia «¡Atención escolta!»?",
+        options: [
+          "Antes de cada evolución durante todo el recorrido",
+          "Únicamente para iniciar un recorrido",
+          "Solamente para ordenar paso redoblado y alto",
+          "Únicamente al romper la formación"
+        ],
+        correct: 1,
+        explanation: "El manual especifica en su nota de la página 2 que «Atención escolta» únicamente se utiliza para iniciar un recorrido; durante el mismo se utiliza «atención» o «escolta»."
+      },
+      {
+        q: "2. ¿En cuántos tiempos coloca el abanderado el asta en la cuja durante el Recibimiento de Asta?",
+        options: [
+          "En 2 tiempos",
+          "En 3 tiempos",
+          "En 4 tiempos",
+          "En 5 tiempos"
+        ],
+        correct: 2,
+        explanation: "El recibimiento de asta se realiza en 4 tiempos: 1) Extensión de brazos y toma, 2) Jalón enérgico al hombro, 3) Entrada a la cuja, y 4) Mano izquierda al costado. (Subir o bajar el asta al piso son 5 tiempos)."
+      },
+      {
+        q: "3. ¿Cuál es la longitud del paso y la cadencia en el Paso de Costado?",
+        options: [
+          "25 cm y 60 pasos por minuto",
+          "35 cm y 120 pasos por minuto",
+          "25 cm y 120 pasos por minuto",
+          "30 cm y 60 pasos por minuto"
+        ],
+        correct: 0,
+        explanation: "El paso de costado se ejecuta a una longitud de 25 cm y cadencia de 60 pasos por minuto, recorriendo de 6 a 15 pasos (mínimo 6)."
+      },
+      {
+        q: "4. En la orden «¡Escolta en descanso, Ya!», ¿quiénes adoptan la posición de descanso?",
+        options: [
+          "Los 6 integrantes de la escolta",
+          "Todos excepto el abanderado",
+          "Únicamente los guardias 3 y 4 (comandante y guardias 1 y 2 siguen en firmes)",
+          "Los guardias 1, 2, 3 y 4"
+        ],
+        correct: 2,
+        explanation: "En Escolta en Descanso (pág. 7), el abanderado baja el asta a 10 cm del pie derecho, solo los guardias 3 y 4 adoptan la posición de descanso, y el comandante y guardias 1 y 2 continúan en firmes."
+      },
+      {
+        q: "5. ¿Qué ocurre en los tiempos 5 y 6 de la evolución «Abrir Escolta»?",
+        options: [
+          "Todos los guardias dan un paso de costado",
+          "El comandante da un paso más de costado a la derecha y los demás marcan el paso",
+          "Los 6 integrantes marcan el paso en su lugar",
+          "Inician la marcha con desplante del pie izquierdo"
+        ],
+        correct: 1,
+        explanation: "En Abrir Escolta (9 tiempos): T1-2 alto, T3-4 abren guardias y comandante, T5-6 el comandante da un paso más de costado a la derecha mientras los demás marcan el paso, T7-8 todos marcan paso, T9 desplante."
+      },
+      {
+        q: "6. ¿Cuál es el orden correcto de adelante hacia atrás en «Columna por Uno»?",
+        options: [
+          "Abanderado, Comandante, G1, G2, G3, G4",
+          "Comandante, G1, Abanderado, G2, G3, G4",
+          "G1, G2, Abanderado, Comandante, G3, G4",
+          "Comandante, Abanderado, G1, G2, G3, G4"
+        ],
+        correct: 1,
+        explanation: "En Columna por Uno (pág. 9), el comandante va al frente, seguido por Guardia 1 delante del Abanderado, y detrás del abanderado van Guardia 2, Guardia 3 y Guardia 4."
+      },
+      {
+        q: "7. ¿Cuál es la longitud del paso y la cadencia en el Paso Corto?",
+        options: [
+          "25 cm y 60 pasos por minuto",
+          "35 cm y 120 pasos por minuto",
+          "45 cm y 120 pasos por minuto",
+          "35 cm y 90 pasos por minuto"
+        ],
+        correct: 1,
+        explanation: "El paso corto (pág. 9) tiene una longitud de 35 cm y cadencia de 120 pasos por minuto, alternando elevación de rodillas sin rebasar la altura de la cadera."
+      },
+      {
+        q: "8. ¿Cuáles son las dimensiones de la cancha para la Rutina Obligatoria Estatal 2026-2027?",
+        options: [
+          "10 metros de ancho por 20 metros de largo",
+          "15 metros de ancho por 28 metros de largo",
+          "18 metros de ancho por 30 metros de largo",
+          "12 metros de ancho por 24 metros de largo"
+        ],
+        correct: 1,
+        explanation: "La nota aclaratoria de la página 11 establece un espacio de 15 metros de ancho por 28 metros de largo (medidas estándar de una cancha de básquetbol)."
+      },
+      {
+        q: "9. En la Rutina Obligatoria de 41 pasos, ¿qué evoluciones se realizan en los números 7 y 9?",
+        options: [
+          "Paso de costado a la derecha y a la izquierda",
+          "Abrir escolta y Cerrar escolta",
+          "Conversión a la derecha (360°) y Conversión a la izquierda (360°)",
+          "Columna por dos y Columna por uno"
+        ],
+        correct: 2,
+        explanation: "En la rutina obligatoria: el paso 7 es Conversión a la derecha (360°), el paso 8 es Alto, el paso 9 es Conversión a la izquierda (360°) y el paso 10 es Alto."
+      },
+      {
+        q: "10. Según el Artículo 18 de la Ley, ¿en cuál de las siguientes fechas se iza la Bandera a MEDIA ASTA?",
+        options: [
+          "21 de marzo (Natalicio de Benito Juárez)",
+          "18 de julio (Aniversario de la muerte de Benito Juárez)",
+          "30 de octubre (Natalicio de Francisco I. Madero)",
+          "18 de marzo (Expropiación Petrolera)"
+        ],
+        correct: 1,
+        explanation: "Los aniversarios luctuosos (como el 18 de julio, muerte de Benito Juárez en 1872, o el 22 de febrero, muerte de Francisco I. Madero) se izan a media asta; los natalicios se izan a toda asta."
+      },
+      {
+        q: "11. ¿Quién debe izar la Bandera Nacional en las ceremonias cívicas escolares?",
+        options: [
+          "El comandante de la escolta",
+          "El abanderado saliente",
+          "La máxima autoridad educativa presente",
+          "El guardia 1 de la escolta"
+        ],
+        correct: 2,
+        explanation: "En la página 16 (Izar bandera a toda asta, punto 3) se indica que la bandera deberá ser izada por la máxima autoridad educativa presente."
+      },
+      {
+        q: "12. En la Ceremonia Cívica Semanal de los lunes, ¿a partir de qué punto pueden aplaudir los presentes?",
+        options: [
+          "Al terminar el Himno Nacional",
+          "Al entregar la bandera en la cuja",
+          "En el punto 7: Inicio del Acto Social (efemérides, bailables, poesía)",
+          "Después del Juramento a la Bandera"
+        ],
+        correct: 2,
+        explanation: "El punto 7 de la Ceremonia Cívica Semanal (pág. 17) señala que al iniciar el Acto Social (efemérides, bailables, poesía, etc.) los presentes ya podrán aplaudir."
+      }
+    ];
+
+    // ============================================================================
+    // APPLICATION STATE
+    // ============================================================================
+    // ============================================================================
+    // DATA: PODCAST CONVERSACIONAL (6 EPISODIOS ENTRE SOFÍA Y EL PROFE MARCO)
+    // ============================================================================
+    const PODCAST_EPISODES = [
+      {
+        id: 1,
+        title: "Ep. 1: El ADN de la Escolta y las Voces de Mando",
+        desc: "Cómo se integra la escolta, el error clásico de «¡Atención escolta!», posición de firmes y cómo alinear.",
+        duration: "4 min",
+        lines: [
+          { speaker: "Sofía", text: "¡Hola! Qué gusto que nos acompañes en este podcast de estudio. Hoy vamos a desmenuzar todo el Manual Escolar de Escoltas de Bandera de Coahuila dos mil veintiséis, dos mil veintisiete. Y para eso está conmigo el profe Marco. ¿Cómo estás, Marco?" },
+          { speaker: "Marco", text: "¡Qué tal, Sofía! Todo excelente. Listísimo para platicar de este manual de la Secretaría de Educación de Coahuila, que sigue los principios de la Nueva Escuela Mexicana y los artículos tercero, treinta y uno y setenta y tres constitucionales. La idea es que mientras nos escuchas puedas aprenderte cada detalle sin sentir que estás leyendo un reglamento rígido." },
+          { speaker: "Sofía", text: "¡Me encanta! A ver, empecemos por lo básico que siempre preguntan: ¿cuántos integrantes conforman oficialmente la escolta y cómo se acomodan?" },
+          { speaker: "Marco", text: "Mira, es súper fácil de visualizar: son seis elementos titulares y dos más de reserva, ya sea en escolta varonil, femenil o mixta. Los seis titulares se acomodan en dos filas que encuadran al abanderado. En la fila de adelante, viendo de derecha a izquierda de la propia escolta, van cuatro: el Comandante en el extremo derecho, luego el Guardia uno, luego el Abanderado y en el extremo izquierdo el Guardia dos." },
+          { speaker: "Sofía", text: "O sea, cuatro adelante: Comandante, Guardia uno, Abanderado y Guardia dos. ¿Y quiénes van atrás?" },
+          { speaker: "Marco", text: "Exactamente detrás del Guardia uno se coloca el Guardia tres, y detrás del Guardia dos va el Guardia cuatro. Detrás del comandante y del abanderado no va nadie en la formación oficial. Y ojo: todos deben presentarse limpios, bien peinados y portando su uniforme con gallardía." },
+          { speaker: "Sofía", text: "Oye, Marco, hablemos de las voces de mando. Son tres: la voz de advertencia, la preventiva y la ejecutiva que es el famoso ¡YA! Pero el manual trae una nota que es pregunta segura de examen sobre la frase «¡Atención escolta!»." },
+          { speaker: "Marco", text: "¡Totalmente! Ese es el error número uno en los concursos. La voz de advertencia «¡Atención escolta!» únicamente se utiliza para iniciar un recorrido. Una vez que la escolta ya inició el recorrido, el comandante solo debe usar «¡Atención!» o «¡Escolta!», procurando no abusar de la voz de atención y haciendo siempre una pequeña pausa antes de la voz ejecutiva ¡YA!" },
+          { speaker: "Sofía", text: "¡Anotadísimo! Solo al inicio del recorrido se dice «Atención escolta». ¿Y qué detalles debemos cuidar en la posición de firmes y al solicitar permiso?" },
+          { speaker: "Marco", text: "En firmes, recuerda: talones unidos, puntas de los pies separadas en un ángulo de cuarenta y cinco grados, piernas rígidas, tronco erguido, hombros atrás en una misma línea y los dedos juntos tocando con el dedo índice la costura del pantalón o falda. Y para empezar, el comandante mira al juez principal y dice con voz clara y enérgica: «Buenos días, soy el comandante de la escolta de la Escuela Primaria o Secundaria tal, solicito permiso para realizar las evoluciones»." },
+          { speaker: "Sofía", text: "Y justo después viene «Alinear escolta». ¿Qué hace cada quien ahí?" },
+          { speaker: "Marco", text: "Imagínalo así: el abanderado no se mueve para nada, él es la referencia en firmes. A la voz preventiva de alinear, el comandante y el guardia uno levantan su brazo izquierdo a la altura del hombro rozando el hombro del compañero de su izquierda. El guardia dos levanta su brazo derecho para rozar el hombro del abanderado. Mientras tanto, los guardias tres y cuatro avanzan al frente a discreción y dan media vuelta quedando de espaldas a los guardias uno y dos. Y cuando el comandante dice ¡YA!, los de adelante bajan el brazo a firmes y los guardias tres y cuatro dan exactamente tres pasos al frente, hacen alto y dan media vuelta a pie firme sin braceo, que es un giro de ciento ochenta grados a la derecha tras un desplante izquierdo a cuarenta y cinco grados." }
+        ]
+      },
+      {
+        id: 2,
+        title: "Ep. 2: El Arte del Asta Bandera y el Saludo",
+        desc: "Saludo en 2 tiempos, recibimiento en 4 tiempos, entrega y cómo subir o bajar el asta en 5 tiempos.",
+        duration: "4 min",
+        lines: [
+          { speaker: "Sofía", text: "Pasemos al segundo episodio, Marco. Ya alineamos a la escolta y ahora toca saludar y recibir nuestra Bandera. ¿Cómo debe verse un saludo impecable según el manual?" },
+          { speaker: "Marco", text: "El saludo se hace en dos tiempos a la orden de «¡Escolta, saludar, ya!». En el primer tiempo, la mano derecha sube rapidísimo por la trayectoria más corta hasta el pecho, a la altura del corazón. El detalle fino está aquí: la punta del dedo pulgar toca el pectoral izquierdo, los dedos van juntos con la palma hacia abajo, y el dedo medio, la muñeca y el codo derecho deben formar una línea totalmente horizontal." },
+          { speaker: "Sofía", text: "¿Y cuánto tiempo se quedan así antes de bajar la mano?" },
+          { speaker: "Marco", text: "Aproximadamente dos segundos. Y luego, en el segundo tiempo, la mano derecha regresa a la posición de firmes dibujando una trayectoria semicircular hasta rozar la pierna derecha." },
+          { speaker: "Sofía", text: "Ahora viene un punto donde muchos se confunden con los números de tiempos: ¿cuántos tiempos son para recibir el asta y meterla en la cuja?" },
+          { speaker: "Marco", text: "¡Excelente pregunta! Para el Recibimiento de Asta son exactamente cuatro tiempos. Cuando el guardia de reserva entrega el asta, el abanderado hace: Tiempo uno, extiende ambos brazos y toma el asta con la mano derecha arriba y la izquierda abajo. Tiempo dos, da un jalón enérgico hacia el hombro. Tiempo tres, introduce el regatón en la cuja, que va sobre la cadera derecha. Y tiempo cuatro, baja la mano izquierda a su costado." },
+          { speaker: "Sofía", text: "¡Cuatro tiempos para recibirla! Derecha arriba e izquierda abajo al recibir. ¿Pero qué pasa al final del recorrido en la Entrega de Asta?" },
+          { speaker: "Marco", text: "En la entrega de asta las manos se invierten: paso uno, brazo izquierdo arriba y brazo derecho abajo. Paso dos, extensión de brazos para entregarla al guardia de reserva. Paso tres, manos vuelven a firmes. Paso cuatro, saluda sosteniendo dos segundos. Y paso cinco, media vuelta para retirarse después de que el comandante ordena a toda la escolta saludar en dos tiempos." },
+          { speaker: "Sofía", text: "Oye, ¿y cuántos tiempos son para bajar el asta al piso cuando hacen alto o descanso, y para volverla a subir a la cuja?" },
+          { speaker: "Marco", text: "Ahí cambia el número: tanto para bajar el asta como para subir el asta son cinco tiempos, manteniendo el asta siempre vertical. Para bajarla: uno, mano izquierda toma el asta entre la cuja y la mano derecha; dos, se saca de la cuja; tres, mano izquierda pasa arriba de la derecha bajando un poco el asta; cuatro, mano derecha pasa arriba de la izquierda a la altura del pecho apoyando el regatón en el piso; y cinco, posición de firmes. Y para subirla son otros cinco tiempos invirtiendo el cruce de manos hasta encujar en el tiempo cuatro y bajar la mano izquierda en el tiempo cinco." }
+        ]
+      },
+      {
+        id: 3,
+        title: "Ep. 3: Costados, Conversiones, Giros y Paso Redoblado",
+        desc: "Medidas y cadencias exactas: 60 PPM vs 120 PPM, giros en 8 tiempos y el regatón a 10 cm del suelo.",
+        duration: "4.5 min",
+        lines: [
+          { speaker: "Sofía", text: "Episodio tres: ¡empieza el movimiento! A mí siempre me gusta agrupar las medidas y velocidades para no revolverme. Empecemos con el paso de costado a la derecha o a la izquierda." },
+          { speaker: "Marco", text: "Te doy los cuatro números mágicos del paso de costado: sirve para distancias de seis a quince pasos, con un mínimo obligatorio de seis pasos. Cada paso mide veinticinco centímetros de longitud y se ejecuta a una cadencia de sesenta pasos por minuto, sin flexionar las rodillas." },
+          { speaker: "Sofía", text: "Veinticinco centímetros y sesenta pasos por minuto. ¿Y qué hace el abanderado para no arrastrar el asta si está en el suelo?" },
+          { speaker: "Marco", text: "¡Buenísimo! A la voz preventiva, el abanderado eleva el asta unos cinco centímetros del suelo con la mano derecha, y a la voz ejecutiva inician el desplazamiento lateral. Para detenerse, el comandante manda «¡Alto, ya!» justo cuando toca tierra el pie contrario al costado hacia donde van, dan un paso más para unir talones sin golpear, y listo: no se dan dos pasos excedentes. Además, deben dar la misma cantidad de pasos a la derecha que a la izquierda." },
+          { speaker: "Sofía", text: "¿Y cuál es la diferencia entre una «Conversión» y «Escolta a la derecha o izquierda»?" },
+          { speaker: "Marco", text: "Mira qué fácil: la Conversión es un giro indefinido, puede ser de ciento ochenta o de trescientos sesenta grados. Inicia con desplante izquierdo y van girando en círculo sin braceo alrededor de un eje hasta que el comandante ordene alto, paso redoblado o acortar el paso. En cambio, «Escolta a la derecha o izquierda» es un giro exacto de noventa grados que dura ocho tiempos, y en el tiempo nueve inician la marcha con desplante izquierdo." },
+          { speaker: "Sofía", text: "O sea, «Escolta a la derecha» es sobre la marcha en ocho tiempos y al nueve salen caminando, todo sin braceo a ciento veinte pasos por minuto. ¿Y «Por escolta a la derecha»?" },
+          { speaker: "Marco", text: "Es exactamente el mismo giro de noventa grados en ocho tiempos y salida al tiempo nueve sin braceo, con la única diferencia de que «Por escolta» parte desde la posición de firmes." },
+          { speaker: "Sofía", text: "Hablemos ahora del paso reina: el Paso Redoblado y el Alto." },
+          { speaker: "Marco", text: "En el paso redoblado, a la voz preventiva flexionas ligeramente la rodilla izquierda e inclinas levemente el tronco al frente cargando el peso en la pierna derecha. A la voz de ¡YA!, sales con desplante izquierdo a un máximo de cuarenta y cinco grados. La velocidad es de ciento veinte pasos por minuto, y el braceo va a noventa grados sin pasar la altura de los hombros, con dedos extendidos y palmas hacia adentro. Y cuando mandan «¡Escolta, alto, ya!», hacen alto con desplante izquierdo y el abanderado baja el asta para que el regatón toque el suelo a diez centímetros a la altura de la punta de su pie derecho." }
+        ]
+      },
+      {
+        id: 4,
+        title: "Ep. 4: Abrir Escolta, la Trampa del Descanso y Columnas",
+        desc: "Abrir escolta en 9 tiempos, por qué solo G3 y G4 descansan, paso corto de 35 cm y columnas.",
+        duration: "4.5 min",
+        lines: [
+          { speaker: "Sofía", text: "Llegamos al cuarto episodio, donde están las evoluciones más vistosas del concurso: Abrir escolta, Escolta en descanso y las Columnas. Marco, ¿cómo se cuenta «Abrir escolta» sin equivocarse?" },
+          { speaker: "Marco", text: "Abrir escolta dura nueve tiempos y se hace sin flancos, es decir, sin girar el cuerpo. Tiempos uno y dos: todos hacen desplante izquierdo y unen pie derecho como haciendo alto. Tiempos tres y cuatro: el abanderado marca el paso en su lugar; los guardias dos y cuatro dan un paso de costado a la izquierda; y los guardias uno, tres y el comandante dan un paso de costado a la derecha." },
+          { speaker: "Sofía", text: "Ajá, pero el comandante necesita abrirse un paso más porque está en la orilla, ¿cierto?" },
+          { speaker: "Marco", text: "¡Exacto! Para eso son los tiempos cinco y seis: el comandante da un segundo paso de costado a la derecha mientras los otros cinco marcan el paso en su lugar. Luego, en los tiempos siete y ocho, los seis integrantes marcan el paso en su lugar, y en el tiempo nueve todos inician la marcha con desplante del pie izquierdo. Para «Cerrar escolta» se hace exactamente lo mismo a la inversa en nueve tiempos." },
+          { speaker: "Sofía", text: "¡Clarísimo! Ahora cuéntanos la pregunta trampa favorita de todos los exámenes: «¡Escolta, en descanso, ya!»." },
+          { speaker: "Marco", text: "Pon mucha atención aquí: cuando el comandante ordena «¡Escolta, en descanso, ya!», NO descansan todos. El abanderado baja el asta al piso a diez centímetros de la punta de su pie derecho; y únicamente los guardias tres y cuatro adoptan la posición de descanso, separando el pie izquierdo al ancho de los hombros y tomando su muñeca derecha empuñada con la mano izquierda al frente. ¡El comandante y los guardias uno y dos se quedan en posición de firmes!" },
+          { speaker: "Sofía", text: "¡Qué buen dato! Solo la fila de atrás, guardias tres y cuatro, se pone en descanso; la fila de adelante sigue en firmes. ¿Y qué hay del Paso Corto y Marcar el Paso?" },
+          { speaker: "Marco", text: "El Paso Corto se ordena directamente sobre la marcha diciendo «¡Acortar el paso, ya!», suprimiendo la voz de advertencia. Mide treinta y cinco centímetros, mantiene la cadencia de ciento veinte pasos por minuto, se elevan las rodillas alternadamente sin rebasar la cadera y los brazos van caídos a los costados sin bracear. En cambio, en «¡Marcar el paso, ya!», ya no avanzas: detienes la marcha y levantas la pierna izquierda extendida al frente a cuarenta y cinco grados con la punta hacia abajo, alternando con la elevación del talón derecho." },
+          { speaker: "Sofía", text: "Por último en este episodio: Columna por dos y Columna por uno. ¿Cómo se acomodan?" },
+          { speaker: "Marco", text: "Ambas se hacen en ocho tiempos acortando el paso, sin flancos y sin desencujar el asta. En Columna por Dos quedan tres parejas: adelante van Guardia dos a la izquierda y Guardia uno a la derecha; en medio van Abanderado y Comandante; y atrás van Guardia cuatro y Guardia tres. Para volver a integrar escolta desde columna por dos son nueve tiempos. En cambio, en Columna por Uno forman una sola fila india de seis en ocho tiempos y al nueve salen en paso redoblado; el orden de adelante hacia atrás es: primero Comandante, segundo Guardia uno, tercero Abanderado, cuarto Guardia dos, quinto Guardia tres y sexto Guardia cuatro." }
+        ]
+      },
+      {
+        id: 5,
+        title: "Ep. 5: Recorrido Mental por la Rutina Obligatoria (41 Pasos)",
+        desc: "Cómo memorizar en 4 bloques las 41 evoluciones del Concurso Estatal en la cancha de 15 × 28 metros.",
+        duration: "4.5 min",
+        lines: [
+          { speaker: "Sofía", text: "Episodio cinco: el Concurso Estatal de Escoltas de Bandera dos mil veintiséis, dos mil veintisiete en Coahuila. La rutina obligatoria tiene cuarenta y un evoluciones en una cancha de básquetbol estándar de quince metros de ancho por veintiocho metros de largo. ¿Cómo nos recomiendas memorizar las cuarenta y una sin perdernos?" },
+          { speaker: "Marco", text: "El secreto es dividir la cancha en cuatro bloques mentales. El Bloque Uno va del paso uno al diez y ocurre sin salir todavía del punto de inicio: Uno, solicitar permiso; Dos, alinear escolta; Tres, saludar; Cuatro, recibimiento de asta; Cinco, paso de costado a la derecha y alto; Seis, paso de costado a la izquierda y alto; Siete, conversión a la derecha de trescientos sesenta grados; Ocho, alto; Nueve, conversión a la izquierda de trescientos sesenta grados; y Diez, alto." },
+          { speaker: "Sofía", text: "¡Oye, ese primer bloque del uno al diez es súper simétrico! Permiso, alinear, saludo, recibir asta, costado derecho, costado izquierdo, giro completo de trescientos sesenta a la derecha con su alto, y giro de trescientos sesenta a la izquierda con su alto. ¿Qué pasa en el Bloque Dos, del once al veintiuno?" },
+          { speaker: "Marco", text: "En el paso once arrancamos con «Por escolta a la derecha», subimos y en el doce hacemos «Escolta a la derecha». En la esquina superior derecha viene el trece: «Conversión a la derecha ciento ochenta grados», y luego el catorce: «Escolta a la izquierda» para bajar por la cancha. Mientras bajan hacen el quince, «Abrir escolta», y el dieciséis, «Cerrar escolta». En el diecisiete dan «Conversión a la izquierda ciento ochenta grados», dieciocho «Paso redoblado», y en el diecinueve hacen «Alto por escolta a la izquierda» para quedar en el centro y ejecutar el veinte, «Escolta en descanso», y veintiuno, «Firmes»." },
+          { speaker: "Sofía", text: "¡Qué fácil se entiende viendo el recorrido! Ahora estamos a mitad de cancha en firmes. ¿Cómo sigue el Bloque Tres, del veintidós al treinta y tres?" },
+          { speaker: "Marco", text: "Salimos en el veintidós con «Por escolta a la izquierda», veintitrés «Escolta a la izquierda», veinticuatro «Conversión a la izquierda ciento ochenta grados» y veinticinco «Escolta a la derecha». Subiendo por la derecha ejecutamos el veintiséis, «Columna por dos», y veintisiete, «Integrar escolta». Arriba damos en el veintiocho «Conversión a la izquierda ciento ochenta grados», luego veintinueve «Acortar el paso», treinta «Paso redoblado», treinta y uno «Marcar el paso», treinta y dos otra «Conversión a la izquierda ciento ochenta grados» y treinta y tres «Paso redoblado»." },
+          { speaker: "Sofía", text: "Y ya solo nos queda el cierre: el Bloque Cuatro, del treinta y cuatro al cuarenta y uno." },
+          { speaker: "Marco", text: "¡Exacto! En el treinta y cuatro hacemos «Columna por uno», treinta y cinco «Integrar escolta», treinta y seis «Conversión a la derecha ciento ochenta grados», treinta y siete «Paso redoblado», y llegamos al centro con el treinta y ocho: «Alto por escolta a la derecha». Ahí cerramos con treinta y nueve «Entrega de asta», cuarenta «Solicitar permiso para retirarse» y cuarenta y uno «Romper formación»." }
+        ]
+      },
+      {
+        id: 6,
+        title: "Ep. 6: Ley de la Bandera, Efemérides y Toma de Protesta",
+        desc: "Truco para distinguir fechas a Toda Asta vs. Media Asta, ceremonia del lunes y Toma de Protesta.",
+        duration: "4 min",
+        lines: [
+          { speaker: "Sofía", text: "Llegamos al sexto y último episodio de nuestro podcast: la Ley sobre el Escudo, la Bandera y el Himno Nacionales y los protocolos de ceremonias cívicas. Marco, ¿qué dicen los artículos quince y veintiuno?" },
+          { speaker: "Marco", text: "El artículo quince indica que en todas las escuelas deben rendirse honores a la Bandera Nacional los lunes al inicio de labores escolares, así como al inicio y fin del ciclo escolar. Y el artículo veintiuno establece que es obligatorio para todos los planteles del país, oficiales o particulares, poseer una Bandera Nacional." },
+          { speaker: "Sofía", text: "En el artículo dieciocho vienen decenas de fechas del calendario. ¿Cuál es el truco rápido para saber si una fecha va a Toda Asta o a Media Asta?" },
+          { speaker: "Marco", text: "¡El truco nunca falla! Se iza a Toda Asta en natalicios, promulgaciones de leyes, victorias militares y días festivos: por ejemplo, veintiuno de enero natalicio de Ignacio Allende, cinco de febrero Constitución, veinticuatro de febrero Día de la Bandera, dieciocho de marzo Expropiación Petrolera, veintiuno de marzo natalicio de Benito Juárez, cinco de mayo Batalla de Puebla, ocho de mayo natalicio de Miguel Hidalgo, quince y dieciséis de septiembre Independencia, o veinte de noviembre Revolución Mexicana." },
+          { speaker: "Sofía", text: "En cambio, a Media Asta son las trece fechas de duelo o aniversarios luctuosos, ¿verdad?" },
+          { speaker: "Marco", text: "¡Así es! Siempre que el manual diga «Aniversario de la muerte» o «sacrificio», va a Media Asta: como el catorce de febrero muerte de Vicente Guerrero, veintidós de febrero muerte de Francisco I. Madero, veintiocho de febrero muerte de Cuauhtémoc, diez de abril muerte de Emiliano Zapata, veintiuno de abril Defensa de Veracruz, veintiuno de mayo muerte de Venustiano Carranza, diecisiete de julio muerte de Álvaro Obregón, dieciocho de julio muerte de Benito Juárez, treinta de julio muerte de Miguel Hidalgo, trece de septiembre Niños Héroes, dos de octubre caídos en Tlatelolco, siete de octubre sacrificio de Belisario Domínguez y veintidós de diciembre muerte de Morelos." },
+          { speaker: "Sofía", text: "¿Y cómo es el protocolo cuando toca izar la bandera y cuando hay cambio de escolta a fin de curso?" },
+          { speaker: "Marco", text: "La bandera siempre la iza la máxima autoridad educativa presente mientras se toca Bandera y todos saludan. Si es a media asta, primero sube hasta el tope y luego baja a la mitad antes de pasar a firmes para el Himno Nacional. En los lunes cívicos, recuerda que los asistentes solo pueden aplaudir hasta el punto siete, cuando inicia el Acto Social. Y en el cambio de escolta de fin de curso, la escolta entrante se coloca de tres a cinco pasos frente a la saliente; cuando la autoridad pregunta si protestan honrarla y defenderla con lealtad y constancia, la escolta pasa del saludo a extender el brazo derecho al frente con palma hacia abajo gritando «¡SÍ PROTESTO!» y regresa de inmediato al saludo. ¡Con esto tienes dominado todo el manual!" }
+        ]
+      }
+    ];
+
+    let currentTab = "podcast";
+    let podCurrentEpIdx = 0;
+    let podCurrentLineIdx = 0;
+    let podIsPlaying = false;
+    let voiceSofiaURI = "";
+    let voiceMarcoURI = "";
+
+    let currentTrackIndex = 0;
+    let currentSegmentIndex = 0;
+    let isPlaying = false;
+    let speechRate = 1.0;
+    let selectedVoiceURI = "";
+    let availableVoices = [];
+    let completedTracks = new Set();
+    let activeFormation = "oficial";
+
+    // Routine auto-player & metronome state
+    let routineFilter = "all";
+    let routineAutoPlaying = false;
+    let currentRoutineIndex = 0;
+    let routineTimer = null;
+    let audioCtx = null;
+    let metronomeInterval = null;
+    let metronomeBpm = 0;
+    let metronomeBeatCount = 0;
+
+    // Flashcards state
+    let fcList = [...FLASHCARDS_DATA];
+    let fcIndex = 0;
+    let fcRevealed = false;
+    let fcHandsFree = false;
+    let fcTimer = null;
+
+    // Quiz state
+    let quizIndex = 0;
+    let quizScore = 0;
+    let quizAnsweredCount = 0;
+    let quizCurrentAnswered = false;
+
+    // ============================================================================
+    // WEB SPEECH API & WEB AUDIO API HELPERS
+    // ============================================================================
+    function ensureAudioCtx() {
+      if (!audioCtx) {
+        const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+        if (AudioContextClass) {
+          audioCtx = new AudioContextClass();
+        }
+      }
+      if (audioCtx && audioCtx.state === "suspended") {
+        audioCtx.resume();
+      }
+    }
+
+    function playChime(freq = 660, duration = 0.12, type = "sine") {
+      try {
+        ensureAudioCtx();
+        if (!audioCtx) return;
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = type;
+        osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+        gain.gain.setValueAtTime(0.14, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start();
+        osc.stop(audioCtx.currentTime + duration);
+      } catch (e) {}
+    }
+
+    function loadVoices() {
+      if (!("speechSynthesis" in window)) {
+        document.getElementById("ttsStatusBadge").textContent = "Navegador sin TTS";
+        return;
+      }
+      const rawVoices = window.speechSynthesis.getVoices() || [];
+      const esVoices = rawVoices.filter(v => v.lang && v.lang.toLowerCase().startsWith("es"));
+      availableVoices = esVoices.length > 0 ? esVoices : rawVoices;
+
+      const select = document.getElementById("voiceSelect");
+      const prevVal = select.value;
+      select.innerHTML = "";
+
+      if (availableVoices.length === 0) {
+        const opt = document.createElement("option");
+        opt.value = "";
+        opt.textContent = "Voz en español del sistema";
+        select.appendChild(opt);
+        return;
+      }
+
+      // Prioritize es-MX, then es-US, then es-ES
+      availableVoices.sort((a, b) => {
+        const score = v => {
+          const l = (v.lang || "").toLowerCase();
+          if (l.includes("es-mx") || l.includes("es_mx")) return 3;
+          if (l.includes("es-us") || l.includes("es-419")) return 2;
+          if (l.startsWith("es")) return 1;
+          return 0;
+        };
+        return score(b) - score(a);
+      });
+
+      availableVoices.forEach(v => {
+        const opt = document.createElement("option");
+        opt.value = v.voiceURI;
+        opt.textContent = `${v.name} (${v.lang})`;
+        select.appendChild(opt);
+      });
+
+      if (prevVal && availableVoices.some(v => v.voiceURI === prevVal)) {
+        select.value = prevVal;
+        selectedVoiceURI = prevVal;
+      } else {
+        select.value = availableVoices[0].voiceURI;
+        selectedVoiceURI = availableVoices[0].voiceURI;
+      }
+
+      // Populate Sofia & Marco selects
+      const sofiaSel = document.getElementById("voiceSofiaSelect");
+      const marcoSel = document.getElementById("voiceMarcoSelect");
+      if (sofiaSel && marcoSel) {
+        sofiaSel.innerHTML = "";
+        marcoSel.innerHTML = "";
+        availableVoices.forEach((v, i) => {
+          const o1 = document.createElement("option");
+          o1.value = v.voiceURI;
+          o1.textContent = `${v.name} (${v.lang})`;
+          sofiaSel.appendChild(o1);
+
+          const o2 = document.createElement("option");
+          o2.value = v.voiceURI;
+          o2.textContent = `${v.name} (${v.lang})`;
+          marcoSel.appendChild(o2);
+        });
+
+        // Try to pick female-sounding name for Sofia and male/second voice for Marco
+        const femIdx = availableVoices.findIndex(v => /paulina|sabina|helena|laura|monica|mónica|sofia|sofía|paloma|elvira|female|mujer|natural/i.test(v.name));
+        const maleIdx = availableVoices.findIndex((v, idx) => idx !== femIdx && /jorge|raul|raúl|pablo|carlos|diego|alvaro|álvaro|male|hombre/i.test(v.name));
+
+        const sIdx = femIdx >= 0 ? femIdx : 0;
+        const mIdx = maleIdx >= 0 ? maleIdx : (availableVoices.length > 1 ? (sIdx === 0 ? 1 : 0) : sIdx);
+
+        voiceSofiaURI = availableVoices[sIdx].voiceURI;
+        voiceMarcoURI = availableVoices[mIdx].voiceURI;
+        sofiaSel.value = voiceSofiaURI;
+        marcoSel.value = voiceMarcoURI;
+      }
+    }
+
+    if ("speechSynthesis" in window) {
+      loadVoices();
+      window.speechSynthesis.onvoiceschanged = loadVoices;
+    }
+
+    function speakText(text, onEndCallback) {
+      if (!("speechSynthesis" in window)) {
+        if (onEndCallback) setTimeout(onEndCallback, 1200);
+        return;
+      }
+      window.speechSynthesis.cancel();
+      const utter = new SpeechSynthesisUtterance(text);
+      utter.lang = "es-MX";
+      utter.rate = speechRate;
+      if (selectedVoiceURI) {
+        const found = availableVoices.find(v => v.voiceURI === selectedVoiceURI);
+        if (found) utter.voice = found;
+      }
+      utter.onend = () => {
+        if (onEndCallback) onEndCallback();
+      };
+      utter.onerror = () => {
+        if (onEndCallback) onEndCallback();
+      };
+      window.speechSynthesis.speak(utter);
+    }
+
+    // ============================================================================
+    // FORMATION SVG DIAGRAMS
+    // ============================================================================
+    function renderFormationDiagram(type) {
+      activeFormation = type;
+      document.querySelectorAll(".formation-btn").forEach(btn => {
+        if (btn.dataset.formation === type) {
+          btn.className = "formation-btn px-2.5 py-1 rounded text-xs font-medium bg-emerald-600 text-white";
+        } else {
+          btn.className = "formation-btn px-2.5 py-1 rounded text-xs font-medium bg-slate-800 text-slate-300 hover:bg-slate-700";
+        }
+      });
+
+      let nodes = [];
+      let caption = "";
+
+      if (type === "oficial") {
+        caption = "Formación Oficial (Pág. 2): Dos filas que encuadran al Abanderado (A). Fila 1: C, G1, A, G2. Fila 2: G3 detrás de G1 y G4 detrás de G2.";
+        nodes = [
+          { id: "C", label: "Comandante", x: 110, y: 75, color: "#059669" },
+          { id: "G1", label: "Guardia 1", x: 210, y: 75, color: "#2563eb" },
+          { id: "A", label: "Abanderado", x: 310, y: 75, color: "#e11d48", flag: true },
+          { id: "G2", label: "Guardia 2", x: 410, y: 75, color: "#2563eb" },
+          { id: "G3", label: "Guardia 3", x: 210, y: 155, color: "#475569" },
+          { id: "G4", label: "Guardia 4", x: 410, y: 155, color: "#475569" }
+        ];
+      } else if (type === "abrir") {
+        caption = "Abrir Escolta (Pág. 7, 9 tiempos): En T3-4 G2 y G4 dan 1 paso a la izquierda; G1, G3 y C dan 1 paso a la derecha. En T5-6 el Comandante (C) da 1 paso más a la derecha.";
+        nodes = [
+          { id: "C", label: "Comandante (+2 der)", x: 60, y: 75, color: "#059669" },
+          { id: "G1", label: "Guardia 1 (+1 der)", x: 175, y: 75, color: "#2563eb" },
+          { id: "A", label: "Abanderado (Centro)", x: 295, y: 75, color: "#e11d48", flag: true },
+          { id: "G2", label: "Guardia 2 (+1 izq)", x: 425, y: 75, color: "#2563eb" },
+          { id: "G3", label: "Guardia 3 (+1 der)", x: 175, y: 155, color: "#475569" },
+          { id: "G4", label: "Guardia 4 (+1 izq)", x: 425, y: 155, color: "#475569" }
+        ];
+      } else if (type === "descanso") {
+        caption = "Escolta en Descanso (Pág. 7): El Abanderado baja el asta al piso (a 10 cm del pie derecho). SOLO G3 y G4 adoptan posición de descanso; C, G1 y G2 permanecen en FIRMES.";
+        nodes = [
+          { id: "C", label: "EN FIRMES", x: 110, y: 75, color: "#059669" },
+          { id: "G1", label: "EN FIRMES", x: 210, y: 75, color: "#2563eb" },
+          { id: "A", label: "Asta al piso (10cm)", x: 310, y: 75, color: "#e11d48", flag: true },
+          { id: "G2", label: "EN FIRMES", x: 410, y: 75, color: "#2563eb" },
+          { id: "G3", label: "EN DESCANSO", x: 210, y: 155, color: "#d97706" },
+          { id: "G4", label: "EN DESCANSO", x: 410, y: 155, color: "#d97706" }
+        ];
+      } else if (type === "col2") {
+        caption = "Columna por Dos (Pág. 8, 8 tiempos): G2 se coloca delante de A; G1 se coloca delante de C; G4 y G3 se integran atrás de A y C.";
+        nodes = [
+          { id: "G2", label: "Adelante de A", x: 210, y: 45, color: "#2563eb" },
+          { id: "G1", label: "Adelante de C", x: 320, y: 45, color: "#2563eb" },
+          { id: "A", label: "Abanderado", x: 210, y: 110, color: "#e11d48", flag: true },
+          { id: "C", label: "Comandante", x: 320, y: 110, color: "#059669" },
+          { id: "G4", label: "Atrás de A", x: 210, y: 175, color: "#475569" },
+          { id: "G3", label: "Atrás de C", x: 320, y: 175, color: "#475569" }
+        ];
+      } else if (type === "col1") {
+        caption = "Columna por Uno (Pág. 9, 8 tiempos + T9 paso redoblado): Fila individual encabezada por C, seguido de G1, A, G2, G3 y G4.";
+        nodes = [
+          { id: "C", label: "1° Frente", x: 90, y: 110, color: "#059669" },
+          { id: "G1", label: "2°", x: 168, y: 110, color: "#2563eb" },
+          { id: "A", label: "3° Bandera", x: 246, y: 110, color: "#e11d48", flag: true },
+          { id: "G2", label: "4°", x: 324, y: 110, color: "#2563eb" },
+          { id: "G3", label: "5°", x: 402, y: 110, color: "#475569" },
+          { id: "G4", label: "6° Final", x: 475, y: 110, color: "#475569" }
+        ];
+      }
+
+      const directionLabel = type === "col1" ? "← Dirección de avance (Frente a la izquierda)" : "↑ Frente de la Escolta (Vista al frente)";
+
+      const svgNodes = nodes.map(n => `
+        <g transform="translate(${n.x}, ${n.y})">
+          <circle r="22" fill="${n.color}" stroke="#f8fafc" stroke-width="2" />
+          ${n.flag ? `<circle r="27" fill="none" stroke="#fbbf24" stroke-width="2" stroke-dasharray="4 2" />` : ""}
+          <text y="5" text-anchor="middle" fill="#ffffff" font-size="13" font-weight="800">${n.id}</text>
+          <text y="36" text-anchor="middle" fill="#cbd5e1" font-size="10" font-weight="600">${n.label}</text>
+        </g>
+      `).join("");
+
+      document.getElementById("formationSvgContainer").innerHTML = `
+        <div class="text-[11px] font-semibold text-emerald-400 mb-1">${directionLabel}</div>
+        <svg viewBox="0 0 540 215" class="w-full max-w-xl h-auto bg-slate-900/90 rounded-xl border border-slate-800">
+          ${svgNodes}
+        </svg>
+        <p class="text-xs text-slate-300 mt-2.5 text-center max-w-xl">${caption}</p>
+      `;
+    }
+
+    // ============================================================================
+    // AUDIOGUÍA RENDERING & PLAYBACK
+    // ============================================================================
+    function renderTrackList() {
+      const container = document.getElementById("trackListContainer");
+      container.innerHTML = "";
+      STUDY_TRACKS.forEach((track, idx) => {
+        const isCurrent = idx === currentTrackIndex;
+        const isDone = completedTracks.has(track.id);
+        const btn = document.createElement("button");
+        btn.className = `w-full text-left p-3 rounded-xl border transition flex items-start justify-between gap-2 ${
+          isCurrent
+            ? "bg-emerald-950/50 border-emerald-500/60 shadow-md"
+            : "bg-slate-900 border-slate-800 hover:bg-slate-800/70"
+        }`;
+        btn.innerHTML = `
+          <div class="min-w-0">
+            <div class="flex items-center gap-1.5">
+              <span class="text-[11px] font-bold px-1.5 py-0.5 rounded ${
+                isCurrent ? "bg-emerald-500 text-slate-950" : "bg-slate-800 text-slate-400"
+              }">Módulo ${track.id}</span>
+              <span class="text-[11px] text-slate-400">${track.durationEst}</span>
+              ${isDone ? `<span class="text-[11px] text-emerald-400 font-bold">✓</span>` : ""}
+            </div>
+            <div class="text-xs sm:text-sm font-bold text-white mt-1 truncate">${track.title}</div>
+            <div class="text-[11px] text-slate-400 truncate mt-0.5">${track.subtitle}</div>
+          </div>
+          <span class="text-xs px-2 py-1 rounded-lg ${
+            isCurrent && isPlaying ? "bg-emerald-500 text-slate-950 font-bold pulse-ring" : "bg-slate-800 text-slate-300"
+          }">${isCurrent && isPlaying ? "🔊" : "▶"}</span>
+        `;
+        btn.addEventListener("click", () => {
+          selectTrack(idx, true);
+        });
+        container.appendChild(btn);
+      });
+      document.getElementById("completedTracksCount").textContent = `${completedTracks.size}/${STUDY_TRACKS.length} estudiadas`;
+    }
+
+    function renderActiveTrack() {
+      const track = STUDY_TRACKS[currentTrackIndex];
+      document.getElementById("activeTrackNumber").textContent = `Módulo ${track.id} de ${STUDY_TRACKS.length} • ${track.durationEst}`;
+      document.getElementById("activeTrackTitle").textContent = track.title;
+      document.getElementById("activeTrackSubtitle").textContent = track.subtitle;
+
+      const hlContainer = document.getElementById("activeTrackHighlights");
+      hlContainer.innerHTML = track.highlights.map(h => `
+        <div class="bg-slate-950 border border-slate-800/90 rounded-xl p-2.5">
+          <div class="text-[10px] font-bold uppercase tracking-wider text-slate-400">${h.label}</div>
+          <div class="text-xs sm:text-sm font-bold text-emerald-300 mt-0.5">${h.value}</div>
+        </div>
+      `).join("");
+
+      renderFormationDiagram(track.defaultFormation || "oficial");
+      renderSegments();
+      updateBottomPlayerUI();
+    }
+
+    function renderSegments() {
+      const track = STUDY_TRACKS[currentTrackIndex];
+      const segContainer = document.getElementById("segmentsContainer");
+      segContainer.innerHTML = "";
+
+      track.segments.forEach((seg, sIdx) => {
+        const active = sIdx === currentSegmentIndex;
+        const div = document.createElement("div");
+        div.id = `seg-card-${sIdx}`;
+        div.className = `p-3.5 rounded-xl border transition cursor-pointer ${
+          active
+            ? "segment-active border-emerald-500/40"
+            : "bg-slate-950/70 border-slate-800/80 hover:border-slate-700"
+        }`;
+        div.innerHTML = `
+          <div class="flex items-center justify-between gap-2 mb-1">
+            <span class="text-xs font-bold ${active ? "text-emerald-300" : "text-slate-300"}">${sIdx + 1}. ${seg.heading}</span>
+            <span class="text-[11px] px-2 py-0.5 rounded ${
+              active && isPlaying ? "bg-emerald-500 text-slate-950 font-bold" : "bg-slate-800 text-slate-400"
+            }">${active && isPlaying ? "Narrando..." : "Escuchar"}</span>
+          </div>
+          <p class="text-xs sm:text-sm leading-relaxed ${active ? "text-white font-medium" : "text-slate-300"}">${seg.text}</p>
+        `;
+        div.addEventListener("click", () => {
+          currentSegmentIndex = sIdx;
+          startPlayback();
+        });
+        segContainer.appendChild(div);
+      });
+
+      document.getElementById("segmentProgressLabel").textContent = `Párrafo ${currentSegmentIndex + 1} de ${track.segments.length}`;
+    }
+
+    function updateBottomPlayerUI() {
+      const track = STUDY_TRACKS[currentTrackIndex];
+      const seg = track.segments[currentSegmentIndex] || track.segments[0];
+      const totalSegs = track.segments.length;
+      const pct = Math.round(((currentSegmentIndex + 1) / totalSegs) * 100);
+
+      document.getElementById("playerCurrentSegIndex").textContent = `0${currentSegmentIndex + 1}/0${totalSegs}`;
+      document.getElementById("playerProgressBarFill").style.width = `${pct}%`;
+      document.getElementById("playerNowPlayingTitle").textContent = track.title;
+      document.getElementById("playerNowPlayingSnippet").textContent = `${seg.heading}: ${seg.text}`;
+
+      const playIcon = document.getElementById("playerPlayPauseIcon");
+      const playLabel = document.getElementById("playerPlayPauseLabel");
+      const stateText = document.getElementById("playerStateText");
+      const liveDot = document.getElementById("playerLiveIndicator");
+      const topBtn = document.getElementById("playCurrentTrackBtn");
+
+      if (isPlaying) {
+        playIcon.textContent = "⏸";
+        playLabel.textContent = "Pausar";
+        stateText.textContent = `Narrando (${speechRate}x)`;
+        liveDot.className = "w-2.5 h-2.5 rounded-full bg-emerald-400 pulse-ring shrink-0";
+        topBtn.innerHTML = "<span>⏸ Pausar módulo</span>";
+      } else {
+        playIcon.textContent = "▶";
+        playLabel.textContent = "Reproducir";
+        stateText.textContent = "En pausa";
+        liveDot.className = "w-2.5 h-2.5 rounded-full bg-slate-600 shrink-0";
+        topBtn.innerHTML = "<span>▶ Escuchar módulo</span>";
+      }
+    }
+
+    function selectTrack(index, autoPlay = false) {
+      stopRoutineAuto();
+      currentTrackIndex = index;
+      currentSegmentIndex = 0;
+      renderTrackList();
+      renderActiveTrack();
+      if (autoPlay) {
+        startPlayback();
+      } else {
+        pausePlayback();
+      }
+    }
+
+    function startPlayback() {
+      stopRoutineAuto();
+      isPlaying = true;
+      const track = STUDY_TRACKS[currentTrackIndex];
+      const seg = track.segments[currentSegmentIndex];
+      renderTrackList();
+      renderSegments();
+      updateBottomPlayerUI();
+
+      const activeCard = document.getElementById(`seg-card-${currentSegmentIndex}`);
+      if (activeCard) {
+        activeCard.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      }
+
+      speakText(`${seg.heading}. ${seg.text}`, () => {
+        if (!isPlaying) return;
+        if (currentSegmentIndex < track.segments.length - 1) {
+          currentSegmentIndex++;
+          startPlayback();
+        } else {
+          completedTracks.add(track.id);
+          playChime(880, 0.18, "triangle");
+          const autoNext = document.getElementById("autoNextTrackToggle").checked;
+          if (autoNext && currentTrackIndex < STUDY_TRACKS.length - 1) {
+            currentTrackIndex++;
+            currentSegmentIndex = 0;
+            renderTrackList();
+            renderActiveTrack();
+            startPlayback();
+          } else {
+            isPlaying = false;
+            renderTrackList();
+            renderSegments();
+            updateBottomPlayerUI();
+          }
+        }
+      });
+    }
+
+    function pausePlayback() {
+      isPlaying = false;
+      if ("speechSynthesis" in window) {
+        window.speechSynthesis.cancel();
+      }
+      renderTrackList();
+      renderSegments();
+      updateBottomPlayerUI();
+    }
+
+    // ============================================================================
+    // TAB 2: RUTINA OBLIGATORIA 41 PASOS + METRÓNOMO
+    // ============================================================================
+    function startMetronome(bpm) {
+      stopMetronome();
+      metronomeBpm = bpm;
+      metronomeBeatCount = 0;
+      ensureAudioCtx();
+      const intervalMs = Math.round(60000 / bpm);
+      const badge = document.getElementById("metronomeVisualBeat");
+
+      const tick = () => {
+        metronomeBeatCount = (metronomeBeatCount % 4) + 1;
+        const isDownbeat = metronomeBeatCount === 1;
+        playChime(isDownbeat ? 920 : 580, 0.06, "triangle");
+        badge.textContent = `${metronomeBeatCount}`;
+        badge.className = `w-9 h-9 rounded-full flex items-center justify-center font-bold text-xs transition ${
+          isDownbeat
+            ? "bg-emerald-500 text-slate-950 scale-110"
+            : "bg-slate-800 text-emerald-300 border border-emerald-500/40"
+        }`;
+      };
+
+      tick();
+      metronomeInterval = setInterval(tick, intervalMs);
+    }
+
+    function stopMetronome() {
+      if (metronomeInterval) {
+        clearInterval(metronomeInterval);
+        metronomeInterval = null;
+      }
+      metronomeBpm = 0;
+      const badge = document.getElementById("metronomeVisualBeat");
+      if (badge) {
+        badge.textContent = "PPM";
+        badge.className = "w-9 h-9 rounded-full bg-slate-800 border-2 border-slate-600 flex items-center justify-center font-bold text-xs text-emerald-400";
+      }
+    }
+
+    function renderRoutineGrid() {
+      const grid = document.getElementById("routineGrid");
+      grid.innerHTML = "";
+
+      const filtered = ROUTINE_41.filter(item => {
+        if (routineFilter === "all") return true;
+        const [min, max] = routineFilter.split("-").map(Number);
+        return item.n >= min && item.n <= max;
+      });
+
+      filtered.forEach(item => {
+        const isCurrent = routineAutoPlaying && ROUTINE_41[currentRoutineIndex].n === item.n;
+        const card = document.createElement("div");
+        card.id = `routine-step-${item.n}`;
+        card.className = `p-3 rounded-xl border transition cursor-pointer flex flex-col justify-between ${
+          isCurrent
+            ? "bg-emerald-950/60 border-emerald-500 shadow-lg"
+            : "bg-slate-950 border-slate-800 hover:border-slate-700"
+        }`;
+        card.innerHTML = `
+          <div>
+            <div class="flex items-center justify-between gap-2 mb-1">
+              <span class="text-xs font-extrabold px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">Paso #${item.n}</span>
+              <span class="text-[11px] font-medium px-2 py-0.5 rounded bg-slate-900 text-slate-400 border border-slate-800">
+                ${item.bpm > 0 ? `${item.bpm} PPM` : "A pie firme"}
+              </span>
+            </div>
+            <div class="text-sm font-bold text-white mt-1">${item.cmd}</div>
+            <p class="text-xs text-slate-400 mt-1 leading-relaxed">${item.note}</p>
+          </div>
+          <div class="mt-2.5 pt-2 border-t border-slate-900 flex items-center justify-between">
+            <span class="text-[11px] text-emerald-400 font-semibold">🔊 Escuchar orden y técnica</span>
+            <span class="text-xs text-slate-400">▶</span>
+          </div>
+        `;
+        card.addEventListener("click", () => {
+          stopRoutineAuto();
+          pausePlayback();
+          document.getElementById("routineActiveStepLabel").textContent = `Reproduciendo evolución #${item.n}: ${item.cmd}`;
+          playChime(740, 0.1, "sine");
+          speakText(`Evolución número ${item.n}. ${item.cmd}. ${item.note}`);
+        });
+        grid.appendChild(card);
+      });
+    }
+
+    function playRoutineStepAuto() {
+      if (!routineAutoPlaying) return;
+      if (currentRoutineIndex >= ROUTINE_41.length) {
+        stopRoutineAuto();
+        return;
+      }
+      const item = ROUTINE_41[currentRoutineIndex];
+      renderRoutineGrid();
+      const el = document.getElementById(`routine-step-${item.n}`);
+      if (el) el.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      document.getElementById("routineActiveStepLabel").textContent = `Dictando paso ${item.n} de 41: ${item.cmd}`;
+
+      playChime(820, 0.09, "triangle");
+      speakText(`Paso ${item.n}. ${item.cmd}. ${item.note}`, () => {
+        if (!routineAutoPlaying) return;
+        routineTimer = setTimeout(() => {
+          currentRoutineIndex++;
+          playRoutineStepAuto();
+        }, 650);
+      });
+    }
+
+    function stopRoutineAuto() {
+      routineAutoPlaying = false;
+      if (routineTimer) {
+        clearTimeout(routineTimer);
+        routineTimer = null;
+      }
+      if ("speechSynthesis" in window && !isPlaying) {
+        window.speechSynthesis.cancel();
+      }
+      renderRoutineGrid();
+    }
+
+    // ============================================================================
+    // TAB 3: TARJETAS DE MEMORIA (FLASHCARDS)
+    // ============================================================================
+    function renderFlashcard() {
+      const item = fcList[fcIndex];
+      document.getElementById("fcCounter").textContent = `${fcIndex + 1} / ${fcList.length}`;
+      document.getElementById("fcCategory").textContent = item.cat;
+      document.getElementById("fcQuestion").textContent = item.q;
+      document.getElementById("fcAnswer").textContent = item.a;
+
+      const ansWrap = document.getElementById("fcAnswerWrap");
+      const flipBtn = document.getElementById("fcFlipBtn");
+      if (fcRevealed) {
+        ansWrap.classList.remove("hidden");
+        flipBtn.textContent = "🔊 Volver a escuchar respuesta";
+      } else {
+        ansWrap.classList.add("hidden");
+        flipBtn.textContent = "👁 Mostrar y Escuchar Respuesta";
+      }
+    }
+
+    function runHandsFreeFlashcard() {
+      if (!fcHandsFree) return;
+      const item = fcList[fcIndex];
+      fcRevealed = false;
+      renderFlashcard();
+      speakText(`Pregunta: ${item.q}`, () => {
+        if (!fcHandsFree) return;
+        fcTimer = setTimeout(() => {
+          if (!fcHandsFree) return;
+          fcRevealed = true;
+          renderFlashcard();
+          playChime(700, 0.1, "sine");
+          speakText(`Respuesta: ${item.a}`, () => {
+            if (!fcHandsFree) return;
+            fcTimer = setTimeout(() => {
+              if (!fcHandsFree) return;
+              fcIndex = (fcIndex + 1) % fcList.length;
+              runHandsFreeFlashcard();
+            }, 1200);
+          });
+        }, 1800);
+      });
+    }
+
+    function stopHandsFreeFlashcard() {
+      fcHandsFree = false;
+      if (fcTimer) {
+        clearTimeout(fcTimer);
+        fcTimer = null;
+      }
+      const btn = document.getElementById("fcAutoPlayBtn");
+      if (btn) btn.textContent = "▶ Modo Manos Libres (P+R)";
+    }
+
+    // ============================================================================
+    // TAB 4: EXAMEN AUDITIVO
+    // ============================================================================
+    function renderQuizQuestion() {
+      const qObj = QUIZ_DATA[quizIndex];
+      quizCurrentAnswered = false;
+      document.getElementById("quizProgressText").textContent = `Pregunta ${quizIndex + 1} de ${QUIZ_DATA.length}`;
+      document.getElementById("quizScoreBadge").textContent = `Aciertos: ${quizScore} / ${quizAnsweredCount}`;
+      document.getElementById("quizQuestionText").textContent = qObj.q;
+
+      const optContainer = document.getElementById("quizOptionsContainer");
+      optContainer.innerHTML = "";
+
+      qObj.options.forEach((optText, oIdx) => {
+        const btn = document.createElement("button");
+        btn.className = "w-full text-left p-3.5 rounded-xl bg-slate-950 border border-slate-800 hover:border-emerald-500/50 text-xs sm:text-sm text-slate-200 font-medium transition flex items-center gap-3";
+        const letter = ["A", "B", "C", "D"][oIdx];
+        btn.innerHTML = `
+          <span class="w-6 h-6 rounded-lg bg-slate-800 text-slate-300 font-bold text-xs flex items-center justify-center shrink-0">${letter}</span>
+          <span>${optText}</span>
+        `;
+        btn.addEventListener("click", () => handleQuizAnswer(oIdx));
+        optContainer.appendChild(btn);
+      });
+
+      document.getElementById("quizFeedbackBox").className = "hidden";
+      document.getElementById("quizNextBtn").classList.add("hidden");
+    }
+
+    function handleQuizAnswer(selectedIdx) {
+      if (quizCurrentAnswered) return;
+      quizCurrentAnswered = true;
+      quizAnsweredCount++;
+
+      const qObj = QUIZ_DATA[quizIndex];
+      const isCorrect = selectedIdx === qObj.correct;
+      if (isCorrect) {
+        quizScore++;
+        playChime(880, 0.15, "triangle");
+      } else {
+        playChime(280, 0.2, "sawtooth");
+      }
+
+      document.getElementById("quizScoreBadge").textContent = `Aciertos: ${quizScore} / ${quizAnsweredCount}`;
+
+      const buttons = document.getElementById("quizOptionsContainer").querySelectorAll("button");
+      buttons.forEach((btn, idx) => {
+        if (idx === qObj.correct) {
+          btn.className = "w-full text-left p-3.5 rounded-xl bg-emerald-950/70 border-2 border-emerald-500 text-xs sm:text-sm text-emerald-200 font-bold flex items-center gap-3";
+        } else if (idx === selectedIdx && !isCorrect) {
+          btn.className = "w-full text-left p-3.5 rounded-xl bg-rose-950/60 border-2 border-rose-500 text-xs sm:text-sm text-rose-200 font-medium flex items-center gap-3";
+        } else {
+          btn.className = "w-full text-left p-3.5 rounded-xl bg-slate-950/40 border border-slate-800/50 text-xs sm:text-sm text-slate-500 flex items-center gap-3";
+        }
+      });
+
+      const fb = document.getElementById("quizFeedbackBox");
+      fb.className = `rounded-xl p-4 mb-4 text-xs sm:text-sm border ${
+        isCorrect
+          ? "bg-emerald-950/40 border-emerald-500/40 text-emerald-200"
+          : "bg-rose-950/40 border-rose-500/40 text-rose-200"
+      }`;
+      fb.innerHTML = `<strong>${isCorrect ? "¡Correcto!" : "Respuesta incorrecta."}</strong> ${qObj.explanation}`;
+
+      speakText(`${isCorrect ? "Correcto." : "Respuesta incorrecta."} ${qObj.explanation}`);
+
+      const nextBtn = document.getElementById("quizNextBtn");
+      nextBtn.textContent = quizIndex < QUIZ_DATA.length - 1 ? "Siguiente pregunta →" : "Ver resultado final y reiniciar";
+      nextBtn.classList.remove("hidden");
+    }
+
+    // ============================================================================
+    // PODCAST CONVERSACIONAL: RENDER & DUAL-VOICE PLAYBACK
+    // ============================================================================
+    function playPodcastJingle() {
+      try {
+        ensureAudioCtx();
+        if (!audioCtx) return;
+        const notes = [523.25, 659.25, 783.99];
+        notes.forEach((freq, i) => {
+          const osc = audioCtx.createOscillator();
+          const gain = audioCtx.createGain();
+          osc.type = "triangle";
+          osc.frequency.setValueAtTime(freq, audioCtx.currentTime + i * 0.11);
+          gain.gain.setValueAtTime(0.12, audioCtx.currentTime + i * 0.11);
+          gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + i * 0.11 + 0.18);
+          osc.connect(gain);
+          gain.connect(audioCtx.destination);
+          osc.start(audioCtx.currentTime + i * 0.11);
+          osc.stop(audioCtx.currentTime + i * 0.11 + 0.18);
+        });
+      } catch (e) {}
+    }
+
+    function speakPodcastLine(speaker, text, onEndCallback) {
+      if (!("speechSynthesis" in window)) {
+        if (onEndCallback) setTimeout(onEndCallback, 1200);
+        return;
+      }
+      window.speechSynthesis.cancel();
+      const utter = new SpeechSynthesisUtterance(text);
+      utter.lang = "es-MX";
+
+      const targetURI = speaker === "Sofía" ? voiceSofiaURI : voiceMarcoURI;
+      if (targetURI) {
+        const found = availableVoices.find(v => v.voiceURI === targetURI);
+        if (found) utter.voice = found;
+      }
+
+      // Differentiate pitch & cadence so Sofia and Marco sound distinct even if the browser has 1 Spanish voice
+      if (speaker === "Sofía") {
+        utter.pitch = 1.12;
+        utter.rate = Math.min(1.8, speechRate * 1.03);
+      } else {
+        utter.pitch = 0.88;
+        utter.rate = Math.max(0.75, speechRate * 0.98);
+      }
+
+      utter.onend = () => {
+        if (onEndCallback) onEndCallback();
+      };
+      utter.onerror = () => {
+        if (onEndCallback) onEndCallback();
+      };
+      window.speechSynthesis.speak(utter);
+    }
+
+    function renderPodcastUI() {
+      const ep = PODCAST_EPISODES[podCurrentEpIdx];
+      document.getElementById("podCurrentEpTitle").textContent = ep.title;
+      document.getElementById("podCurrentEpDesc").textContent = ep.desc;
+      document.getElementById("podLineCounter").textContent = `Turno ${podCurrentLineIdx + 1} de ${ep.lines.length}`;
+
+      // Render episode buttons
+      const epList = document.getElementById("podEpisodeList");
+      epList.innerHTML = "";
+      PODCAST_EPISODES.forEach((item, idx) => {
+        const active = idx === podCurrentEpIdx;
+        const btn = document.createElement("button");
+        btn.className = `text-left p-2.5 rounded-xl border transition flex items-center justify-between gap-2 ${
+          active
+            ? "bg-emerald-950/60 border-emerald-500 text-white shadow"
+            : "bg-slate-950/70 border-slate-800 text-slate-300 hover:bg-slate-900"
+        }`;
+        btn.innerHTML = `
+          <div class="min-w-0">
+            <div class="text-xs font-bold truncate ${active ? "text-emerald-300" : "text-white"}">${item.title}</div>
+            <div class="text-[11px] text-slate-400 truncate">${item.duration} • ${item.lines.length} intervenciones</div>
+          </div>
+          <span class="text-xs px-2 py-0.5 rounded bg-slate-800 text-emerald-300 shrink-0">${active && podIsPlaying ? "🔊" : "▶"}</span>
+        `;
+        btn.addEventListener("click", () => {
+          podCurrentEpIdx = idx;
+          podCurrentLineIdx = 0;
+          startPodcastPlayback(true);
+        });
+        epList.appendChild(btn);
+      });
+
+      // Render dialogue stream
+      const stream = document.getElementById("podTranscriptContainer");
+      stream.innerHTML = "";
+      ep.lines.forEach((line, lIdx) => {
+        const isCurrent = lIdx === podCurrentLineIdx;
+        const isSofia = line.speaker === "Sofía";
+        const row = document.createElement("div");
+        row.id = `pod-line-${lIdx}`;
+        row.className = `p-3.5 rounded-2xl border transition cursor-pointer ${
+          isCurrent
+            ? isSofia
+              ? "bg-teal-950/50 border-teal-400/60 shadow-md"
+              : "bg-amber-950/40 border-amber-400/60 shadow-md"
+            : "bg-slate-900/60 border-slate-800/80 hover:border-slate-700"
+        }`;
+        row.innerHTML = `
+          <div class="flex items-center justify-between gap-2 mb-1">
+            <div class="flex items-center gap-2">
+              <span class="text-xs font-extrabold px-2 py-0.5 rounded ${
+                isSofia ? "bg-teal-500/20 text-teal-300" : "bg-amber-500/20 text-amber-300"
+              }">${isSofia ? "🎙️ Sofía" : "🎙️ Profe Marco"}</span>
+              ${isCurrent && podIsPlaying ? `<span class="text-[11px] text-emerald-400 font-semibold animate-pulse">● Hablando ahora...</span>` : ""}
+            </div>
+            <span class="text-[11px] text-slate-500">#${lIdx + 1}</span>
+          </div>
+          <p class="text-xs sm:text-sm leading-relaxed ${isCurrent ? "text-white font-medium" : "text-slate-300"}">${line.text}</p>
+        `;
+        row.addEventListener("click", () => {
+          podCurrentLineIdx = lIdx;
+          startPodcastPlayback(false);
+        });
+        stream.appendChild(row);
+      });
+
+      // Highlight active speaker avatar
+      const activeLine = ep.lines[podCurrentLineIdx] || ep.lines[0];
+      const sofiaCard = document.getElementById("hostCardSofia");
+      const marcoCard = document.getElementById("hostCardMarco");
+      const sofiaStatus = document.getElementById("hostStatusSofia");
+      const marcoStatus = document.getElementById("hostStatusMarco");
+      const onAirDot = document.getElementById("podOnAirDot");
+
+      if (podIsPlaying) {
+        onAirDot.className = "w-2 h-2 rounded-full bg-emerald-400 pulse-ring";
+        if (activeLine.speaker === "Sofía") {
+          sofiaCard.className = "p-3 rounded-xl bg-teal-950/70 border-2 border-teal-400 transition flex items-center gap-2.5 shadow-lg";
+          marcoCard.className = "p-3 rounded-xl bg-slate-900/60 border border-slate-800 transition flex items-center gap-2.5 opacity-75";
+          sofiaStatus.textContent = "🔊 Hablando...";
+          marcoStatus.textContent = "Escuchando";
+        } else {
+          marcoCard.className = "p-3 rounded-xl bg-amber-950/60 border-2 border-amber-400 transition flex items-center gap-2.5 shadow-lg";
+          sofiaCard.className = "p-3 rounded-xl bg-slate-900/60 border border-slate-800 transition flex items-center gap-2.5 opacity-75";
+          marcoStatus.textContent = "🔊 Hablando...";
+          sofiaStatus.textContent = "Escuchando";
+        }
+        document.getElementById("podMainPlayIcon").textContent = "⏸";
+        document.getElementById("podMainPlayText").textContent = "Pausar Podcast";
+      } else {
+        onAirDot.className = "w-2 h-2 rounded-full bg-rose-500";
+        sofiaCard.className = "p-3 rounded-xl bg-slate-900 border border-slate-800 transition flex items-center gap-2.5";
+        marcoCard.className = "p-3 rounded-xl bg-slate-900 border border-slate-800 transition flex items-center gap-2.5";
+        sofiaStatus.textContent = "Conductora";
+        marcoStatus.textContent = "Instructor SEDU";
+        document.getElementById("podMainPlayIcon").textContent = "▶";
+        document.getElementById("podMainPlayText").textContent = "Escuchar Podcast";
+      }
+
+      // Sync sticky bottom player bar when in podcast mode
+      if (currentTab === "podcast") {
+        const pct = Math.round(((podCurrentLineIdx + 1) / ep.lines.length) * 100);
+        document.getElementById("playerCurrentSegIndex").textContent = `${String(podCurrentLineIdx + 1).padStart(2, "0")}/${String(ep.lines.length).padStart(2, "0")}`;
+        document.getElementById("playerProgressBarFill").style.width = `${pct}%`;
+        document.getElementById("playerNowPlayingTitle").textContent = `🎙️ ${ep.title}`;
+        document.getElementById("playerNowPlayingSnippet").textContent = `${activeLine.speaker}: ${activeLine.text}`;
+        document.getElementById("playerPlayPauseIcon").textContent = podIsPlaying ? "⏸" : "▶";
+        document.getElementById("playerPlayPauseLabel").textContent = podIsPlaying ? "Pausar" : "Reproducir";
+        document.getElementById("playerStateText").textContent = podIsPlaying ? `Podcast (${speechRate}x)` : "En pausa";
+        document.getElementById("playerLiveIndicator").className = podIsPlaying
+          ? "w-2.5 h-2.5 rounded-full bg-emerald-400 pulse-ring shrink-0"
+          : "w-2.5 h-2.5 rounded-full bg-slate-600 shrink-0";
+      }
+    }
+
+    function startPodcastPlayback(withJingle = false) {
+      pausePlayback();
+      stopRoutineAuto();
+      stopHandsFreeFlashcard();
+      podIsPlaying = true;
+      renderPodcastUI();
+
+      const activeRow = document.getElementById(`pod-line-${podCurrentLineIdx}`);
+      if (activeRow) {
+        activeRow.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      }
+
+      const ep = PODCAST_EPISODES[podCurrentEpIdx];
+      const line = ep.lines[podCurrentLineIdx];
+
+      const speakNow = () => {
+        if (!podIsPlaying) return;
+        speakPodcastLine(line.speaker, line.text, () => {
+          if (!podIsPlaying) return;
+          if (podCurrentLineIdx < ep.lines.length - 1) {
+            podCurrentLineIdx++;
+            startPodcastPlayback(false);
+          } else {
+            const autoNext = document.getElementById("autoNextTrackToggle").checked;
+            if (autoNext && podCurrentEpIdx < PODCAST_EPISODES.length - 1) {
+              podCurrentEpIdx++;
+              podCurrentLineIdx = 0;
+              startPodcastPlayback(true);
+            } else {
+              podIsPlaying = false;
+              renderPodcastUI();
+            }
+          }
+        });
+      };
+
+      if (withJingle) {
+        playPodcastJingle();
+        setTimeout(speakNow, 380);
+      } else {
+        speakNow();
+      }
+    }
+
+    function pausePodcastPlayback() {
+      podIsPlaying = false;
+      if ("speechSynthesis" in window) {
+        window.speechSynthesis.cancel();
+      }
+      renderPodcastUI();
+    }
+
+    // ============================================================================
+    // EVENT LISTENERS & INITIALIZATION
+    // ============================================================================
+    window.addEventListener("DOMContentLoaded", () => {
+      // Render initial views
+      renderTrackList();
+      renderActiveTrack();
+      renderRoutineGrid();
+      renderFlashcard();
+      renderQuizQuestion();
+      renderPodcastUI();
+
+      // Tab switching
+      document.querySelectorAll(".tab-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+          const tab = btn.dataset.tab;
+          currentTab = tab;
+          stopHandsFreeFlashcard();
+
+          document.querySelectorAll(".tab-btn").forEach(b => {
+            if (b.dataset.tab === tab) {
+              b.className = "tab-btn px-3 py-1.5 rounded-lg text-xs sm:text-sm font-semibold transition bg-emerald-600 text-white shadow";
+            } else {
+              b.className = "tab-btn px-3 py-1.5 rounded-lg text-xs sm:text-sm font-semibold transition text-slate-300 hover:text-white hover:bg-slate-800";
+            }
+          });
+
+          document.getElementById("viewPodcast").classList.toggle("hidden", tab !== "podcast");
+          document.getElementById("viewAudio").classList.toggle("hidden", tab !== "audio");
+          document.getElementById("viewRoutine").classList.toggle("hidden", tab !== "routine");
+          document.getElementById("viewFlashcards").classList.toggle("hidden", tab !== "flashcards");
+          document.getElementById("viewQuiz").classList.toggle("hidden", tab !== "quiz");
+          if (tab === "podcast") renderPodcastUI();
+          if (tab === "audio") updateBottomPlayerUI();
+        });
+      });
+
+      // Voice select & speed buttons
+      document.getElementById("voiceSelect").addEventListener("change", e => {
+        selectedVoiceURI = e.target.value;
+        if (isPlaying) startPlayback();
+      });
+
+      document.querySelectorAll(".speed-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+          speechRate = parseFloat(btn.dataset.speed);
+          document.querySelectorAll(".speed-btn").forEach(b => {
+            if (parseFloat(b.dataset.speed) === speechRate) {
+              b.className = "speed-btn px-2 py-1 text-xs rounded-md bg-emerald-600 text-white font-semibold";
+            } else {
+              b.className = "speed-btn px-2 py-1 text-xs rounded-md text-slate-400 hover:text-white";
+            }
+          });
+          if (isPlaying) startPlayback();
+        });
+      });
+
+      document.getElementById("testVoiceBtn").addEventListener("click", () => {
+        playChime(780, 0.12, "triangle");
+        speakText("Audio activado. Listo para estudiar el Manual Escolar de Escoltas de Bandera de Coahuila dos mil veintiséis, dos mil veintisiete.");
+      });
+
+      // Formation buttons
+      document.querySelectorAll(".formation-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+          renderFormationDiagram(btn.dataset.formation);
+        });
+      });
+
+      // Top & Bottom Audio Player controls
+      document.getElementById("playCurrentTrackBtn").addEventListener("click", () => {
+        if (isPlaying) pausePlayback();
+        else startPlayback();
+      });
+
+      document.getElementById("podMainPlayBtn").addEventListener("click", () => {
+        if (podIsPlaying) pausePodcastPlayback();
+        else startPodcastPlayback(podCurrentLineIdx === 0);
+      });
+
+      document.getElementById("podPrevLineBtn").addEventListener("click", () => {
+        if (podCurrentLineIdx > 0) {
+          podCurrentLineIdx--;
+        } else if (podCurrentEpIdx > 0) {
+          podCurrentEpIdx--;
+          podCurrentLineIdx = PODCAST_EPISODES[podCurrentEpIdx].lines.length - 1;
+        }
+        startPodcastPlayback(false);
+      });
+
+      document.getElementById("podNextLineBtn").addEventListener("click", () => {
+        const ep = PODCAST_EPISODES[podCurrentEpIdx];
+        if (podCurrentLineIdx < ep.lines.length - 1) {
+          podCurrentLineIdx++;
+        } else if (podCurrentEpIdx < PODCAST_EPISODES.length - 1) {
+          podCurrentEpIdx++;
+          podCurrentLineIdx = 0;
+        }
+        startPodcastPlayback(false);
+      });
+
+      document.getElementById("voiceSofiaSelect").addEventListener("change", e => {
+        voiceSofiaURI = e.target.value;
+        if (podIsPlaying) startPodcastPlayback(false);
+      });
+
+      document.getElementById("voiceMarcoSelect").addEventListener("change", e => {
+        voiceMarcoURI = e.target.value;
+        if (podIsPlaying) startPodcastPlayback(false);
+      });
+
+      document.getElementById("playerPlayPauseBtn").addEventListener("click", () => {
+        if (currentTab === "podcast") {
+          if (podIsPlaying) pausePodcastPlayback();
+          else startPodcastPlayback(podCurrentLineIdx === 0);
+        } else {
+          if (isPlaying) pausePlayback();
+          else startPlayback();
+        }
+      });
+
+      document.getElementById("playerPrevSegBtn").addEventListener("click", () => {
+        if (currentTab === "podcast") {
+          document.getElementById("podPrevLineBtn").click();
+          return;
+        }
+        if (currentSegmentIndex > 0) {
+          currentSegmentIndex--;
+        } else if (currentTrackIndex > 0) {
+          currentTrackIndex--;
+          currentSegmentIndex = STUDY_TRACKS[currentTrackIndex].segments.length - 1;
+          renderActiveTrack();
+        }
+        startPlayback();
+      });
+
+      document.getElementById("playerNextSegBtn").addEventListener("click", () => {
+        if (currentTab === "podcast") {
+          document.getElementById("podNextLineBtn").click();
+          return;
+        }
+        const track = STUDY_TRACKS[currentTrackIndex];
+        if (currentSegmentIndex < track.segments.length - 1) {
+          currentSegmentIndex++;
+        } else if (currentTrackIndex < STUDY_TRACKS.length - 1) {
+          currentTrackIndex++;
+          currentSegmentIndex = 0;
+          renderActiveTrack();
+        }
+        startPlayback();
+      });
+
+      document.getElementById("playerPrevTrackBtn").addEventListener("click", () => {
+        if (currentTab === "podcast") {
+          podCurrentEpIdx = (podCurrentEpIdx - 1 + PODCAST_EPISODES.length) % PODCAST_EPISODES.length;
+          podCurrentLineIdx = 0;
+          startPodcastPlayback(true);
+          return;
+        }
+        const nextIdx = (currentTrackIndex - 1 + STUDY_TRACKS.length) % STUDY_TRACKS.length;
+        selectTrack(nextIdx, isPlaying);
+      });
+
+      document.getElementById("playerNextTrackBtn").addEventListener("click", () => {
+        if (currentTab === "podcast") {
+          podCurrentEpIdx = (podCurrentEpIdx + 1) % PODCAST_EPISODES.length;
+          podCurrentLineIdx = 0;
+          startPodcastPlayback(true);
+          return;
+        }
+        const nextIdx = (currentTrackIndex + 1) % STUDY_TRACKS.length;
+        selectTrack(nextIdx, isPlaying);
+      });
+
+      document.getElementById("playerProgressBarBg").addEventListener("click", e => {
+        const rect = e.currentTarget.getBoundingClientRect();
+        const ratio = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+        const track = STUDY_TRACKS[currentTrackIndex];
+        currentSegmentIndex = Math.min(track.segments.length - 1, Math.floor(ratio * track.segments.length));
+        startPlayback();
+      });
+
+      // Routine controls & Metronome
+      document.getElementById("metro120Btn").addEventListener("click", () => startMetronome(120));
+      document.getElementById("metro60Btn").addEventListener("click", () => startMetronome(60));
+      document.getElementById("metroStopBtn").addEventListener("click", () => stopMetronome());
+
+      document.getElementById("playRoutineAutoBtn").addEventListener("click", () => {
+        pausePlayback();
+        routineAutoPlaying = true;
+        currentRoutineIndex = 0;
+        playRoutineStepAuto();
+      });
+
+      document.getElementById("stopRoutineAutoBtn").addEventListener("click", () => {
+        stopRoutineAuto();
+      });
+
+      document.querySelectorAll(".rfilter-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+          routineFilter = btn.dataset.rfilter;
+          document.querySelectorAll(".rfilter-btn").forEach(b => {
+            if (b.dataset.rfilter === routineFilter) {
+              b.className = "rfilter-btn px-3 py-1 rounded-lg text-xs font-semibold bg-emerald-600 text-white";
+            } else {
+              b.className = "rfilter-btn px-3 py-1 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300";
+            }
+          });
+          renderRoutineGrid();
+        });
+      });
+
+      // Flashcards listeners
+      document.getElementById("fcSpeakQuestionBtn").addEventListener("click", e => {
+        e.stopPropagation();
+        stopHandsFreeFlashcard();
+        speakText(fcList[fcIndex].q);
+      });
+
+      document.getElementById("fcFlipBtn").addEventListener("click", e => {
+        e.stopPropagation();
+        stopHandsFreeFlashcard();
+        fcRevealed = true;
+        renderFlashcard();
+        speakText(fcList[fcIndex].a);
+      });
+
+      document.getElementById("flashcardBox").addEventListener("click", () => {
+        stopHandsFreeFlashcard();
+        fcRevealed = !fcRevealed;
+        renderFlashcard();
+        speakText(fcRevealed ? fcList[fcIndex].a : fcList[fcIndex].q);
+      });
+
+      document.getElementById("fcPrevBtn").addEventListener("click", () => {
+        stopHandsFreeFlashcard();
+        fcIndex = (fcIndex - 1 + fcList.length) % fcList.length;
+        fcRevealed = false;
+        renderFlashcard();
+        speakText(fcList[fcIndex].q);
+      });
+
+      document.getElementById("fcNextBtn").addEventListener("click", () => {
+        stopHandsFreeFlashcard();
+        fcIndex = (fcIndex + 1) % fcList.length;
+        fcRevealed = false;
+        renderFlashcard();
+        speakText(fcList[fcIndex].q);
+      });
+
+      document.getElementById("fcShuffleBtn").addEventListener("click", () => {
+        stopHandsFreeFlashcard();
+        fcList.sort(() => Math.random() - 0.5);
+        fcIndex = 0;
+        fcRevealed = false;
+        renderFlashcard();
+        speakText(fcList[0].q);
+      });
+
+      document.getElementById("fcAutoPlayBtn").addEventListener("click", () => {
+        if (fcHandsFree) {
+          stopHandsFreeFlashcard();
+          if ("speechSynthesis" in window) window.speechSynthesis.cancel();
+        } else {
+          pausePlayback();
+          fcHandsFree = true;
+          document.getElementById("fcAutoPlayBtn").textContent = "⏹ Detener Manos Libres";
+          runHandsFreeFlashcard();
+        }
+      });
+
+      // Quiz listeners
+      document.getElementById("quizReadBtn").addEventListener("click", () => {
+        const qObj = QUIZ_DATA[quizIndex];
+        const optsText = qObj.options.map((o, i) => `Opción ${["A", "B", "C", "D"][i]}: ${o}`).join(". ");
+        speakText(`${qObj.q}. ${optsText}`);
+      });
+
+      document.getElementById("quizNextBtn").addEventListener("click", () => {
+        if (quizIndex < QUIZ_DATA.length - 1) {
+          quizIndex++;
+          renderQuizQuestion();
+        } else {
+          quizIndex = 0;
+          quizScore = 0;
+          quizAnsweredCount = 0;
+          renderQuizQuestion();
+        }
+      });
+
+      document.getElementById("quizResetBtn").addEventListener("click", () => {
+        quizIndex = 0;
+        quizScore = 0;
+        quizAnsweredCount = 0;
+        renderQuizQuestion();
+      });
+    });
+  </script>
+</body>
+</html>
