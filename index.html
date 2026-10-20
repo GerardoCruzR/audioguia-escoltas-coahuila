@@ -60,6 +60,36 @@
     body.simple-reader .text-slate-300,
     body.simple-reader .text-slate-400,
     body.simple-reader .text-slate-500 { color: #171717 !important; }
+    body.simple-reader [class*="text-emerald-"],
+    body.simple-reader [class*="text-teal-"],
+    body.simple-reader [class*="text-amber-"],
+    body.simple-reader [class*="text-rose-"],
+    body.simple-reader [class*="text-cyan-"],
+    body.simple-reader [class*="text-sky-"],
+    body.simple-reader [class*="text-blue-"],
+    body.simple-reader [class*="text-indigo-"],
+    body.simple-reader [class*="text-purple-"],
+    body.simple-reader [class*="text-red-"],
+    body.simple-reader [class*="text-yellow-"],
+    body.simple-reader [class*="text-orange-"],
+    body.simple-reader [class*="text-gray-"],
+    body.simple-reader [class*="text-slate-600"],
+    body.simple-reader [class*="text-slate-700"],
+    body.simple-reader [class*="text-slate-800"],
+    body.simple-reader [class*="text-slate-900"] { color: #171717 !important; }
+    body.simple-reader [class*="bg-emerald-"],
+    body.simple-reader [class*="bg-teal-"],
+    body.simple-reader [class*="bg-amber-"],
+    body.simple-reader [class*="bg-rose-"],
+    body.simple-reader [class*="bg-cyan-"],
+    body.simple-reader [class*="bg-sky-"],
+    body.simple-reader [class*="bg-blue-"],
+    body.simple-reader [class*="bg-indigo-"],
+    body.simple-reader [class*="bg-purple-"],
+    body.simple-reader [class*="bg-red-"],
+    body.simple-reader [class*="bg-yellow-"],
+    body.simple-reader [class*="bg-orange-"],
+    body.simple-reader [class*="bg-pink-"] { background-color: #e6e6e6 !important; }
     body.simple-reader .border-slate-700,
     body.simple-reader .border-slate-800,
     body.simple-reader .border-slate-800\/80,
@@ -75,6 +105,9 @@
       gap: .45rem; text-align: center; padding: .8rem;
     }
     body.simple-reader #quickActions > button { background: #16833b !important; color: #fff !important; }
+    body.simple-reader #quickActions > button span,
+    body.simple-reader #quickActions > button svg,
+    body.simple-reader #playerPlayPauseBtn { color: #fff !important; }
     body.simple-reader #quickActions svg { width: 54px; height: 54px; }
     body.simple-reader #quickActions > details[open] > summary { min-height: 80px; }
     body.simple-reader #quickActions > details[open] { grid-column: 1 / -1; }
@@ -127,7 +160,6 @@
       <h2 id="welcomeTitle" class="text-2xl font-extrabold text-white">¿Qué quieres hacer?</h2>
       <p class="mt-1 text-base text-slate-300">Toca un cuadro para comenzar.</p>
       <div class="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-sm text-slate-300">
-        <span id="connectionStatus" role="status" aria-live="polite">Preparando guía…</span>
         <span id="savedProgressNote">Tu avance se guarda solo.</span>
         <button id="installAppBtn" type="button" class="hidden">Instalar</button>
       </div>
@@ -2181,16 +2213,6 @@
         startPlayback();
       });
 
-      const connectionStatus = document.getElementById("connectionStatus");
-      const updateConnectionStatus = () => {
-        connectionStatus.textContent = navigator.onLine
-          ? "Con internet"
-          : "Sin internet · guía guardada";
-      };
-      updateConnectionStatus();
-      window.addEventListener("online", updateConnectionStatus);
-      window.addEventListener("offline", updateConnectionStatus);
-
       let installPromptEvent = null;
       const installAppBtn = document.getElementById("installAppBtn");
       window.addEventListener("beforeinstallprompt", event => {
@@ -2206,16 +2228,7 @@
         installAppBtn.classList.add("hidden");
       });
       if ("serviceWorker" in navigator && location.protocol.startsWith("http")) {
-        navigator.serviceWorker.register("./service-worker.js", { scope: "./" })
-          .then(() => navigator.serviceWorker.ready)
-          .then(() => {
-            if (navigator.onLine) connectionStatus.textContent = "Lista para usar sin internet";
-          })
-          .catch(() => {
-            connectionStatus.textContent = navigator.onLine
-              ? "La copia sin conexión no se pudo preparar. Mantén internet y vuelve a cargar la página."
-              : "Sin conexión y sin copia guardada todavía. Conéctate una vez para preparar la guía.";
-          });
+        navigator.serviceWorker.register("./service-worker.js", { scope: "./" }).catch(() => {});
       }
 
       // Tab switching
