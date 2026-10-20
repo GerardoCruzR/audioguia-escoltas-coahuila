@@ -107,21 +107,21 @@
       gap: .45rem; text-align: center; padding: .8rem;
     }
     body.simple-reader #quickActions > button { background: #16833b !important; color: #fff !important; }
-    body.simple-reader #advancedModes > summary {
+    body.simple-reader #quickActions > #advancedModes > summary {
       min-height: 72px; flex-direction: row; justify-content: flex-start; text-align: left;
       border-width: 2px; background: #f2f2f2 !important; color: #171717 !important;
       font-size: 1.1rem; padding: .7rem 1rem;
     }
-    body.simple-reader #advancedModes > summary svg { width: 30px !important; height: 30px !important; flex: none; }
-    body.simple-reader #advancedModes > summary::after { content: "▼"; margin-left: auto; font-size: .9rem; }
-    body.simple-reader #advancedModes[open] > summary::after { content: "▲"; }
+    body.simple-reader #quickActions > #advancedModes > summary svg { width: 30px !important; height: 30px !important; flex: none; }
+    body.simple-reader #quickActions > #advancedModes > summary::after { content: "▼"; margin-left: auto; font-size: .9rem; }
+    body.simple-reader #quickActions > #advancedModes[open] > summary::after { content: "▲"; }
     body.simple-reader #advancedModes > nav { border-top: 1px solid #aaa !important; }
     body.simple-reader #quickActions > button span,
     body.simple-reader #quickActions > button svg,
     body.simple-reader #playerPlayPauseBtn { color: #fff !important; }
     body.simple-reader #quickActions svg { width: 54px; height: 54px; }
     body.simple-reader #quickActions > details[open] > summary { min-height: 80px; }
-    body.simple-reader #advancedModes[open] > summary { min-height: 72px; }
+    body.simple-reader #quickActions > #advancedModes[open] > summary { min-height: 72px; }
     body.simple-reader #quickActions > details[open] { grid-column: 1 / -1; }
     body.simple-reader #activeTrackSubtitle { display: none; }
     body.simple-reader #quickActions #trackListContainer,
