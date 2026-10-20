@@ -110,7 +110,7 @@
           <h2 id="welcomeTitle" class="mt-1 text-2xl font-extrabold text-white">Escucha un tema, pausa y continúa cuando quieras.</h2>
           <p class="mt-2 text-base leading-relaxed text-slate-300">Empieza por la audioguía. Después puedes practicar la rutina, repasar con tarjetas y probarte con el examen. Tu avance se guarda en este dispositivo.</p>
         </div>
-        <button id="startStudyBtn" type="button" data-tab="audio" class="min-h-12 shrink-0 rounded-xl bg-emerald-600 px-5 py-3 text-base font-bold text-white shadow-lg hover:bg-emerald-500">▶ Empezar a estudiar</button>
+        <button id="startStudyBtn" type="button" data-tab="audio" class="min-h-12 shrink-0 rounded-xl bg-emerald-600 px-5 py-3 text-base font-bold text-white shadow-lg hover:bg-emerald-500">▶ Escuchar ahora</button>
       </div>
       <div class="mt-4 flex flex-wrap items-center gap-x-5 gap-y-2 border-t border-slate-700/70 pt-3 text-sm text-slate-300">
         <span id="connectionStatus" role="status" aria-live="polite">Preparando acceso sin conexión…</span>
@@ -1323,7 +1323,11 @@
 
     function speakText(text, onEndCallback) {
       if (!("speechSynthesis" in window)) {
-        if (onEndCallback) setTimeout(onEndCallback, 1200);
+        const badge = document.getElementById("ttsStatusBadge");
+        badge.textContent = "Este navegador no tiene voz";
+        badge.className = "text-xs px-2 py-0.5 rounded bg-rose-950 text-rose-200 border border-rose-800";
+        isPlaying = false;
+        updateBottomPlayerUI();
         return;
       }
       window.speechSynthesis.cancel();
@@ -1337,8 +1341,15 @@
       utter.onend = () => {
         if (onEndCallback) onEndCallback();
       };
-      utter.onerror = () => {
-        if (onEndCallback) onEndCallback();
+      utter.onerror = event => {
+        if (event.error === "canceled" || event.error === "interrupted") return;
+        isPlaying = false;
+        const badge = document.getElementById("ttsStatusBadge");
+        badge.textContent = "No se pudo iniciar la voz";
+        badge.className = "text-xs px-2 py-0.5 rounded bg-rose-950 text-rose-200 border border-rose-800";
+        renderTrackList();
+        renderSegments();
+        updateBottomPlayerUI();
       };
       window.speechSynthesis.speak(utter);
     }
@@ -2118,7 +2129,10 @@
         saveStudyProgress();
       });
 
-      document.getElementById("startStudyBtn").addEventListener("click", () => setStudyTab("audio"));
+      document.getElementById("startStudyBtn").addEventListener("click", () => {
+        setStudyTab("audio");
+        startPlayback();
+      });
 
       const connectionStatus = document.getElementById("connectionStatus");
       const updateConnectionStatus = () => {
