@@ -1,4 +1,4 @@
-const CACHE_NAME = "escoltas-coahuila-v6";
+const CACHE_NAME = "escoltas-coahuila-v7";
 const APP_FILES = ["./", "./index.html", "./manifest.json", "./icon.svg"];
 const EXTERNAL_FILES = [
   "https://cdn.tailwindcss.com/3.4.17",
