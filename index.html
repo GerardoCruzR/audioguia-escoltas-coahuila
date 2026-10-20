@@ -115,6 +115,17 @@
     body.simple-reader #quickActions #trackListContainer,
     body.simple-reader #quickActions #segmentsContainer,
     body.simple-reader #quickActions nav { grid-column: 1 / -1; }
+    body.simple-reader #otherActivitiesList { display: grid; grid-template-columns: 1fr; gap: .65rem; }
+    body.simple-reader #otherActivitiesList .activity-choice {
+      width: 100%; min-height: 72px; padding: .8rem 1rem; border: 2px solid #222;
+      border-radius: 10px; background: #f2f2f2; color: #171717; text-align: left;
+      font-size: 1.1rem; font-weight: 700; display: flex; flex-direction: column;
+      align-items: flex-start; justify-content: center; gap: .15rem;
+    }
+    body.simple-reader #otherActivitiesList .activity-choice[aria-current="page"] {
+      border-left: 8px solid #16833b; background: #e8e8e8;
+    }
+    body.simple-reader #homeBtn { min-height: 56px; border: 2px solid #222; color: #171717; background: #f2f2f2; }
     body.simple-reader #startStudyBtn { letter-spacing: .02em; }
     body.simple-reader #studyPlayerBar { background: #eee !important; border-color: #111 !important; backdrop-filter: none; }
     body.simple-reader .segment-active { background: #e7f2e9 !important; border-left-color: #16833b !important; }
@@ -155,15 +166,7 @@
 
   <!-- Main Content Container -->
   <main class="flex-1 max-w-3xl w-full mx-auto px-4 py-5 pb-36">
-
-    <section aria-labelledby="welcomeTitle" class="mb-4 rounded-xl border-2 border-black bg-slate-900 p-4">
-      <h2 id="welcomeTitle" class="text-2xl font-extrabold text-white">¿Qué quieres hacer?</h2>
-      <p class="mt-1 text-base text-slate-300">Toca un cuadro para comenzar.</p>
-      <div class="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-sm text-slate-300">
-        <span id="savedProgressNote">Tu avance se guarda solo.</span>
-        <button id="installAppBtn" type="button" class="hidden">Instalar</button>
-      </div>
-    </section>
+    <button id="homeBtn" type="button" class="hidden mb-4 w-full rounded-xl px-4 py-3 text-left text-lg font-bold">← Volver al inicio</button>
 
     <!-- Optional voice settings, collapsed to keep the first steps simple. -->
     <details id="voiceSettings" class="hidden bg-slate-900 border border-slate-800 rounded-2xl mb-5 shadow-sm">
@@ -331,15 +334,13 @@
           <summary class="cursor-pointer rounded-xl">
             <svg aria-hidden="true" viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></svg>
             <span>MÁS</span>
-            <span class="text-sm font-normal">Otras actividades</span>
+            <span class="text-sm font-normal">Rutina, tarjetas y examen</span>
           </summary>
-          <nav aria-label="Otras actividades" class="flex flex-wrap items-center gap-2 border-t border-slate-700 p-3">
-            <button id="tabBtnAudio" type="button" data-tab="audio" aria-controls="viewAudio" aria-current="page" class="tab-btn px-3 py-1.5 rounded-lg text-sm font-semibold bg-emerald-600 text-white">Escuchar temas</button>
-            <button id="tabBtnRoutine" type="button" data-tab="routine" aria-controls="viewRoutine" class="tab-btn px-3 py-1.5 rounded-lg text-sm font-semibold text-slate-300">Practicar rutina</button>
-            <button id="tabBtnFlashcards" type="button" data-tab="flashcards" aria-controls="viewFlashcards" class="tab-btn px-3 py-1.5 rounded-lg text-sm font-semibold text-slate-300">Tarjetas</button>
-            <button id="tabBtnQuiz" type="button" data-tab="quiz" aria-controls="viewQuiz" class="tab-btn px-3 py-1.5 rounded-lg text-sm font-semibold text-slate-300">Examen</button>
-            <button id="tabBtnPodcast" type="button" data-tab="podcast" aria-controls="viewPodcast" class="tab-btn px-3 py-1.5 rounded-lg text-sm font-semibold text-slate-300">Conversación</button>
-            <button id="readingModeBtn" type="button" aria-pressed="true" class="px-3 py-2 rounded-lg bg-slate-800 text-base font-semibold text-slate-200 border border-slate-700">Aa&nbsp; Texto normal</button>
+          <nav id="otherActivitiesList" aria-label="Otras actividades" class="border-t border-slate-700 p-3">
+            <button id="tabBtnRoutine" type="button" data-tab="routine" aria-controls="viewRoutine" class="tab-btn activity-choice"><span>Practicar la rutina</span><span class="text-sm font-normal">Ensaya los movimientos paso a paso</span></button>
+            <button id="tabBtnFlashcards" type="button" data-tab="flashcards" aria-controls="viewFlashcards" class="tab-btn activity-choice"><span>Repasar con tarjetas</span><span class="text-sm font-normal">Preguntas cortas para recordar</span></button>
+            <button id="tabBtnQuiz" type="button" data-tab="quiz" aria-controls="viewQuiz" class="tab-btn activity-choice"><span>Hacer un examen</span><span class="text-sm font-normal">Comprueba lo que aprendiste</span></button>
+            <button id="tabBtnPodcast" type="button" data-tab="podcast" aria-controls="viewPodcast" class="tab-btn activity-choice"><span>Escuchar una conversación</span><span class="text-sm font-normal">Aprende escuchando a dos voces</span></button>
           </nav>
         </details>
       </div>
@@ -1228,7 +1229,6 @@
       } catch (_) {
         // The guide remains usable when browser storage is unavailable.
       }
-      updateSavedProgressNote();
     }
 
     function restoreStudyProgress() {
@@ -1249,13 +1249,6 @@
       if (saved.comfortableReading) document.body.classList.add("comfortable-reading");
     }
 
-    function updateSavedProgressNote() {
-      const note = document.getElementById("savedProgressNote");
-      if (!note) return;
-      const track = STUDY_TRACKS[currentTrackIndex];
-      note.textContent = `Avance: tema ${currentTrackIndex + 1}, parte ${currentSegmentIndex + 1}.`;
-    }
-
     function setStudyTab(tab) {
       if (!STUDY_TABS.includes(tab)) return;
       currentTab = tab;
@@ -1265,11 +1258,10 @@
         const active = btn.dataset.tab === tab;
         if (active) btn.setAttribute("aria-current", "page");
         else btn.removeAttribute("aria-current");
-        btn.className = active
-          ? "tab-btn px-3 py-1.5 rounded-lg text-sm font-semibold transition bg-emerald-600 text-white shadow"
-          : "tab-btn px-3 py-1.5 rounded-lg text-sm font-semibold transition text-slate-300 hover:text-white hover:bg-slate-800";
+        btn.className = "tab-btn activity-choice";
       });
 
+      document.getElementById("homeBtn").classList.toggle("hidden", tab === "audio");
       document.getElementById("viewPodcast").classList.toggle("hidden", tab !== "podcast");
       document.getElementById("viewAudio").classList.toggle("hidden", tab !== "audio");
       document.getElementById("viewRoutine").classList.toggle("hidden", tab !== "routine");
@@ -2198,35 +2190,12 @@
           : "speed-btn px-2 py-1 text-xs rounded-md text-slate-400 hover:text-white";
       });
 
-      const readingModeBtn = document.getElementById("readingModeBtn");
-      readingModeBtn.setAttribute("aria-pressed", String(document.body.classList.contains("comfortable-reading")));
-      if (document.body.classList.contains("comfortable-reading")) readingModeBtn.textContent = "Aa Texto normal";
-      readingModeBtn.addEventListener("click", () => {
-        const enabled = document.body.classList.toggle("comfortable-reading");
-        readingModeBtn.setAttribute("aria-pressed", String(enabled));
-        readingModeBtn.textContent = enabled ? "Aa Texto normal" : "Aa Texto grande";
-        saveStudyProgress();
-      });
-
       document.getElementById("startStudyBtn").addEventListener("click", () => {
         setStudyTab("audio");
         startPlayback();
       });
 
-      let installPromptEvent = null;
-      const installAppBtn = document.getElementById("installAppBtn");
-      window.addEventListener("beforeinstallprompt", event => {
-        event.preventDefault();
-        installPromptEvent = event;
-        installAppBtn.classList.remove("hidden");
-      });
-      installAppBtn.addEventListener("click", async () => {
-        if (!installPromptEvent) return;
-        installPromptEvent.prompt();
-        await installPromptEvent.userChoice;
-        installPromptEvent = null;
-        installAppBtn.classList.add("hidden");
-      });
+      document.getElementById("homeBtn").addEventListener("click", () => setStudyTab("audio"));
       if ("serviceWorker" in navigator && location.protocol.startsWith("http")) {
         navigator.serviceWorker.register("./service-worker.js", { scope: "./" }).catch(() => {});
       }
