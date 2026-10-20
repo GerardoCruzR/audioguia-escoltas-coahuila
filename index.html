@@ -518,10 +518,10 @@
           <div>
             <span class="text-xs font-bold uppercase tracking-wider text-emerald-400">Simulador de Evaluación</span>
             <h2 class="text-xl font-bold text-white">Examen del Manual de Escoltas</h2>
-            <p class="mt-2 text-sm text-slate-300">20 preguntas de opción múltiple. El resultado y las respuestas correctas aparecen al terminar.</p>
+            <p class="mt-2 text-sm text-slate-300">20 preguntas de opción múltiple. Cada respuesta te dirá si acertaste; al final verás tu resultado.</p>
           </div>
           <div class="flex items-center gap-3">
-            <span id="quizScoreBadge" class="text-xs font-bold px-3 py-1 rounded-lg bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">Respondidas: 0 / 20</span>
+            <span id="quizScoreBadge" class="text-xs font-bold px-3 py-1 rounded-lg bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">Aciertos: 0 / 0</span>
             <button id="quizResetBtn" class="text-xs px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300">Reiniciar</button>
           </div>
         </div>
@@ -550,8 +550,6 @@
           <h3 class="text-xl font-bold text-white mb-2">Resultado del examen</h3>
           <p id="quizResultScore" class="text-lg font-bold mb-1"></p>
           <p id="quizResultMessage" class="mb-5 text-slate-300"></p>
-          <h4 class="font-bold mb-3">Revisión de respuestas</h4>
-          <div id="quizReviewContainer" class="space-y-3 mb-5"></div>
           <button id="quizRestartBtn" type="button" class="rounded-xl bg-emerald-600 px-5 py-3 font-bold text-white">Intentar el examen otra vez</button>
         </div>
       </div>
@@ -1277,7 +1275,6 @@
     let quizScore = 0;
     let quizAnsweredCount = 0;
     let quizCurrentAnswered = false;
-    let quizAnswers = [];
 
     function readStudyProgress() {
       try {
@@ -1954,7 +1951,7 @@
       const qObj = QUIZ_DATA[quizIndex];
       quizCurrentAnswered = false;
       document.getElementById("quizProgressText").textContent = `Pregunta ${quizIndex + 1} de ${QUIZ_DATA.length}`;
-      document.getElementById("quizScoreBadge").textContent = `Respondidas: ${quizAnsweredCount} / ${QUIZ_DATA.length}`;
+      document.getElementById("quizScoreBadge").textContent = `Aciertos: ${quizScore} / ${quizAnsweredCount}`;
       document.getElementById("quizQuestionText").textContent = qObj.q;
       document.getElementById("quizContainer").classList.remove("hidden");
       document.getElementById("quizResult").classList.add("hidden");
@@ -1982,21 +1979,30 @@
       if (quizCurrentAnswered) return;
       quizCurrentAnswered = true;
       quizAnsweredCount++;
-      quizAnswers[quizIndex] = selectedIdx;
-      document.getElementById("quizScoreBadge").textContent = `Respondidas: ${quizAnsweredCount} / ${QUIZ_DATA.length}`;
+      const qObj = QUIZ_DATA[quizIndex];
+      const isCorrect = selectedIdx === qObj.correct;
+      if (isCorrect) quizScore++;
+      document.getElementById("quizScoreBadge").textContent = `Aciertos: ${quizScore} / ${quizAnsweredCount}`;
 
       const buttons = document.getElementById("quizOptionsContainer").querySelectorAll("button");
       buttons.forEach((btn, idx) => {
         btn.disabled = true;
         btn.setAttribute("aria-pressed", String(idx === selectedIdx));
-        btn.className = idx === selectedIdx
-          ? "w-full text-left p-3.5 rounded-xl bg-emerald-100 border-2 border-emerald-700 text-xs sm:text-sm text-slate-900 font-bold flex items-center gap-3"
-          : "w-full text-left p-3.5 rounded-xl bg-slate-100 border border-slate-300 text-xs sm:text-sm text-slate-600 flex items-center gap-3";
+        if (idx === qObj.correct) {
+          btn.className = "w-full text-left p-3.5 rounded-xl bg-emerald-100 border-2 border-emerald-700 text-xs sm:text-sm text-slate-900 font-bold flex items-center gap-3";
+        } else if (idx === selectedIdx) {
+          btn.className = "w-full text-left p-3.5 rounded-xl bg-rose-100 border-2 border-rose-700 text-xs sm:text-sm text-slate-900 font-bold flex items-center gap-3";
+        } else {
+          btn.className = "w-full text-left p-3.5 rounded-xl bg-slate-100 border border-slate-300 text-xs sm:text-sm text-slate-600 flex items-center gap-3";
+        }
       });
 
       const fb = document.getElementById("quizFeedbackBox");
-      fb.className = "rounded-xl p-4 mb-4 text-xs sm:text-sm border border-slate-300 bg-slate-100 text-slate-900";
-      fb.textContent = "Respuesta guardada. Al terminar podrás ver tu resultado y revisar las respuestas correctas.";
+      fb.className = isCorrect
+        ? "rounded-xl p-4 mb-4 text-xs sm:text-sm border-2 border-emerald-700 bg-emerald-100 text-slate-900"
+        : "rounded-xl p-4 mb-4 text-xs sm:text-sm border-2 border-rose-700 bg-rose-100 text-slate-900";
+      fb.innerHTML = `<strong>${isCorrect ? "¡Correcto!" : `Incorrecto. La respuesta correcta es: ${qObj.options[qObj.correct]}.`}</strong> ${qObj.explanation}`;
+      speakText(`${isCorrect ? "Correcto." : `Incorrecto. La respuesta correcta es ${qObj.options[qObj.correct]}.`} ${qObj.explanation}`);
 
       const nextBtn = document.getElementById("quizNextBtn");
       nextBtn.textContent = quizIndex < QUIZ_DATA.length - 1 ? "Siguiente pregunta →" : "Terminar y ver resultado";
@@ -2004,7 +2010,6 @@
     }
 
     function showQuizResult() {
-      quizScore = QUIZ_DATA.reduce((score, question, index) => score + (quizAnswers[index] === question.correct ? 1 : 0), 0);
       const percentage = Math.round((quizScore / QUIZ_DATA.length) * 100);
       document.getElementById("quizContainer").classList.add("hidden");
       document.getElementById("quizResult").classList.remove("hidden");
@@ -2013,36 +2018,15 @@
       document.getElementById("quizResultMessage").textContent = percentage >= 90
         ? "Excelente dominio del manual."
         : percentage >= 70
-          ? "Buen avance. Revisa las respuestas que te faltaron."
-          : "Te conviene repasar el manual y volver a intentarlo.";
+          ? "Buen resultado. Puedes volver a intentarlo cuando quieras."
+          : "Puedes repasar y volver a intentarlo cuando quieras.";
 
-      const review = document.getElementById("quizReviewContainer");
-      review.replaceChildren();
-      QUIZ_DATA.forEach((question, index) => {
-        const card = document.createElement("article");
-        card.className = "rounded-xl border border-slate-300 bg-slate-100 p-4 text-slate-900";
-        const title = document.createElement("h5");
-        title.className = "font-bold";
-        title.textContent = `${index + 1}. ${question.q}`;
-        const chosen = document.createElement("p");
-        chosen.className = "mt-2";
-        chosen.textContent = `Tu respuesta: ${question.options[quizAnswers[index]] || "Sin respuesta"}`;
-        const correct = document.createElement("p");
-        correct.className = "mt-1 font-semibold";
-        correct.textContent = `Respuesta correcta: ${question.options[question.correct]}`;
-        const explanation = document.createElement("p");
-        explanation.className = "mt-1";
-        explanation.textContent = question.explanation;
-        card.append(title, chosen, correct, explanation);
-        review.appendChild(card);
-      });
     }
 
     function resetQuiz() {
       quizIndex = 0;
       quizScore = 0;
       quizAnsweredCount = 0;
-      quizAnswers = [];
       renderQuizQuestion();
     }
 
