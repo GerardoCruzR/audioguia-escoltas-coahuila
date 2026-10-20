@@ -4,6 +4,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Audioguía de Estudio — Manual de Escoltas de Bandera Coahuila 2026-2027</title>
+  <meta name="theme-color" content="#0f172a" />
+  <meta name="description" content="Audioguía sencilla para estudiar el Manual de Escoltas de Bandera de Coahuila 2026–2027, con audio, rutina, tarjetas y examen." />
+  <link rel="manifest" href="./manifest.json" />
+  <link rel="icon" href="./icon.svg" type="image/svg+xml" />
   <script src="https://cdn.tailwindcss.com/3.4.17"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -13,6 +17,19 @@
       font-family: 'Inter', system-ui, -apple-system, sans-serif;
       background-color: #0f172a;
       color: #f8fafc;
+    }
+    .tab-btn { min-height: 44px; }
+    button, select, summary { touch-action: manipulation; }
+    button:focus-visible, select:focus-visible, summary:focus-visible, a:focus-visible {
+      outline: 3px solid #34d399;
+      outline-offset: 3px;
+    }
+    body.comfortable-reading .text-xs { font-size: 1rem !important; line-height: 1.55 !important; }
+    body.comfortable-reading .text-sm { font-size: 1.0625rem !important; line-height: 1.6 !important; }
+    body.comfortable-reading .text-\[11px\] { font-size: .95rem !important; line-height: 1.5 !important; }
+    body.comfortable-reading .text-\[10px\] { font-size: .9rem !important; line-height: 1.45 !important; }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; }
     }
     .segment-active {
       background: linear-gradient(90deg, rgba(16, 185, 129, 0.22) 0%, rgba(16, 185, 129, 0.05) 100%);
@@ -60,31 +77,52 @@
       </div>
 
       <!-- Navigation Tabs -->
-      <nav class="flex items-center gap-1.5 bg-slate-950 p-1 rounded-xl border border-slate-800 overflow-x-auto max-w-full">
-        <button id="tabBtnPodcast" data-tab="podcast" class="tab-btn px-3 py-1.5 rounded-lg text-xs sm:text-sm font-semibold transition bg-emerald-600 text-white shadow">
-          🎙️ Podcast (2 Locutores)
+      <nav aria-label="Modos de estudio" class="flex items-center gap-1.5 bg-slate-950 p-1 rounded-xl border border-slate-800 overflow-x-auto max-w-full">
+        <button id="tabBtnAudio" type="button" data-tab="audio" aria-controls="viewAudio" aria-pressed="true" class="tab-btn px-3 py-1.5 rounded-lg text-sm font-semibold transition bg-emerald-600 text-white shadow">
+          🎧 Escuchar por tema
         </button>
-        <button id="tabBtnAudio" data-tab="audio" class="tab-btn px-3 py-1.5 rounded-lg text-xs sm:text-sm font-semibold transition text-slate-300 hover:text-white hover:bg-slate-800">
-          🎧 Audioguía (8 Módulos)
+        <button id="tabBtnRoutine" type="button" data-tab="routine" aria-controls="viewRoutine" aria-pressed="false" class="tab-btn px-3 py-1.5 rounded-lg text-sm font-semibold transition text-slate-300 hover:text-white hover:bg-slate-800">
+          🚩 Practicar rutina
         </button>
-        <button id="tabBtnRoutine" data-tab="routine" class="tab-btn px-3 py-1.5 rounded-lg text-xs sm:text-sm font-semibold transition text-slate-300 hover:text-white hover:bg-slate-800">
-          🚩 Rutina 41 Pasos + Metrónomo
+        <button id="tabBtnFlashcards" type="button" data-tab="flashcards" aria-controls="viewFlashcards" aria-pressed="false" class="tab-btn px-3 py-1.5 rounded-lg text-sm font-semibold transition text-slate-300 hover:text-white hover:bg-slate-800">
+          🧠 Repasar tarjetas
         </button>
-        <button id="tabBtnFlashcards" data-tab="flashcards" class="tab-btn px-3 py-1.5 rounded-lg text-xs sm:text-sm font-semibold transition text-slate-300 hover:text-white hover:bg-slate-800">
-          🧠 Tarjetas por Voz
+        <button id="tabBtnQuiz" type="button" data-tab="quiz" aria-controls="viewQuiz" aria-pressed="false" class="tab-btn px-3 py-1.5 rounded-lg text-sm font-semibold transition text-slate-300 hover:text-white hover:bg-slate-800">
+          ✅ Hacer examen
         </button>
-        <button id="tabBtnQuiz" data-tab="quiz" class="tab-btn px-3 py-1.5 rounded-lg text-xs sm:text-sm font-semibold transition text-slate-300 hover:text-white hover:bg-slate-800">
-          ✅ Examen Auditivo
+        <button id="tabBtnPodcast" type="button" data-tab="podcast" aria-controls="viewPodcast" aria-pressed="false" class="tab-btn px-3 py-1.5 rounded-lg text-sm font-semibold transition text-slate-300 hover:text-white hover:bg-slate-800">
+          🎙️ Escuchar conversación
         </button>
       </nav>
+      <div class="flex items-center gap-2">
+        <button id="readingModeBtn" type="button" aria-pressed="false" class="px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-sm font-semibold text-slate-200 border border-slate-700">Aa&nbsp; Texto grande</button>
+      </div>
     </div>
   </header>
 
   <!-- Main Content Container -->
   <main class="flex-1 max-w-6xl w-full mx-auto px-4 py-5 pb-36">
 
-    <!-- Voice & Speed Settings Bar -->
-    <div class="bg-slate-900 border border-slate-800 rounded-2xl p-3.5 mb-5 flex flex-wrap items-center justify-between gap-3 shadow-sm">
+    <section aria-labelledby="welcomeTitle" class="mb-5 rounded-2xl border border-emerald-900/70 bg-gradient-to-r from-slate-900 to-emerald-950/50 p-5 sm:p-6">
+      <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div class="max-w-3xl">
+          <p class="text-sm font-bold uppercase tracking-wide text-emerald-300">Guía de estudio · a tu ritmo</p>
+          <h2 id="welcomeTitle" class="mt-1 text-2xl font-extrabold text-white">Escucha un tema, pausa y continúa cuando quieras.</h2>
+          <p class="mt-2 text-base leading-relaxed text-slate-300">Empieza por la audioguía. Después puedes practicar la rutina, repasar con tarjetas y probarte con el examen. Tu avance se guarda en este dispositivo.</p>
+        </div>
+        <button id="startStudyBtn" type="button" data-tab="audio" class="min-h-12 shrink-0 rounded-xl bg-emerald-600 px-5 py-3 text-base font-bold text-white shadow-lg hover:bg-emerald-500">▶ Empezar a estudiar</button>
+      </div>
+      <div class="mt-4 flex flex-wrap items-center gap-x-5 gap-y-2 border-t border-slate-700/70 pt-3 text-sm text-slate-300">
+        <span id="connectionStatus" role="status" aria-live="polite">Preparando acceso sin conexión…</span>
+        <button id="installAppBtn" type="button" class="hidden rounded-lg border border-emerald-500/40 bg-emerald-900/40 px-3 py-1.5 font-semibold text-emerald-200">Instalar en este dispositivo</button>
+        <span id="savedProgressNote" class="text-slate-400">No necesitas configurar nada para comenzar.</span>
+      </div>
+    </section>
+
+    <!-- Optional voice settings, collapsed to keep the first steps simple. -->
+    <details id="voiceSettings" class="bg-slate-900 border border-slate-800 rounded-2xl mb-5 shadow-sm">
+      <summary class="cursor-pointer list-none rounded-2xl px-4 py-3 text-base font-semibold text-slate-200">⚙️ Preferencias de audio <span class="text-sm font-normal text-slate-400">(opcional)</span></summary>
+      <div class="border-t border-slate-800 p-3.5 flex flex-wrap items-center justify-between gap-3">
       <div class="flex flex-wrap items-center gap-3">
         <div class="flex items-center gap-2">
           <label for="voiceSelect" class="text-xs font-medium text-slate-400">Voz:</label>
@@ -114,10 +152,11 @@
           🔊 Probar audio
         </button>
       </div>
-    </div>
+      </div>
+    </details>
 
     <!-- TAB 0: PODCAST CONVERSACIONAL (2 LOCUTORES: SOFÍA Y MARCO) -->
-    <section id="viewPodcast" class="space-y-5">
+    <section id="viewPodcast" class="hidden space-y-5">
       <!-- Podcast Hero Player Card -->
       <div class="bg-gradient-to-br from-slate-900 via-slate-900 to-emerald-950/40 border border-slate-800 rounded-3xl p-5 sm:p-7 shadow-2xl">
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
@@ -215,7 +254,7 @@
     </section>
 
     <!-- TAB 1: AUDIOGUÍA (8 MÓDULOS) -->
-    <section id="viewAudio" class="hidden grid grid-cols-1 lg:grid-cols-12 gap-5">
+    <section id="viewAudio" class="grid grid-cols-1 lg:grid-cols-12 gap-5">
       <!-- Track List Sidebar -->
       <div class="lg:col-span-4 space-y-2.5">
         <div class="flex items-center justify-between px-1 mb-1">
@@ -1052,7 +1091,9 @@
       }
     ];
 
-    let currentTab = "podcast";
+    const STUDY_STORAGE_KEY = "escoltas-coahuila-study-v1";
+    const STUDY_TABS = ["audio", "routine", "flashcards", "quiz", "podcast"];
+    let currentTab = "audio";
     let podCurrentEpIdx = 0;
     let podCurrentLineIdx = 0;
     let podIsPlaying = false;
@@ -1090,6 +1131,77 @@
     let quizScore = 0;
     let quizAnsweredCount = 0;
     let quizCurrentAnswered = false;
+
+    function readStudyProgress() {
+      try {
+        return JSON.parse(localStorage.getItem(STUDY_STORAGE_KEY) || "{}") || {};
+      } catch (_) {
+        return {};
+      }
+    }
+
+    function saveStudyProgress() {
+      try {
+        localStorage.setItem(STUDY_STORAGE_KEY, JSON.stringify({
+          currentTab,
+          currentTrackIndex,
+          currentSegmentIndex,
+          completedTracks: [...completedTracks],
+          speechRate,
+          comfortableReading: document.body.classList.contains("comfortable-reading")
+        }));
+      } catch (_) {
+        // The guide remains usable when browser storage is unavailable.
+      }
+      updateSavedProgressNote();
+    }
+
+    function restoreStudyProgress() {
+      const saved = readStudyProgress();
+      if (STUDY_TABS.includes(saved.currentTab)) currentTab = saved.currentTab;
+      if (Number.isInteger(saved.currentTrackIndex) && STUDY_TRACKS[saved.currentTrackIndex]) {
+        currentTrackIndex = saved.currentTrackIndex;
+      }
+      const track = STUDY_TRACKS[currentTrackIndex];
+      if (Number.isInteger(saved.currentSegmentIndex)) {
+        currentSegmentIndex = Math.max(0, Math.min(saved.currentSegmentIndex, track.segments.length - 1));
+      }
+      if (Array.isArray(saved.completedTracks)) {
+        completedTracks = new Set(saved.completedTracks.filter(id => STUDY_TRACKS.some(item => item.id === id)));
+      }
+      if ([0.85, 1, 1.15, 1.3, 1.5].includes(saved.speechRate)) speechRate = saved.speechRate;
+      if (saved.comfortableReading) document.body.classList.add("comfortable-reading");
+    }
+
+    function updateSavedProgressNote() {
+      const note = document.getElementById("savedProgressNote");
+      if (!note) return;
+      const track = STUDY_TRACKS[currentTrackIndex];
+      note.textContent = `Avance guardado: módulo ${currentTrackIndex + 1}, párrafo ${currentSegmentIndex + 1}.`;
+    }
+
+    function setStudyTab(tab) {
+      if (!STUDY_TABS.includes(tab)) return;
+      currentTab = tab;
+      stopHandsFreeFlashcard();
+
+      document.querySelectorAll(".tab-btn").forEach(btn => {
+        const active = btn.dataset.tab === tab;
+        btn.setAttribute("aria-pressed", String(active));
+        btn.className = active
+          ? "tab-btn px-3 py-1.5 rounded-lg text-sm font-semibold transition bg-emerald-600 text-white shadow"
+          : "tab-btn px-3 py-1.5 rounded-lg text-sm font-semibold transition text-slate-300 hover:text-white hover:bg-slate-800";
+      });
+
+      document.getElementById("viewPodcast").classList.toggle("hidden", tab !== "podcast");
+      document.getElementById("viewAudio").classList.toggle("hidden", tab !== "audio");
+      document.getElementById("viewRoutine").classList.toggle("hidden", tab !== "routine");
+      document.getElementById("viewFlashcards").classList.toggle("hidden", tab !== "flashcards");
+      document.getElementById("viewQuiz").classList.toggle("hidden", tab !== "quiz");
+      if (tab === "podcast") renderPodcastUI();
+      if (tab === "audio") updateBottomPlayerUI();
+      saveStudyProgress();
+    }
 
     // ============================================================================
     // WEB SPEECH API & WEB AUDIO API HELPERS
@@ -1401,6 +1513,7 @@
         `;
         div.addEventListener("click", () => {
           currentSegmentIndex = sIdx;
+          saveStudyProgress();
           startPlayback();
         });
         segContainer.appendChild(div);
@@ -1439,12 +1552,14 @@
         liveDot.className = "w-2.5 h-2.5 rounded-full bg-slate-600 shrink-0";
         topBtn.innerHTML = "<span>▶ Escuchar módulo</span>";
       }
+      saveStudyProgress();
     }
 
     function selectTrack(index, autoPlay = false) {
       stopRoutineAuto();
       currentTrackIndex = index;
       currentSegmentIndex = 0;
+      saveStudyProgress();
       renderTrackList();
       renderActiveTrack();
       if (autoPlay) {
@@ -1976,6 +2091,7 @@
     // EVENT LISTENERS & INITIALIZATION
     // ============================================================================
     window.addEventListener("DOMContentLoaded", () => {
+      restoreStudyProgress();
       // Render initial views
       renderTrackList();
       renderActiveTrack();
@@ -1983,30 +2099,66 @@
       renderFlashcard();
       renderQuizQuestion();
       renderPodcastUI();
+      setStudyTab(currentTab);
+      document.querySelectorAll(".speed-btn").forEach(btn => {
+        const active = parseFloat(btn.dataset.speed) === speechRate;
+        btn.className = active
+          ? "speed-btn px-2 py-1 text-xs rounded-md bg-emerald-600 text-white font-semibold"
+          : "speed-btn px-2 py-1 text-xs rounded-md text-slate-400 hover:text-white";
+      });
+
+      const readingModeBtn = document.getElementById("readingModeBtn");
+      readingModeBtn.setAttribute("aria-pressed", String(document.body.classList.contains("comfortable-reading")));
+      if (document.body.classList.contains("comfortable-reading")) readingModeBtn.textContent = "Aa Texto normal";
+      readingModeBtn.addEventListener("click", () => {
+        const enabled = document.body.classList.toggle("comfortable-reading");
+        readingModeBtn.setAttribute("aria-pressed", String(enabled));
+        readingModeBtn.textContent = enabled ? "Aa Texto normal" : "Aa Texto grande";
+        saveStudyProgress();
+      });
+
+      document.getElementById("startStudyBtn").addEventListener("click", () => setStudyTab("audio"));
+
+      const connectionStatus = document.getElementById("connectionStatus");
+      const updateConnectionStatus = () => {
+        connectionStatus.textContent = navigator.onLine
+          ? "Con internet ahora · después de esta visita podrás volver sin conexión."
+          : "Sin conexión · estás usando la copia guardada en este dispositivo.";
+      };
+      updateConnectionStatus();
+      window.addEventListener("online", updateConnectionStatus);
+      window.addEventListener("offline", updateConnectionStatus);
+
+      let installPromptEvent = null;
+      const installAppBtn = document.getElementById("installAppBtn");
+      window.addEventListener("beforeinstallprompt", event => {
+        event.preventDefault();
+        installPromptEvent = event;
+        installAppBtn.classList.remove("hidden");
+      });
+      installAppBtn.addEventListener("click", async () => {
+        if (!installPromptEvent) return;
+        installPromptEvent.prompt();
+        await installPromptEvent.userChoice;
+        installPromptEvent = null;
+        installAppBtn.classList.add("hidden");
+      });
+      if ("serviceWorker" in navigator && location.protocol.startsWith("http")) {
+        navigator.serviceWorker.register("./service-worker.js", { scope: "./" })
+          .then(() => navigator.serviceWorker.ready)
+          .then(() => {
+            if (navigator.onLine) connectionStatus.textContent = "Copia sin conexión preparada · la voz depende de las voces instaladas en tu dispositivo.";
+          })
+          .catch(() => {
+            connectionStatus.textContent = navigator.onLine
+              ? "La copia sin conexión no se pudo preparar. Mantén internet y vuelve a cargar la página."
+              : "Sin conexión y sin copia guardada todavía. Conéctate una vez para preparar la guía.";
+          });
+      }
 
       // Tab switching
       document.querySelectorAll(".tab-btn").forEach(btn => {
-        btn.addEventListener("click", () => {
-          const tab = btn.dataset.tab;
-          currentTab = tab;
-          stopHandsFreeFlashcard();
-
-          document.querySelectorAll(".tab-btn").forEach(b => {
-            if (b.dataset.tab === tab) {
-              b.className = "tab-btn px-3 py-1.5 rounded-lg text-xs sm:text-sm font-semibold transition bg-emerald-600 text-white shadow";
-            } else {
-              b.className = "tab-btn px-3 py-1.5 rounded-lg text-xs sm:text-sm font-semibold transition text-slate-300 hover:text-white hover:bg-slate-800";
-            }
-          });
-
-          document.getElementById("viewPodcast").classList.toggle("hidden", tab !== "podcast");
-          document.getElementById("viewAudio").classList.toggle("hidden", tab !== "audio");
-          document.getElementById("viewRoutine").classList.toggle("hidden", tab !== "routine");
-          document.getElementById("viewFlashcards").classList.toggle("hidden", tab !== "flashcards");
-          document.getElementById("viewQuiz").classList.toggle("hidden", tab !== "quiz");
-          if (tab === "podcast") renderPodcastUI();
-          if (tab === "audio") updateBottomPlayerUI();
-        });
+        btn.addEventListener("click", () => setStudyTab(btn.dataset.tab));
       });
 
       // Voice select & speed buttons

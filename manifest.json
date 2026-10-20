@@ -1,0 +1,19 @@
+{
+  "name": "Audioguía de Escoltas de Bandera de Coahuila",
+  "short_name": "Audioguía Escoltas",
+  "description": "Guía para estudiar y practicar a tu ritmo, incluso sin conexión después de la primera visita.",
+  "lang": "es-MX",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#0f172a",
+  "theme_color": "#0f172a",
+  "icons": [
+    {
+      "src": "./icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
