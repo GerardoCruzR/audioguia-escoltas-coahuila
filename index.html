@@ -517,17 +517,18 @@
         <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800 pb-4 mb-5">
           <div>
             <span class="text-xs font-bold uppercase tracking-wider text-emerald-400">Simulador de Evaluación</span>
-            <h2 class="text-xl font-bold text-white">Examen Auditivo del Manual de Escoltas</h2>
+            <h2 class="text-xl font-bold text-white">Examen del Manual de Escoltas</h2>
+            <p class="mt-2 text-sm text-slate-300">20 preguntas de opción múltiple. El resultado y las respuestas correctas aparecen al terminar.</p>
           </div>
           <div class="flex items-center gap-3">
-            <span id="quizScoreBadge" class="text-xs font-bold px-3 py-1 rounded-lg bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">Aciertos: 0 / 0</span>
+            <span id="quizScoreBadge" class="text-xs font-bold px-3 py-1 rounded-lg bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">Respondidas: 0 / 20</span>
             <button id="quizResetBtn" class="text-xs px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300">Reiniciar</button>
           </div>
         </div>
 
         <div id="quizContainer">
           <div class="flex items-center justify-between mb-3">
-            <span id="quizProgressText" class="text-xs font-semibold text-slate-400">Pregunta 1 de 12</span>
+            <span id="quizProgressText" class="text-xs font-semibold text-slate-400">Pregunta 1 de 20</span>
             <button id="quizReadBtn" class="px-3 py-1 rounded-lg bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-300 border border-emerald-500/30 text-xs font-semibold">
               🔊 Leer pregunta en voz alta
             </button>
@@ -537,13 +538,21 @@
 
           <div id="quizOptionsContainer" class="space-y-2.5 mb-4"></div>
 
-          <div id="quizFeedbackBox" class="hidden rounded-xl p-4 mb-4 text-sm"></div>
+          <div id="quizFeedbackBox" aria-live="polite" class="hidden rounded-xl p-4 mb-4 text-sm"></div>
 
           <div class="flex justify-end">
             <button id="quizNextBtn" class="hidden px-5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-semibold">
               Siguiente pregunta →
             </button>
           </div>
+        </div>
+        <div id="quizResult" class="hidden" aria-live="polite">
+          <h3 class="text-xl font-bold text-white mb-2">Resultado del examen</h3>
+          <p id="quizResultScore" class="text-lg font-bold mb-1"></p>
+          <p id="quizResultMessage" class="mb-5 text-slate-300"></p>
+          <h4 class="font-bold mb-3">Revisión de respuestas</h4>
+          <div id="quizReviewContainer" class="space-y-3 mb-5"></div>
+          <button id="quizRestartBtn" type="button" class="rounded-xl bg-emerald-600 px-5 py-3 font-bold text-white">Intentar el examen otra vez</button>
         </div>
       </div>
     </section>
@@ -931,7 +940,7 @@
     // ============================================================================
     const QUIZ_DATA = [
       {
-        q: "1. ¿En qué momento se utiliza la voz de advertencia «¡Atención escolta!»?",
+        q: "¿En qué momento se utiliza la voz de advertencia «¡Atención escolta!»?",
         options: [
           "Antes de cada evolución durante todo el recorrido",
           "Únicamente para iniciar un recorrido",
@@ -942,7 +951,7 @@
         explanation: "El manual especifica en su nota de la página 2 que «Atención escolta» únicamente se utiliza para iniciar un recorrido; durante el mismo se utiliza «atención» o «escolta»."
       },
       {
-        q: "2. ¿En cuántos tiempos coloca el abanderado el asta en la cuja durante el Recibimiento de Asta?",
+        q: "¿En cuántos tiempos coloca el abanderado el asta en la cuja durante el Recibimiento de Asta?",
         options: [
           "En 2 tiempos",
           "En 3 tiempos",
@@ -953,7 +962,7 @@
         explanation: "El recibimiento de asta se realiza en 4 tiempos: 1) Extensión de brazos y toma, 2) Jalón enérgico al hombro, 3) Entrada a la cuja, y 4) Mano izquierda al costado. (Subir o bajar el asta al piso son 5 tiempos)."
       },
       {
-        q: "3. ¿Cuál es la longitud del paso y la cadencia en el Paso de Costado?",
+        q: "¿Cuál es la longitud del paso y la cadencia en el Paso de Costado?",
         options: [
           "25 cm y 60 pasos por minuto",
           "35 cm y 120 pasos por minuto",
@@ -964,7 +973,7 @@
         explanation: "El paso de costado se ejecuta a una longitud de 25 cm y cadencia de 60 pasos por minuto, recorriendo de 6 a 15 pasos (mínimo 6)."
       },
       {
-        q: "4. En la orden «¡Escolta en descanso, Ya!», ¿quiénes adoptan la posición de descanso?",
+        q: "En la orden «¡Escolta en descanso, Ya!», ¿quiénes adoptan la posición de descanso?",
         options: [
           "Los 6 integrantes de la escolta",
           "Todos excepto el abanderado",
@@ -975,7 +984,7 @@
         explanation: "En Escolta en Descanso (pág. 7), el abanderado baja el asta a 10 cm del pie derecho, solo los guardias 3 y 4 adoptan la posición de descanso, y el comandante y guardias 1 y 2 continúan en firmes."
       },
       {
-        q: "5. ¿Qué ocurre en los tiempos 5 y 6 de la evolución «Abrir Escolta»?",
+        q: "¿Qué ocurre en los tiempos 5 y 6 de la evolución «Abrir Escolta»?",
         options: [
           "Todos los guardias dan un paso de costado",
           "El comandante da un paso más de costado a la derecha y los demás marcan el paso",
@@ -986,7 +995,7 @@
         explanation: "En Abrir Escolta (9 tiempos): T1-2 alto, T3-4 abren guardias y comandante, T5-6 el comandante da un paso más de costado a la derecha mientras los demás marcan el paso, T7-8 todos marcan paso, T9 desplante."
       },
       {
-        q: "6. ¿Cuál es el orden correcto de adelante hacia atrás en «Columna por Uno»?",
+        q: "¿Cuál es el orden correcto de adelante hacia atrás en «Columna por Uno»?",
         options: [
           "Abanderado, Comandante, G1, G2, G3, G4",
           "Comandante, G1, Abanderado, G2, G3, G4",
@@ -997,7 +1006,7 @@
         explanation: "En Columna por Uno (pág. 9), el comandante va al frente, seguido por Guardia 1 delante del Abanderado, y detrás del abanderado van Guardia 2, Guardia 3 y Guardia 4."
       },
       {
-        q: "7. ¿Cuál es la longitud del paso y la cadencia en el Paso Corto?",
+        q: "¿Cuál es la longitud del paso y la cadencia en el Paso Corto?",
         options: [
           "25 cm y 60 pasos por minuto",
           "35 cm y 120 pasos por minuto",
@@ -1008,7 +1017,7 @@
         explanation: "El paso corto (pág. 9) tiene una longitud de 35 cm y cadencia de 120 pasos por minuto, alternando elevación de rodillas sin rebasar la altura de la cadera."
       },
       {
-        q: "8. ¿Cuáles son las dimensiones de la cancha para la Rutina Obligatoria Estatal 2026-2027?",
+        q: "¿Cuáles son las dimensiones de la cancha para la Rutina Obligatoria Estatal 2026-2027?",
         options: [
           "10 metros de ancho por 20 metros de largo",
           "15 metros de ancho por 28 metros de largo",
@@ -1019,7 +1028,7 @@
         explanation: "La nota aclaratoria de la página 11 establece un espacio de 15 metros de ancho por 28 metros de largo (medidas estándar de una cancha de básquetbol)."
       },
       {
-        q: "9. En la Rutina Obligatoria de 41 pasos, ¿qué evoluciones se realizan en los números 7 y 9?",
+        q: "En la Rutina Obligatoria de 41 pasos, ¿qué evoluciones se realizan en los números 7 y 9?",
         options: [
           "Paso de costado a la derecha y a la izquierda",
           "Abrir escolta y Cerrar escolta",
@@ -1030,7 +1039,7 @@
         explanation: "En la rutina obligatoria: el paso 7 es Conversión a la derecha (360°), el paso 8 es Alto, el paso 9 es Conversión a la izquierda (360°) y el paso 10 es Alto."
       },
       {
-        q: "10. Según el Artículo 18 de la Ley, ¿en cuál de las siguientes fechas se iza la Bandera a MEDIA ASTA?",
+        q: "Según el Artículo 18 de la Ley, ¿en cuál de las siguientes fechas se iza la Bandera a MEDIA ASTA?",
         options: [
           "21 de marzo (Natalicio de Benito Juárez)",
           "18 de julio (Aniversario de la muerte de Benito Juárez)",
@@ -1041,7 +1050,7 @@
         explanation: "Los aniversarios luctuosos (como el 18 de julio, muerte de Benito Juárez en 1872, o el 22 de febrero, muerte de Francisco I. Madero) se izan a media asta; los natalicios se izan a toda asta."
       },
       {
-        q: "11. ¿Quién debe izar la Bandera Nacional en las ceremonias cívicas escolares?",
+        q: "¿Quién debe izar la Bandera Nacional en las ceremonias cívicas escolares?",
         options: [
           "El comandante de la escolta",
           "El abanderado saliente",
@@ -1052,7 +1061,7 @@
         explanation: "En la página 16 (Izar bandera a toda asta, punto 3) se indica que la bandera deberá ser izada por la máxima autoridad educativa presente."
       },
       {
-        q: "12. En la Ceremonia Cívica Semanal de los lunes, ¿a partir de qué punto pueden aplaudir los presentes?",
+        q: "En la Ceremonia Cívica Semanal de los lunes, ¿a partir de qué punto pueden aplaudir los presentes?",
         options: [
           "Al terminar el Himno Nacional",
           "Al entregar la bandera en la cuja",
@@ -1061,6 +1070,54 @@
         ],
         correct: 2,
         explanation: "El punto 7 de la Ceremonia Cívica Semanal (pág. 17) señala que al iniciar el Acto Social (efemérides, bailables, poesía, etc.) los presentes ya podrán aplaudir."
+      },
+      {
+        q: "¿Cuántos integrantes titulares forman la escolta y cuántos elementos de reserva se contemplan?",
+        options: ["4 titulares y 2 reservas", "6 titulares y 2 reservas", "6 titulares y 1 reserva", "8 titulares sin reservas"],
+        correct: 1,
+        explanation: "La escolta se integra por seis titulares: abanderado, comandante y cuatro guardias; además, se consideran dos elementos de reserva (manual, p. 2)."
+      },
+      {
+        q: "Al presentarse en una ceremonia o concurso, ¿cómo deben presentarse sus integrantes?",
+        options: ["Con uniforme representativo, limpios y bien peinados", "Con ropa deportiva, aunque no sea uniforme escolar", "Únicamente con el asta y sin uniforme", "En descanso y sin formación"],
+        correct: 0,
+        explanation: "El manual indica que deben presentarse limpios, bien peinados y con el uniforme representativo de su institución, con gallardía (manual, p. 2)."
+      },
+      {
+        q: "En posición de firmes, ¿qué ángulo forman las puntas de los pies?",
+        options: ["15 grados", "30 grados", "45 grados", "90 grados"],
+        correct: 2,
+        explanation: "Los talones permanecen unidos y las puntas de los pies ligeramente separadas, formando un ángulo de 45 grados (manual, p. 3)."
+      },
+      {
+        q: "¿Qué función tiene la voz preventiva en una orden de mando?",
+        options: ["Indica el momento preciso para ejecutar la orden", "Llama la atención antes de indicar la acción", "Indica la acción que se realizará antes de la voz ejecutiva", "Se usa únicamente para iniciar el recorrido"],
+        correct: 2,
+        explanation: "La voz preventiva indica la acción por ejecutar; la voz ejecutiva, como «¡YA!», marca el momento preciso (manual, p. 2)."
+      },
+      {
+        q: "Durante el saludo a la Bandera, ¿cómo se coloca la mano derecha?",
+        options: ["En la frente, con la palma hacia adelante", "En el pecho, pulgar sobre el pectoral izquierdo y palma hacia abajo", "A la altura del hombro, con los dedos separados", "Al costado, con la palma hacia atrás"],
+        correct: 1,
+        explanation: "La mano se coloca aproximadamente a la altura del corazón; el pulgar toca el pectoral izquierdo y los dedos van juntos con la palma hacia abajo. Se sostiene cerca de dos segundos (manual, p. 4)."
+      },
+      {
+        q: "Mientras se baja o se sube el asta, ¿cuántos tiempos se emplean y qué posición debe conservar?",
+        options: ["4 tiempos y horizontal", "5 tiempos y vertical", "6 tiempos y diagonal", "8 tiempos y vertical"],
+        correct: 1,
+        explanation: "El manual describe cinco tiempos para bajar y cinco para subir el asta, que debe permanecer vertical durante todo el movimiento (manual, p. 5)."
+      },
+      {
+        q: "En «Escolta a la derecha o a la izquierda» sobre la marcha, ¿cuándo inicia de nuevo la marcha?",
+        options: ["Al terminar el segundo tiempo", "En el quinto tiempo", "En el tiempo nueve, después de la evolución de ocho tiempos", "Inmediatamente después del giro, sin contar tiempos"],
+        correct: 2,
+        explanation: "El giro de 90 grados se realiza en ocho tiempos; en el tiempo nueve se inicia la marcha con desplante del pie izquierdo y sin braceo (manual, p. 6)."
+      },
+      {
+        q: "Al izar la Bandera a media asta, ¿cómo se realiza el movimiento?",
+        options: ["Se coloca directamente a media altura", "Sube hasta la parte más alta y luego baja hasta la mitad", "Se iza completamente y se vuelve a bajar al suelo", "Se mantiene abajo mientras se entona el Himno"],
+        correct: 1,
+        explanation: "La Bandera primero asciende hasta la parte más alta y después desciende hasta la mitad. Las personas permanecen en saludo hasta que termina el descenso (manual, p. 17)."
       }
     ];
 
@@ -1220,6 +1277,7 @@
     let quizScore = 0;
     let quizAnsweredCount = 0;
     let quizCurrentAnswered = false;
+    let quizAnswers = [];
 
     function readStudyProgress() {
       try {
@@ -1896,8 +1954,10 @@
       const qObj = QUIZ_DATA[quizIndex];
       quizCurrentAnswered = false;
       document.getElementById("quizProgressText").textContent = `Pregunta ${quizIndex + 1} de ${QUIZ_DATA.length}`;
-      document.getElementById("quizScoreBadge").textContent = `Aciertos: ${quizScore} / ${quizAnsweredCount}`;
+      document.getElementById("quizScoreBadge").textContent = `Respondidas: ${quizAnsweredCount} / ${QUIZ_DATA.length}`;
       document.getElementById("quizQuestionText").textContent = qObj.q;
+      document.getElementById("quizContainer").classList.remove("hidden");
+      document.getElementById("quizResult").classList.add("hidden");
 
       const optContainer = document.getElementById("quizOptionsContainer");
       optContainer.innerHTML = "";
@@ -1922,42 +1982,68 @@
       if (quizCurrentAnswered) return;
       quizCurrentAnswered = true;
       quizAnsweredCount++;
-
-      const qObj = QUIZ_DATA[quizIndex];
-      const isCorrect = selectedIdx === qObj.correct;
-      if (isCorrect) {
-        quizScore++;
-        playChime(880, 0.15, "triangle");
-      } else {
-        playChime(280, 0.2, "sawtooth");
-      }
-
-      document.getElementById("quizScoreBadge").textContent = `Aciertos: ${quizScore} / ${quizAnsweredCount}`;
+      quizAnswers[quizIndex] = selectedIdx;
+      document.getElementById("quizScoreBadge").textContent = `Respondidas: ${quizAnsweredCount} / ${QUIZ_DATA.length}`;
 
       const buttons = document.getElementById("quizOptionsContainer").querySelectorAll("button");
       buttons.forEach((btn, idx) => {
-        if (idx === qObj.correct) {
-          btn.className = "w-full text-left p-3.5 rounded-xl bg-emerald-950/70 border-2 border-emerald-500 text-xs sm:text-sm text-emerald-200 font-bold flex items-center gap-3";
-        } else if (idx === selectedIdx && !isCorrect) {
-          btn.className = "w-full text-left p-3.5 rounded-xl bg-rose-950/60 border-2 border-rose-500 text-xs sm:text-sm text-rose-200 font-medium flex items-center gap-3";
-        } else {
-          btn.className = "w-full text-left p-3.5 rounded-xl bg-slate-950/40 border border-slate-800/50 text-xs sm:text-sm text-slate-500 flex items-center gap-3";
-        }
+        btn.disabled = true;
+        btn.setAttribute("aria-pressed", String(idx === selectedIdx));
+        btn.className = idx === selectedIdx
+          ? "w-full text-left p-3.5 rounded-xl bg-emerald-100 border-2 border-emerald-700 text-xs sm:text-sm text-slate-900 font-bold flex items-center gap-3"
+          : "w-full text-left p-3.5 rounded-xl bg-slate-100 border border-slate-300 text-xs sm:text-sm text-slate-600 flex items-center gap-3";
       });
 
       const fb = document.getElementById("quizFeedbackBox");
-      fb.className = `rounded-xl p-4 mb-4 text-xs sm:text-sm border ${
-        isCorrect
-          ? "bg-emerald-950/40 border-emerald-500/40 text-emerald-200"
-          : "bg-rose-950/40 border-rose-500/40 text-rose-200"
-      }`;
-      fb.innerHTML = `<strong>${isCorrect ? "¡Correcto!" : "Respuesta incorrecta."}</strong> ${qObj.explanation}`;
-
-      speakText(`${isCorrect ? "Correcto." : "Respuesta incorrecta."} ${qObj.explanation}`);
+      fb.className = "rounded-xl p-4 mb-4 text-xs sm:text-sm border border-slate-300 bg-slate-100 text-slate-900";
+      fb.textContent = "Respuesta guardada. Al terminar podrás ver tu resultado y revisar las respuestas correctas.";
 
       const nextBtn = document.getElementById("quizNextBtn");
-      nextBtn.textContent = quizIndex < QUIZ_DATA.length - 1 ? "Siguiente pregunta →" : "Ver resultado final y reiniciar";
+      nextBtn.textContent = quizIndex < QUIZ_DATA.length - 1 ? "Siguiente pregunta →" : "Terminar y ver resultado";
       nextBtn.classList.remove("hidden");
+    }
+
+    function showQuizResult() {
+      quizScore = QUIZ_DATA.reduce((score, question, index) => score + (quizAnswers[index] === question.correct ? 1 : 0), 0);
+      const percentage = Math.round((quizScore / QUIZ_DATA.length) * 100);
+      document.getElementById("quizContainer").classList.add("hidden");
+      document.getElementById("quizResult").classList.remove("hidden");
+      document.getElementById("quizScoreBadge").textContent = `Resultado: ${quizScore} / ${QUIZ_DATA.length}`;
+      document.getElementById("quizResultScore").textContent = `${quizScore} de ${QUIZ_DATA.length} respuestas correctas (${percentage}%)`;
+      document.getElementById("quizResultMessage").textContent = percentage >= 90
+        ? "Excelente dominio del manual."
+        : percentage >= 70
+          ? "Buen avance. Revisa las respuestas que te faltaron."
+          : "Te conviene repasar el manual y volver a intentarlo.";
+
+      const review = document.getElementById("quizReviewContainer");
+      review.replaceChildren();
+      QUIZ_DATA.forEach((question, index) => {
+        const card = document.createElement("article");
+        card.className = "rounded-xl border border-slate-300 bg-slate-100 p-4 text-slate-900";
+        const title = document.createElement("h5");
+        title.className = "font-bold";
+        title.textContent = `${index + 1}. ${question.q}`;
+        const chosen = document.createElement("p");
+        chosen.className = "mt-2";
+        chosen.textContent = `Tu respuesta: ${question.options[quizAnswers[index]] || "Sin respuesta"}`;
+        const correct = document.createElement("p");
+        correct.className = "mt-1 font-semibold";
+        correct.textContent = `Respuesta correcta: ${question.options[question.correct]}`;
+        const explanation = document.createElement("p");
+        explanation.className = "mt-1";
+        explanation.textContent = question.explanation;
+        card.append(title, chosen, correct, explanation);
+        review.appendChild(card);
+      });
+    }
+
+    function resetQuiz() {
+      quizIndex = 0;
+      quizScore = 0;
+      quizAnsweredCount = 0;
+      quizAnswers = [];
+      renderQuizQuestion();
     }
 
     // ============================================================================
@@ -2464,19 +2550,12 @@
           quizIndex++;
           renderQuizQuestion();
         } else {
-          quizIndex = 0;
-          quizScore = 0;
-          quizAnsweredCount = 0;
-          renderQuizQuestion();
+          showQuizResult();
         }
       });
 
-      document.getElementById("quizResetBtn").addEventListener("click", () => {
-        quizIndex = 0;
-        quizScore = 0;
-        quizAnsweredCount = 0;
-        renderQuizQuestion();
-      });
+      document.getElementById("quizResetBtn").addEventListener("click", resetQuiz);
+      document.getElementById("quizRestartBtn").addEventListener("click", resetQuiz);
     });
   </script>
 </body>
