@@ -28,6 +28,22 @@
     body.comfortable-reading .text-sm { font-size: 1.0625rem !important; line-height: 1.6 !important; }
     body.comfortable-reading .text-\[11px\] { font-size: .95rem !important; line-height: 1.5 !important; }
     body.comfortable-reading .text-\[10px\] { font-size: .9rem !important; line-height: 1.45 !important; }
+    body.comfortable-reading .text-base { font-size: 1.125rem !important; line-height: 1.7 !important; }
+    body.comfortable-reading main { font-size: 1.125rem; }
+    body.comfortable-reading button { min-height: 52px; }
+    body.simple-reader #playCurrentTrackBtn,
+    body.simple-reader #activeTrackHighlights,
+    body.simple-reader #formationDiagramBox { display: none !important; }
+    body.simple-reader #viewAudio > div:first-child { grid-column: 1 / -1; }
+    body.simple-reader #viewAudio > div:last-child { grid-column: 1 / -1; }
+    body.simple-reader #segmentsContainer { max-height: none; }
+    body.simple-reader #playerPrevTrackBtn,
+    body.simple-reader #playerPrevSegBtn,
+    body.simple-reader #playerNextSegBtn,
+    body.simple-reader #playerNextTrackBtn { display: none !important; }
+    body.simple-reader footer:not(.hidden) { padding-bottom: max(.5rem, env(safe-area-inset-bottom)); }
+    body.simple-reader #playerPlayPauseBtn { min-height: 60px; min-width: 180px; font-size: 1.25rem; justify-content: center; }
+    body.simple-reader .elderly-mode-only { display: block; }
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; }
     }
@@ -49,7 +65,7 @@
     ::-webkit-scrollbar-thumb:hover { background: #64748b; }
   </style>
 </head>
-<body class="min-h-screen flex flex-col bg-slate-950 text-slate-100 selection:bg-emerald-500 selection:text-white">
+<body class="simple-reader comfortable-reading min-h-screen flex flex-col bg-slate-950 text-slate-100 selection:bg-emerald-500 selection:text-white">
 
   <!-- Top Header Flag Accent -->
   <div class="h-1.5 w-full flex">
@@ -76,8 +92,10 @@
         </div>
       </div>
 
+      <details id="advancedModes" class="w-full bg-slate-950 rounded-xl border border-slate-800">
+        <summary class="cursor-pointer list-none rounded-xl px-4 py-3 text-base font-semibold text-slate-200">Más opciones de estudio</summary>
       <!-- Navigation Tabs -->
-      <nav aria-label="Modos de estudio" class="flex items-center gap-1.5 bg-slate-950 p-1 rounded-xl border border-slate-800 overflow-x-auto max-w-full">
+      <nav aria-label="Modos de estudio" class="flex flex-wrap items-center gap-2 p-3 border-t border-slate-800">
         <button id="tabBtnAudio" type="button" data-tab="audio" aria-controls="viewAudio" aria-current="page" class="tab-btn px-3 py-1.5 rounded-lg text-sm font-semibold transition bg-emerald-600 text-white shadow">
           🎧 Escuchar por tema
         </button>
@@ -94,9 +112,8 @@
           🎙️ Escuchar conversación
         </button>
       </nav>
-      <div class="flex items-center gap-2">
-        <button id="readingModeBtn" type="button" aria-pressed="false" class="px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-sm font-semibold text-slate-200 border border-slate-700">Aa&nbsp; Texto grande</button>
-      </div>
+        <button id="readingModeBtn" type="button" aria-pressed="true" class="px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-base font-semibold text-slate-200 border border-slate-700">Aa&nbsp; Texto normal</button>
+      </details>
     </div>
   </header>
 
@@ -107,10 +124,10 @@
       <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div class="max-w-3xl">
           <p class="text-sm font-bold uppercase tracking-wide text-emerald-300">Guía de estudio · a tu ritmo</p>
-          <h2 id="welcomeTitle" class="mt-1 text-2xl font-extrabold text-white">Escucha un tema, pausa y continúa cuando quieras.</h2>
-          <p class="mt-2 text-base leading-relaxed text-slate-300">Empieza por la audioguía. Después puedes practicar la rutina, repasar con tarjetas y probarte con el examen. Tu avance se guarda en este dispositivo.</p>
+          <h2 id="welcomeTitle" class="mt-1 text-2xl font-extrabold text-white">Estudia escuchando, a tu ritmo.</h2>
+          <p class="mt-2 text-base leading-relaxed text-slate-200">Toca el botón verde para escuchar. La guía recuerda dónde te quedaste.</p>
         </div>
-        <button id="startStudyBtn" type="button" data-tab="audio" class="min-h-12 shrink-0 rounded-xl bg-emerald-600 px-5 py-3 text-base font-bold text-white shadow-lg hover:bg-emerald-500">▶ Escuchar ahora</button>
+        <button id="startStudyBtn" type="button" data-tab="audio" class="min-h-16 shrink-0 rounded-xl bg-emerald-600 px-7 py-4 text-xl font-extrabold text-white shadow-lg hover:bg-emerald-500">▶ Escuchar ahora</button>
       </div>
       <div class="mt-4 flex flex-wrap items-center gap-x-5 gap-y-2 border-t border-slate-700/70 pt-3 text-sm text-slate-300">
         <span id="connectionStatus" role="status" aria-live="polite">Preparando acceso sin conexión…</span>
@@ -120,7 +137,7 @@
     </section>
 
     <!-- Optional voice settings, collapsed to keep the first steps simple. -->
-    <details id="voiceSettings" class="bg-slate-900 border border-slate-800 rounded-2xl mb-5 shadow-sm">
+    <details id="voiceSettings" class="hidden bg-slate-900 border border-slate-800 rounded-2xl mb-5 shadow-sm">
       <summary class="cursor-pointer list-none rounded-2xl px-4 py-3 text-base font-semibold text-slate-200">⚙️ Preferencias de audio <span class="text-sm font-normal text-slate-400">(opcional)</span></summary>
       <div class="border-t border-slate-800 p-3.5 flex flex-wrap items-center justify-between gap-3">
       <div class="flex flex-wrap items-center gap-3">
@@ -256,12 +273,11 @@
     <!-- TAB 1: AUDIOGUÍA (8 MÓDULOS) -->
     <section id="viewAudio" class="grid grid-cols-1 lg:grid-cols-12 gap-5">
       <!-- Track List Sidebar -->
-      <div class="lg:col-span-4 space-y-2.5">
-        <div class="flex items-center justify-between px-1 mb-1">
-          <h2 class="text-xs font-bold uppercase tracking-wider text-slate-400">Pistas de Estudio (Manual Completo)</h2>
-          <span id="completedTracksCount" class="text-xs text-emerald-400 font-semibold">0/8 estudiadas</span>
-        </div>
-        <div id="trackListContainer" class="space-y-2"></div>
+      <div class="lg:col-span-4">
+        <details id="trackSelector" class="rounded-xl border border-slate-700 bg-slate-900">
+          <summary class="cursor-pointer list-none rounded-xl px-4 py-3 text-base font-semibold text-slate-200">Elegir otro tema <span id="completedTracksCount" class="text-sm text-emerald-300 font-normal">0 de 8 estudiados</span></summary>
+          <div id="trackListContainer" class="space-y-2 border-t border-slate-700 p-3"></div>
+        </details>
       </div>
 
       <!-- Active Track Script & Visual Reference -->
@@ -298,12 +314,11 @@
             <div id="formationSvgContainer" class="w-full flex flex-col items-center justify-center py-2"></div>
           </div>
 
-          <!-- Synchronized Audio Transcript Segments -->
-          <div class="flex items-center justify-between mb-2">
-            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400">Guion de Audio Sincronizado (Haz clic en cualquier párrafo para escucharlo)</h3>
-            <span id="segmentProgressLabel" class="text-xs text-slate-400">Párrafo 1</span>
-          </div>
-          <div id="segmentsContainer" class="space-y-2.5 max-h-[420px] overflow-y-auto pr-1"></div>
+          <!-- Optional transcript for people who prefer to read along. -->
+          <details id="transcriptDetails" class="mt-4 rounded-xl border border-slate-700 bg-slate-950">
+            <summary class="cursor-pointer list-none rounded-xl px-4 py-3 text-base font-semibold text-slate-200">Leer el texto de este tema <span id="segmentProgressLabel" class="text-sm font-normal text-slate-400">Párrafo 1</span></summary>
+            <div id="segmentsContainer" class="space-y-3 border-t border-slate-700 p-3"></div>
+          </details>
         </div>
       </div>
     </section>
@@ -463,7 +478,7 @@
   </main>
 
   <!-- Sticky Bottom Audio Player Bar -->
-  <footer class="fixed bottom-0 inset-x-0 z-40 bg-slate-900/95 border-t border-slate-800 backdrop-blur-md shadow-2xl">
+  <footer id="studyPlayerBar" class="hidden fixed bottom-0 inset-x-0 z-40 bg-slate-900/95 border-t border-slate-800 backdrop-blur-md shadow-2xl">
     <div class="max-w-6xl mx-auto px-4 py-2.5 flex flex-col gap-1.5">
       <!-- Progress Bar -->
       <div class="w-full flex items-center gap-2">
@@ -1094,6 +1109,7 @@
     const STUDY_STORAGE_KEY = "escoltas-coahuila-study-v1";
     const STUDY_TABS = ["audio", "routine", "flashcards", "quiz", "podcast"];
     let currentTab = "audio";
+    let hasStartedPlayback = false;
     let podCurrentEpIdx = 0;
     let podCurrentLineIdx = 0;
     let podIsPlaying = false;
@@ -1103,7 +1119,7 @@
     let currentTrackIndex = 0;
     let currentSegmentIndex = 0;
     let isPlaying = false;
-    let speechRate = 1.0;
+    let speechRate = 0.85;
     let selectedVoiceURI = "";
     let availableVoices = [];
     let completedTracks = new Set();
@@ -1158,7 +1174,8 @@
 
     function restoreStudyProgress() {
       const saved = readStudyProgress();
-      if (STUDY_TABS.includes(saved.currentTab)) currentTab = saved.currentTab;
+      // Always open on the simple audio study screen.
+      currentTab = "audio";
       if (Number.isInteger(saved.currentTrackIndex) && STUDY_TRACKS[saved.currentTrackIndex]) {
         currentTrackIndex = saved.currentTrackIndex;
       }
@@ -1478,7 +1495,7 @@
         });
         container.appendChild(btn);
       });
-      document.getElementById("completedTracksCount").textContent = `${completedTracks.size}/${STUDY_TRACKS.length} estudiadas`;
+      document.getElementById("completedTracksCount").textContent = `${completedTracks.size} de ${STUDY_TRACKS.length} temas`;
     }
 
     function renderActiveTrack() {
@@ -1539,11 +1556,12 @@
       const seg = track.segments[currentSegmentIndex] || track.segments[0];
       const totalSegs = track.segments.length;
       const pct = Math.round(((currentSegmentIndex + 1) / totalSegs) * 100);
+      document.getElementById("studyPlayerBar").classList.toggle("hidden", !hasStartedPlayback);
 
       document.getElementById("playerCurrentSegIndex").textContent = `0${currentSegmentIndex + 1}/0${totalSegs}`;
       document.getElementById("playerProgressBarFill").style.width = `${pct}%`;
       document.getElementById("playerNowPlayingTitle").textContent = track.title;
-      document.getElementById("playerNowPlayingSnippet").textContent = `${seg.heading}: ${seg.text}`;
+      document.getElementById("playerNowPlayingSnippet").textContent = `Tema ${currentTrackIndex + 1}, párrafo ${currentSegmentIndex + 1} de ${totalSegs}`;
 
       const playIcon = document.getElementById("playerPlayPauseIcon");
       const playLabel = document.getElementById("playerPlayPauseLabel");
@@ -1583,6 +1601,8 @@
 
     function startPlayback() {
       stopRoutineAuto();
+      hasStartedPlayback = true;
+      document.getElementById("startStudyBtn").classList.add("hidden");
       isPlaying = true;
       const track = STUDY_TRACKS[currentTrackIndex];
       const seg = track.segments[currentSegmentIndex];
@@ -2137,7 +2157,7 @@
       const connectionStatus = document.getElementById("connectionStatus");
       const updateConnectionStatus = () => {
         connectionStatus.textContent = navigator.onLine
-          ? "Con internet ahora · después de esta visita podrás volver sin conexión."
+          ? "Con internet · la guía se guarda para estudiar sin conexión."
           : "Sin conexión · estás usando la copia guardada en este dispositivo.";
       };
       updateConnectionStatus();
@@ -2162,7 +2182,7 @@
         navigator.serviceWorker.register("./service-worker.js", { scope: "./" })
           .then(() => navigator.serviceWorker.ready)
           .then(() => {
-            if (navigator.onLine) connectionStatus.textContent = "Copia sin conexión preparada · la voz depende de las voces instaladas en tu dispositivo.";
+            if (navigator.onLine) connectionStatus.textContent = "Guía lista para usar sin internet · el dispositivo proporciona la voz.";
           })
           .catch(() => {
             connectionStatus.textContent = navigator.onLine
