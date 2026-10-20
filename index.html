@@ -78,19 +78,19 @@
 
       <!-- Navigation Tabs -->
       <nav aria-label="Modos de estudio" class="flex items-center gap-1.5 bg-slate-950 p-1 rounded-xl border border-slate-800 overflow-x-auto max-w-full">
-        <button id="tabBtnAudio" type="button" data-tab="audio" aria-controls="viewAudio" aria-pressed="true" class="tab-btn px-3 py-1.5 rounded-lg text-sm font-semibold transition bg-emerald-600 text-white shadow">
+        <button id="tabBtnAudio" type="button" data-tab="audio" aria-controls="viewAudio" aria-current="page" class="tab-btn px-3 py-1.5 rounded-lg text-sm font-semibold transition bg-emerald-600 text-white shadow">
           🎧 Escuchar por tema
         </button>
-        <button id="tabBtnRoutine" type="button" data-tab="routine" aria-controls="viewRoutine" aria-pressed="false" class="tab-btn px-3 py-1.5 rounded-lg text-sm font-semibold transition text-slate-300 hover:text-white hover:bg-slate-800">
+        <button id="tabBtnRoutine" type="button" data-tab="routine" aria-controls="viewRoutine" class="tab-btn px-3 py-1.5 rounded-lg text-sm font-semibold transition text-slate-300 hover:text-white hover:bg-slate-800">
           🚩 Practicar rutina
         </button>
-        <button id="tabBtnFlashcards" type="button" data-tab="flashcards" aria-controls="viewFlashcards" aria-pressed="false" class="tab-btn px-3 py-1.5 rounded-lg text-sm font-semibold transition text-slate-300 hover:text-white hover:bg-slate-800">
+        <button id="tabBtnFlashcards" type="button" data-tab="flashcards" aria-controls="viewFlashcards" class="tab-btn px-3 py-1.5 rounded-lg text-sm font-semibold transition text-slate-300 hover:text-white hover:bg-slate-800">
           🧠 Repasar tarjetas
         </button>
-        <button id="tabBtnQuiz" type="button" data-tab="quiz" aria-controls="viewQuiz" aria-pressed="false" class="tab-btn px-3 py-1.5 rounded-lg text-sm font-semibold transition text-slate-300 hover:text-white hover:bg-slate-800">
+        <button id="tabBtnQuiz" type="button" data-tab="quiz" aria-controls="viewQuiz" class="tab-btn px-3 py-1.5 rounded-lg text-sm font-semibold transition text-slate-300 hover:text-white hover:bg-slate-800">
           ✅ Hacer examen
         </button>
-        <button id="tabBtnPodcast" type="button" data-tab="podcast" aria-controls="viewPodcast" aria-pressed="false" class="tab-btn px-3 py-1.5 rounded-lg text-sm font-semibold transition text-slate-300 hover:text-white hover:bg-slate-800">
+        <button id="tabBtnPodcast" type="button" data-tab="podcast" aria-controls="viewPodcast" class="tab-btn px-3 py-1.5 rounded-lg text-sm font-semibold transition text-slate-300 hover:text-white hover:bg-slate-800">
           🎙️ Escuchar conversación
         </button>
       </nav>
@@ -1187,7 +1187,8 @@
 
       document.querySelectorAll(".tab-btn").forEach(btn => {
         const active = btn.dataset.tab === tab;
-        btn.setAttribute("aria-pressed", String(active));
+        if (active) btn.setAttribute("aria-current", "page");
+        else btn.removeAttribute("aria-current");
         btn.className = active
           ? "tab-btn px-3 py-1.5 rounded-lg text-sm font-semibold transition bg-emerald-600 text-white shadow"
           : "tab-btn px-3 py-1.5 rounded-lg text-sm font-semibold transition text-slate-300 hover:text-white hover:bg-slate-800";
